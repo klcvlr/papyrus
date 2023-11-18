@@ -17,8 +17,10 @@ class FolderAndDocumentServiceTest {
 
     @MockK
     private lateinit var folderRepository: FolderRepository
+
     @MockK
     private lateinit var documentRepository: DocumentRepository
+
     @InjectMockKs
     private lateinit var folderAndDocumentService: FolderAndDocumentService
 

@@ -5,7 +5,9 @@ import com.alexandria.papyrus.domain.DocumentRepository
 import com.alexandria.papyrus.domain.FolderRepository
 import com.alexandria.papyrus.domain.exceptions.FolderNotFoundException
 import com.alexandria.papyrus.domain.utils.IdGenerator
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 class DocumentUsesCases(
     private val idGenerator: IdGenerator,
     private val documentRepository: DocumentRepository,

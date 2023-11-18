@@ -1,19 +1,54 @@
 package com.alexandria.papyrus.domain
 
-class Folder(
-    identifier: String,
-    templateIdentifier: String,
-    name: String,
-    parentFolder: Folder? = null,
-    associatedDocumentType: DocumentType? = null
-) {
-    private val _identifier: String = identifier
-    private val _templateIdentifier: String = templateIdentifier
-    private var _name: String = name
-    private var _parentFolder: Folder? = parentFolder
-    private var _associatedDocumentType: DocumentType? = associatedDocumentType
+import jakarta.persistence.CascadeType
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
+
+
+@Entity
+class Folder() {
+    @Id
+    @Column(name = "identifier")
+    private var _identifier: String = ""
+
+    @ManyToOne
+    @JoinColumn(name = "template", referencedColumnName = "identifier")
+    private var _template: FolderTemplate? = null
+
+    @Column(name = "name")
+    private var _name: String = ""
+
+    @ManyToOne
+    @JoinColumn(name = "parent_folder", referencedColumnName = "identifier")
+    private var _parentFolder: Folder? = null
+
+    @ManyToOne
+    @JoinColumn(name = "associated_document_type", referencedColumnName = "identifier")
+    private var _associatedDocumentType: DocumentType? = null
+
+    @OneToMany(mappedBy = "_parentFolder", cascade = [CascadeType.ALL])
     private var _subFolders: List<Folder> = mutableListOf()
+
+    @OneToMany(mappedBy = "_parentFolder", cascade = [CascadeType.ALL])
     private var _documents: List<Document> = mutableListOf()
+
+    constructor(
+        identifier: String,
+        template: FolderTemplate,
+        name: String,
+        parentFolder: Folder? = null,
+        associatedDocumentType: DocumentType? = null
+    ) : this() {
+        this._identifier = identifier
+        this._template = template
+        this._name = name
+        this._parentFolder = parentFolder
+        this._associatedDocumentType = associatedDocumentType
+    }
 
 
     fun rename(newName: String) {
@@ -36,7 +71,7 @@ class Folder(
 
     // ------------------ GETTERS ------------------
     val identifier: String get() = _identifier
-    val templateIdentifier: String get() = _templateIdentifier
+    val template: FolderTemplate get() = _template!!
     val parentFolder: Folder? get() = _parentFolder
     val name: String get() = _name
     val associatedDocumentType: DocumentType? get() = _associatedDocumentType
@@ -57,7 +92,6 @@ class Folder(
     }
 
     override fun toString(): String {
-        return "Folder(_identifier='$_identifier', _templateIdentifier='$_templateIdentifier', _name='$_name', _parentFolder=$_parentFolder, _associatedDocumentType=$_associatedDocumentType, _subFolders=$_subFolders, _documents=$_documents)"
+        return "Folder(_identifier='$_identifier', _template=${_template?.identifier}, _name='$_name', _parentFolder=${_parentFolder?.identifier}, _associatedDocumentType=$_associatedDocumentType, _subFolders=$_subFolders, _documents=$_documents)"
     }
-
 }

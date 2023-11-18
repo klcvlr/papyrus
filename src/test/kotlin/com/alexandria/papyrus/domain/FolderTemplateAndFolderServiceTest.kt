@@ -33,7 +33,7 @@ class FolderTemplateAndFolderServiceTest {
     @Test
     fun `renaming a folderTemplate causes all folders created from that template to be renamed`() {
         val folderTemplate = aFolderTemplate(identifier = "folderTemplateIdentifier")
-        val folder1 = aFolder(templateIdentifier = "folderTemplateIdentifier", name = "oldName")
+        val folder1 = aFolder(template = folderTemplate, name = "oldName")
         val folder2 = aFolder(name = "oldName")
         every { folderRepository.findAll() } returns listOf(folder1, folder2)
         every { folderTemplateRepository.save(any()) } just runs
@@ -48,7 +48,7 @@ class FolderTemplateAndFolderServiceTest {
     @Test
     fun `adding a SubFolder to FolderTemplate propagates to all the Folders created from that FolderTemplate`() {
         val folderTemplate = aFolderTemplate(identifier = "folderTemplateIdentifier")
-        val folder1 = aFolder(templateIdentifier = "folderTemplateIdentifier")
+        val folder1 = aFolder(template = folderTemplate)
         val folder2 = aFolder()
         every { folderRepository.findAll() } returns listOf(folder1, folder2)
         every { folderTemplateRepository.save(any()) } just runs
@@ -65,7 +65,7 @@ class FolderTemplateAndFolderServiceTest {
     @Test
     fun `changing the associated document type of a FolderTemplate propagates to all the Folders created from that FolderTemplate`() {
         val folderTemplate = aFolderTemplate(identifier = "folderTemplateIdentifier")
-        val folder1 = aFolder(templateIdentifier = "folderTemplateIdentifier")
+        val folder1 = aFolder(template = folderTemplate)
         val folder2 = aFolder()
         val documentType = aDocumentType(identifier = "documentTypeIdentifier")
         every { folderRepository.findAll() } returns listOf(folder1, folder2)
@@ -76,6 +76,41 @@ class FolderTemplateAndFolderServiceTest {
 
         assertThat(folder1.associatedDocumentType).isEqualTo(documentType)
         assertThat(folder2.associatedDocumentType).isNull()
+    }
+
+    @Test
+    fun `creating a folder from a folderTemple creates the entire folder structure`() {
+        val rootTemplateFolder = aFolderTemplate(name = "root")
+        val verstappenTemplate = aFolderTemplate(name = "Verstappen")
+        val leclercTemplate = aFolderTemplate(name = " Leclerc", associatedDocumentType = aDocumentType("LeclercType"))
+        val perezTemplate = aFolderTemplate(name = "Pérez", associatedDocumentType = aDocumentType("PérezType"))
+        rootTemplateFolder.addSubFolder(verstappenTemplate)
+        rootTemplateFolder.addSubFolder(leclercTemplate)
+        leclercTemplate.addSubFolder(perezTemplate)
+        every { idGenerator.generate() } returns Faker().random.nextUUID()
+
+        val rootFolder = folderTemplateAndFolderService.createFolderFromTemplate(rootTemplateFolder)
+
+        // Let's poop 💩 all over that 'one assert per test' rule
+        assertThat(rootFolder.subFolders).hasSize(2)
+        assertThat(rootFolder.identifier).isNotEqualTo(rootTemplateFolder.identifier)
+        val verstappenFolder = rootFolder.subFolders[0]
+        assertThat(verstappenFolder.identifier).isNotEqualTo(verstappenTemplate.identifier)
+        assertThat(verstappenFolder.parentFolder).isEqualTo(rootFolder)
+        assertThat(verstappenFolder.subFolders).hasSize(0)
+        assertThat(verstappenFolder.name).isEqualTo("Verstappen")
+        val leclercFolder = rootFolder.subFolders[1]
+        assertThat(leclercFolder.identifier).isNotEqualTo(leclercTemplate.identifier)
+        assertThat(leclercFolder.parentFolder).isEqualTo(rootFolder)
+        assertThat(leclercFolder.subFolders).hasSize(1)
+        assertThat(leclercFolder.name).isEqualTo(" Leclerc")
+        assertThat(leclercFolder.associatedDocumentType?.identifier).isEqualTo("LeclercType")
+        val perezFolder = leclercFolder.subFolders[0]
+        assertThat(perezFolder.identifier).isNotEqualTo(perezTemplate.identifier)
+        assertThat(perezFolder.parentFolder).isEqualTo(leclercFolder)
+        assertThat(perezFolder.subFolders).hasSize(0)
+        assertThat(perezFolder.name).isEqualTo("Pérez")
+        assertThat(perezFolder.associatedDocumentType?.identifier).isEqualTo("PérezType")
     }
 
 }

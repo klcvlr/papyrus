@@ -1,8 +1,23 @@
 package com.alexandria.papyrus.domain
 
-class DocumentType(identifier: String, name: String) {
-    private val _identifier: String = identifier
-    private val _name: String = name
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+
+@Entity
+class DocumentType() {
+
+    @Id
+    @Column(name = "identifier")
+    private var _identifier: String = identifier
+
+    @Column(name = "name")
+    private var _name: String = name
+
+    constructor(identifier: String, name: String) : this() {
+        this._identifier = identifier
+        this._name = name
+    }
 
     val identifier: String get() = _identifier
     val name: String get() = _name

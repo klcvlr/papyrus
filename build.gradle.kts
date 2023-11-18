@@ -28,10 +28,14 @@ val versions = mapOf(
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.postgresql:postgresql:42.2.27")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.mockk:mockk:${versions["mockk"]}")
+	testImplementation("org.hsqldb:hsqldb:2.7.2")
+	testImplementation("io.mockk:mockk:${versions["mockk"]}")
 	testImplementation("io.github.serpro69:kotlin-faker:${versions["faker"]}")
 }
 

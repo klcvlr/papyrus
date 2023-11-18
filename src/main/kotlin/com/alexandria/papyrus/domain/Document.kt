@@ -1,17 +1,48 @@
 package com.alexandria.papyrus.domain
 
-class Document(
-    identifier: String,
-    name: String,
-    parentFolder: Folder? = null,
-    type: DocumentType? = null,
-    predictedType: DocumentType? = null
-) {
-    private val _identifier: String = identifier
-    private var _name: String = name
-    private var _parentFolder: Folder? = parentFolder
-    private var _type: DocumentType? = type
-    private var _predictedType: DocumentType? = predictedType
+import jakarta.persistence.CascadeType
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+
+@Entity(name = "document")
+class Document() {
+
+    @Id
+    @Column(name = "identifier")
+    private var _identifier: String = ""
+
+    @Column(name = "name")
+    private var _name: String = ""
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "parent_folder", referencedColumnName = "identifier")
+    private var _parentFolder: Folder? = null
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "type", referencedColumnName = "identifier")
+    private var _type: DocumentType? = null
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "predicted_type", referencedColumnName = "identifier")
+    private var _predictedType: DocumentType? = null
+
+    constructor(
+        identifier: String,
+        name: String,
+        parentFolder: Folder? = null,
+        type: DocumentType? = null,
+        predictedType: DocumentType? = null
+    ) : this() {
+        this._identifier = identifier
+        this._name = name
+        this._parentFolder = parentFolder
+        this._type = type
+        this._predictedType = predictedType
+    }
 
 
     fun rename(newName: String) {
@@ -53,7 +84,6 @@ class Document(
     }
 
     override fun toString(): String {
-        return "Document(_identifier='$_identifier', _name='$_name', _parentFolder=$_parentFolder, _type=$_type, _predictedType=$_predictedType)"
+        return "Document(_identifier='$_identifier', _name='$_name', _parentFolder=${_parentFolder?.identifier}, _type=$_type, _predictedType=$_predictedType)"
     }
-
 }

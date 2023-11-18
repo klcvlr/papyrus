@@ -26,8 +26,8 @@ class FolderTemplateAndFolderService(
         allFoldersCreatedFromThatFolderTemplate.forEach {
             val subFolder = Folder(
                 identifier = idGenerator.generate(),
-                templateIdentifier = folderTemplate.identifier,
-                name = subFolderTemplateName
+                template = folderTemplate,
+                name = subFolderTemplateName,
             )
             it.addSubFolder(subFolder)
         }
@@ -44,9 +44,31 @@ class FolderTemplateAndFolderService(
         folderRepository.saveAll(allFoldersCreatedFromThatFolderTemplate)
     }
 
+    fun createFolderFromTemplate(folderTemplate: FolderTemplate): Folder {
+        if (folderTemplate.subFolders.isEmpty()) {
+            return Folder(
+                identifier = idGenerator.generate(),
+                template = folderTemplate,
+                name = folderTemplate.name,
+                associatedDocumentType = folderTemplate.documentType,
+            )
+        } else {
+            val subFolders = folderTemplate.subFolders.map { createFolderFromTemplate(it) }
+            val folder = Folder(
+                identifier = idGenerator.generate(),
+                template = folderTemplate,
+                name = folderTemplate.name,
+                associatedDocumentType = folderTemplate.documentType,
+            )
+            subFolders.forEach { folder.addSubFolder(it) }
+            return folder
+        }
+    }
+
+
     private fun findAllFoldersCreatedFrom(folderTemplate: FolderTemplate): List<Folder> {
         // TODO: This is not efficient, we should have a way to query by template identifier
-        return folderRepository.findAll().filter { it.templateIdentifier == folderTemplate.identifier }
+        return folderRepository.findAll().filter { it.template.identifier == folderTemplate.identifier }
     }
 
 }

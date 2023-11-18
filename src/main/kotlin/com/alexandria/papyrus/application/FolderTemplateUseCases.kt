@@ -6,7 +6,9 @@ import com.alexandria.papyrus.domain.FolderTemplateAndFolderService
 import com.alexandria.papyrus.domain.FolderTemplateRepository
 import com.alexandria.papyrus.domain.exceptions.FolderTemplateNotFoundException
 import com.alexandria.papyrus.domain.utils.IdGenerator
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 class FolderTemplateUseCases(
     private val idGenerator: IdGenerator,
     private val folderTemplateAndFolderService: FolderTemplateAndFolderService,
