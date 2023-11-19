@@ -15,18 +15,18 @@ class Folder internal constructor() {
     private var _identifier: String = ""
 
     @ManyToOne
-    @JoinColumn(name = "template", referencedColumnName = "identifier")
+    @JoinColumn(name = "template_identifier", referencedColumnName = "identifier")
     private var _template: FolderTemplate? = null
 
     @Column(name = "name")
     private var _name: String = ""
 
     @ManyToOne
-    @JoinColumn(name = "parent_folder", referencedColumnName = "identifier")
+    @JoinColumn(name = "parent_folder_identifier", referencedColumnName = "identifier")
     private var _parentFolder: Folder? = null
 
     @ManyToOne
-    @JoinColumn(name = "associated_document_type", referencedColumnName = "identifier")
+    @JoinColumn(name = "associated_document_type_identifier", referencedColumnName = "identifier")
     private var _associatedDocumentType: DocumentType? = null
 
     @OneToMany(mappedBy = "_parentFolder", cascade = [CascadeType.ALL])

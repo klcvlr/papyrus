@@ -19,15 +19,15 @@ class Document internal constructor() {
     private var _name: String = ""
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "parent_folder", referencedColumnName = "identifier")
+    @JoinColumn(name = "parent_folder_identifier", referencedColumnName = "identifier")
     private var _parentFolder: Folder? = null
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "type", referencedColumnName = "identifier")
+    @JoinColumn(name = "type_identifier", referencedColumnName = "identifier")
     private var _type: DocumentType? = null
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "predicted_type", referencedColumnName = "identifier")
+    @JoinColumn(name = "predicted_type_identifier", referencedColumnName = "identifier")
     private var _predictedType: DocumentType? = null
 
     internal constructor(
