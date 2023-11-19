@@ -4,13 +4,14 @@ import com.alexandria.papyrus.domain.model.FolderTemplate
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
+import kotlin.jvm.optionals.getOrNull
 
 @Repository
 class FolderTemplateJpaRepository(
     private val folderTemplateDAO: FolderTemplateDAO,
 ) : FolderTemplateRepository {
-    override fun findByIdentifier(identifier: String): FolderTemplate {
-        return folderTemplateDAO.findById(identifier).get()
+    override fun findByIdentifier(identifier: String): FolderTemplate? {
+        return folderTemplateDAO.findById(identifier).getOrNull()
     }
 
     override fun findAll(): List<FolderTemplate> {

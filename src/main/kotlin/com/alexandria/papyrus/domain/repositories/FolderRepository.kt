@@ -3,7 +3,7 @@ package com.alexandria.papyrus.domain.repositories
 import com.alexandria.papyrus.domain.model.Folder
 
 interface FolderRepository {
-    fun findByIdentifier(identifier: String): Folder
+    fun findByIdentifier(identifier: String): Folder?
 
     fun findAll(): List<Folder>
 

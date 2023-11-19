@@ -20,7 +20,7 @@ class DocumentTypeJpaRepositoryTest {
         documentTypeRepository.save(documentType)
 
         val savedDocumentType = documentTypeRepository.findByIdentifier("documentTypeId")
-        assertThat(savedDocumentType.identifier).isEqualTo("documentTypeId")
-        assertThat(savedDocumentType.name).isEqualTo("picture")
+        assertThat(savedDocumentType?.identifier).isEqualTo("documentTypeId")
+        assertThat(savedDocumentType?.name).isEqualTo("picture")
     }
 }

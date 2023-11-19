@@ -1,5 +1,6 @@
 package com.alexandria.papyrus.application
 
+import com.alexandria.papyrus.domain.FolderTemplateNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.model.DocumentType
 import com.alexandria.papyrus.domain.model.FolderTemplate
@@ -21,6 +22,9 @@ class FolderTemplateUseCases(
     @Transactional(readOnly = true)
     fun findByIdentifier(folderTemplateIdentifier: String): FolderTemplate {
         return folderTemplateRepository.findByIdentifier(folderTemplateIdentifier)
+            ?: throw FolderTemplateNotFoundException(
+                folderTemplateIdentifier,
+            )
     }
 
     fun create(name: String): String {
@@ -40,7 +44,9 @@ class FolderTemplateUseCases(
         newName: String,
     ) {
         val folderTemplate =
-            folderTemplateRepository.findByIdentifier(identifier)
+            folderTemplateRepository.findByIdentifier(identifier) ?: throw FolderTemplateNotFoundException(
+                identifier,
+            )
         folderTemplateAndFolderService.rename(folderTemplate, newName)
         folderTemplateRepository.save(folderTemplate)
     }
@@ -50,7 +56,9 @@ class FolderTemplateUseCases(
         subFolderName: String,
     ): String {
         val folderTemplate =
-            folderTemplateRepository.findByIdentifier(identifier)
+            folderTemplateRepository.findByIdentifier(identifier) ?: throw FolderTemplateNotFoundException(
+                identifier,
+            )
         return folderTemplateAndFolderService.addSubFolderTemplate(folderTemplate, subFolderName)
     }
 
@@ -59,7 +67,9 @@ class FolderTemplateUseCases(
         newDocumentType: DocumentType,
     ) {
         val folderTemplate =
-            folderTemplateRepository.findByIdentifier(identifier)
+            folderTemplateRepository.findByIdentifier(identifier) ?: throw FolderTemplateNotFoundException(
+                identifier,
+            )
         folderTemplateAndFolderService.changeAssociatedDocumentType(folderTemplate, newDocumentType)
     }
 }

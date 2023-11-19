@@ -1,5 +1,7 @@
 package com.alexandria.papyrus.application
 
+import com.alexandria.papyrus.domain.DocumentNotFoundException
+import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.model.Document
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
@@ -19,14 +21,17 @@ class DocumentUseCases(
 
     @Transactional(readOnly = true)
     fun findByIdentifier(identifier: String): Document {
-        return documentRepository.findByIdentifier(identifier)
+        return documentRepository.findByIdentifier(identifier) ?: throw DocumentNotFoundException(identifier)
     }
 
     fun createDocument(
         name: String,
         parentFolderIdentifier: String,
     ): String {
-        val parentFolder = getParentFolder(parentFolderIdentifier)
+        val parentFolder =
+            folderRepository.findByIdentifier(parentFolderIdentifier) ?: throw FolderNotFoundException(
+                parentFolderIdentifier,
+            )
         val document =
             Document(
                 identifier = idGenerator.generate(),
@@ -36,6 +41,4 @@ class DocumentUseCases(
         documentRepository.save(document)
         return document.identifier
     }
-
-    private fun getParentFolder(parentFolderIdentifier: String) = folderRepository.findByIdentifier(parentFolderIdentifier)
 }

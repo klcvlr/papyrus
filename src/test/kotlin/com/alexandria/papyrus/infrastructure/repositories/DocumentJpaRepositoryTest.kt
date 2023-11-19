@@ -33,10 +33,10 @@ class DocumentJpaRepositoryTest {
         documentRepository.save(document)
 
         val savedDocument = documentRepository.findByIdentifier("documentId")
-        assertThat(savedDocument.identifier).isEqualTo("documentId")
-        assertThat(savedDocument.name).isEqualTo(document.name)
-        assertThat(savedDocument.parentFolder).isEqualTo(document.parentFolder)
-        assertThat(savedDocument.type).isEqualTo(document.type)
-        assertThat(savedDocument.predictedType).isEqualTo(document.predictedType)
+        assertThat(savedDocument?.identifier).isEqualTo("documentId")
+        assertThat(savedDocument?.name).isEqualTo(document.name)
+        assertThat(savedDocument?.parentFolder).isEqualTo(document.parentFolder)
+        assertThat(savedDocument?.type).isEqualTo(document.type)
+        assertThat(savedDocument?.predictedType).isEqualTo(document.predictedType)
     }
 }
