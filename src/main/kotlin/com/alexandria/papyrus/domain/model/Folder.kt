@@ -1,4 +1,4 @@
-package com.alexandria.papyrus.domain
+package com.alexandria.papyrus.domain.model
 
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -8,9 +8,8 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 
-
 @Entity
-class Folder() {
+class Folder internal constructor() {
     @Id
     @Column(name = "identifier")
     private var _identifier: String = ""
@@ -36,7 +35,7 @@ class Folder() {
     @OneToMany(mappedBy = "_parentFolder", cascade = [CascadeType.ALL])
     private var _documents: List<Document> = mutableListOf()
 
-    constructor(
+    internal constructor(
         identifier: String,
         template: FolderTemplate,
         name: String,
@@ -89,9 +88,5 @@ class Folder() {
 
     override fun hashCode(): Int {
         return _identifier.hashCode()
-    }
-
-    override fun toString(): String {
-        return "Folder(_identifier='$_identifier', _template=${_template?.identifier}, _name='$_name', _parentFolder=${_parentFolder?.identifier}, _associatedDocumentType=$_associatedDocumentType, _subFolders=$_subFolders, _documents=$_documents)"
     }
 }

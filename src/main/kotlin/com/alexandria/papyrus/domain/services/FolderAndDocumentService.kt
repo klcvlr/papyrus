@@ -1,4 +1,9 @@
-package com.alexandria.papyrus.domain
+package com.alexandria.papyrus.domain.services
+
+import com.alexandria.papyrus.domain.model.Document
+import com.alexandria.papyrus.domain.repositories.DocumentRepository
+import com.alexandria.papyrus.domain.model.Folder
+import com.alexandria.papyrus.domain.repositories.FolderRepository
 
 class FolderAndDocumentService(
     private val folderRepository: FolderRepository,

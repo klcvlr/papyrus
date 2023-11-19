@@ -1,6 +1,11 @@
-package com.alexandria.papyrus.domain
+package com.alexandria.papyrus.domain.services
 
-import com.alexandria.papyrus.domain.utils.IdGenerator
+import com.alexandria.papyrus.domain.model.DocumentType
+import com.alexandria.papyrus.domain.model.Folder
+import com.alexandria.papyrus.domain.repositories.FolderRepository
+import com.alexandria.papyrus.domain.model.FolderTemplate
+import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
+import com.alexandria.papyrus.domain.IdGenerator
 
 class FolderTemplateAndFolderService(
     private val folderRepository: FolderRepository,

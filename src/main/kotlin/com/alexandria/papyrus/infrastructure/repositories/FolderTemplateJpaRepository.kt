@@ -1,7 +1,7 @@
 package com.alexandria.papyrus.infrastructure.repositories
 
-import com.alexandria.papyrus.domain.FolderTemplate
-import com.alexandria.papyrus.domain.FolderTemplateRepository
+import com.alexandria.papyrus.domain.model.FolderTemplate
+import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 

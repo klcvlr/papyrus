@@ -1,4 +1,4 @@
-package com.alexandria.papyrus.domain
+package com.alexandria.papyrus.domain.model
 
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -9,7 +9,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 
 @Entity
-class FolderTemplate() {
+class FolderTemplate internal constructor() {
     @Id
     @Column(name = "identifier")
     private var _identifier: String = ""
@@ -28,7 +28,7 @@ class FolderTemplate() {
     @JoinColumn(name = "associated_document_type", referencedColumnName = "identifier")
     private var _associatedDocumentType: DocumentType? = null
 
-    constructor(
+    internal constructor(
         identifier: String,
         name: String,
         parentFolder: FolderTemplate? = null,
@@ -72,9 +72,5 @@ class FolderTemplate() {
 
     override fun hashCode(): Int {
         return _identifier.hashCode()
-    }
-
-    override fun toString(): String {
-        return "FolderTemplate(_identifier='$_identifier', _name='$_name', _parentFolder=${_parentFolder?.identifier}, _subFolders=$_subFolders, _associatedDocumentType=$_associatedDocumentType)"
     }
 }

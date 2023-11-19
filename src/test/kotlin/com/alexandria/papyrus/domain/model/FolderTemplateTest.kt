@@ -1,9 +1,8 @@
-package com.alexandria.papyrus.domain
+package com.alexandria.papyrus.domain.model
 
 import com.alexandria.papyrus.fakes.aDocumentType
 import com.alexandria.papyrus.fakes.aFolderTemplate
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class FolderTemplateTest {
@@ -14,7 +13,7 @@ class FolderTemplateTest {
 
         folderTemplate.rename("newName")
 
-        assertEquals("newName", folderTemplate.name)
+        Assertions.assertEquals("newName", folderTemplate.name)
     }
 
     @Test
@@ -22,10 +21,10 @@ class FolderTemplateTest {
         val oldDocumentType = aDocumentType(identifier = "oldDocumentTypeIdentifier")
         val folderTemplate = aFolderTemplate(associatedDocumentType = oldDocumentType)
 
-        val newDocumentType = aDocumentType(identifier ="newDocumentTypeIdentifier")
+        val newDocumentType = aDocumentType(identifier = "newDocumentTypeIdentifier")
         folderTemplate.changeAssociatedDocumentType(newDocumentType)
 
-        assertEquals(newDocumentType, folderTemplate.documentType)
+        Assertions.assertEquals(newDocumentType, folderTemplate.documentType)
     }
 
     @Test
@@ -35,8 +34,8 @@ class FolderTemplateTest {
 
         folderTemplate.addSubFolder(subFolderTemplate)
 
-        assertThat(folderTemplate.subFolders).contains(subFolderTemplate)
-        assertThat(subFolderTemplate.parentFolder).isEqualTo(folderTemplate)
+        org.assertj.core.api.Assertions.assertThat(folderTemplate.subFolders).contains(subFolderTemplate)
+        org.assertj.core.api.Assertions.assertThat(subFolderTemplate.parentFolder).isEqualTo(folderTemplate)
     }
 
     @Test
@@ -46,6 +45,6 @@ class FolderTemplateTest {
 
         folderTemplate.changeAssociatedDocumentType(documentType)
 
-        assertThat(folderTemplate.documentType).isEqualTo(documentType)
+        org.assertj.core.api.Assertions.assertThat(folderTemplate.documentType).isEqualTo(documentType)
     }
 }

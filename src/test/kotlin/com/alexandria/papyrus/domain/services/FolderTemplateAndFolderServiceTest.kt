@@ -1,6 +1,8 @@
-package com.alexandria.papyrus.domain
+package com.alexandria.papyrus.domain.services
 
-import com.alexandria.papyrus.domain.utils.IdGenerator
+import com.alexandria.papyrus.domain.IdGenerator
+import com.alexandria.papyrus.domain.repositories.FolderRepository
+import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 import com.alexandria.papyrus.fakes.aDocumentType
 import com.alexandria.papyrus.fakes.aFolder
 import com.alexandria.papyrus.fakes.aFolderTemplate
@@ -11,7 +13,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.just
 import io.mockk.runs
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -41,8 +43,8 @@ class FolderTemplateAndFolderServiceTest {
 
         folderTemplateAndFolderService.rename(folderTemplate, "newName")
 
-        assertThat(folder1.name).isEqualTo("newName")
-        assertThat(folder2.name).isEqualTo("oldName")
+        Assertions.assertThat(folder1.name).isEqualTo("newName")
+        Assertions.assertThat(folder2.name).isEqualTo("oldName")
     }
 
     @Test
@@ -57,9 +59,9 @@ class FolderTemplateAndFolderServiceTest {
 
         folderTemplateAndFolderService.addSubFolderTemplate(folderTemplate, "subFolderTemplateName")
 
-        assertThat(folder1.subFolders).hasSize(1)
-        assertThat(folder1.subFolders.first().name).isEqualTo("subFolderTemplateName")
-        assertThat(folder2.subFolders).isEmpty()
+        Assertions.assertThat(folder1.subFolders).hasSize(1)
+        Assertions.assertThat(folder1.subFolders.first().name).isEqualTo("subFolderTemplateName")
+        Assertions.assertThat(folder2.subFolders).isEmpty()
     }
 
     @Test
@@ -74,8 +76,8 @@ class FolderTemplateAndFolderServiceTest {
 
         folderTemplateAndFolderService.changeAssociatedDocumentType(folderTemplate, documentType)
 
-        assertThat(folder1.associatedDocumentType).isEqualTo(documentType)
-        assertThat(folder2.associatedDocumentType).isNull()
+        Assertions.assertThat(folder1.associatedDocumentType).isEqualTo(documentType)
+        Assertions.assertThat(folder2.associatedDocumentType).isNull()
     }
 
     @Test
@@ -92,25 +94,25 @@ class FolderTemplateAndFolderServiceTest {
         val rootFolder = folderTemplateAndFolderService.createFolderFromTemplate(rootTemplateFolder)
 
         // Let's poop 💩 all over that 'one assert per test' rule
-        assertThat(rootFolder.subFolders).hasSize(2)
-        assertThat(rootFolder.identifier).isNotEqualTo(rootTemplateFolder.identifier)
+        Assertions.assertThat(rootFolder.subFolders).hasSize(2)
+        Assertions.assertThat(rootFolder.identifier).isNotEqualTo(rootTemplateFolder.identifier)
         val verstappenFolder = rootFolder.subFolders[0]
-        assertThat(verstappenFolder.identifier).isNotEqualTo(verstappenTemplate.identifier)
-        assertThat(verstappenFolder.parentFolder).isEqualTo(rootFolder)
-        assertThat(verstappenFolder.subFolders).hasSize(0)
-        assertThat(verstappenFolder.name).isEqualTo("Verstappen")
+        Assertions.assertThat(verstappenFolder.identifier).isNotEqualTo(verstappenTemplate.identifier)
+        Assertions.assertThat(verstappenFolder.parentFolder).isEqualTo(rootFolder)
+        Assertions.assertThat(verstappenFolder.subFolders).hasSize(0)
+        Assertions.assertThat(verstappenFolder.name).isEqualTo("Verstappen")
         val leclercFolder = rootFolder.subFolders[1]
-        assertThat(leclercFolder.identifier).isNotEqualTo(leclercTemplate.identifier)
-        assertThat(leclercFolder.parentFolder).isEqualTo(rootFolder)
-        assertThat(leclercFolder.subFolders).hasSize(1)
-        assertThat(leclercFolder.name).isEqualTo(" Leclerc")
-        assertThat(leclercFolder.associatedDocumentType?.identifier).isEqualTo("LeclercType")
+        Assertions.assertThat(leclercFolder.identifier).isNotEqualTo(leclercTemplate.identifier)
+        Assertions.assertThat(leclercFolder.parentFolder).isEqualTo(rootFolder)
+        Assertions.assertThat(leclercFolder.subFolders).hasSize(1)
+        Assertions.assertThat(leclercFolder.name).isEqualTo(" Leclerc")
+        Assertions.assertThat(leclercFolder.associatedDocumentType?.identifier).isEqualTo("LeclercType")
         val perezFolder = leclercFolder.subFolders[0]
-        assertThat(perezFolder.identifier).isNotEqualTo(perezTemplate.identifier)
-        assertThat(perezFolder.parentFolder).isEqualTo(leclercFolder)
-        assertThat(perezFolder.subFolders).hasSize(0)
-        assertThat(perezFolder.name).isEqualTo("Pérez")
-        assertThat(perezFolder.associatedDocumentType?.identifier).isEqualTo("PérezType")
+        Assertions.assertThat(perezFolder.identifier).isNotEqualTo(perezTemplate.identifier)
+        Assertions.assertThat(perezFolder.parentFolder).isEqualTo(leclercFolder)
+        Assertions.assertThat(perezFolder.subFolders).hasSize(0)
+        Assertions.assertThat(perezFolder.name).isEqualTo("Pérez")
+        Assertions.assertThat(perezFolder.associatedDocumentType?.identifier).isEqualTo("PérezType")
     }
 
 }

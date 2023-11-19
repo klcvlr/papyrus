@@ -1,9 +1,9 @@
 package com.alexandria.papyrus.fakes
 
-import com.alexandria.papyrus.domain.Document
-import com.alexandria.papyrus.domain.DocumentType
-import com.alexandria.papyrus.domain.Folder
-import com.alexandria.papyrus.domain.FolderTemplate
+import com.alexandria.papyrus.domain.model.Document
+import com.alexandria.papyrus.domain.model.DocumentType
+import com.alexandria.papyrus.domain.model.Folder
+import com.alexandria.papyrus.domain.model.FolderTemplate
 import io.github.serpro69.kfaker.Faker
 
 val faker = Faker()

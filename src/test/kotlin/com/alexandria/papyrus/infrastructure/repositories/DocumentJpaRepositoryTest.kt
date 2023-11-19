@@ -7,22 +7,22 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
-@Transactional
 class DocumentJpaRepositoryTest {
 
     @Autowired
     private lateinit var documentRepository: DocumentJpaRepository
+
     @Autowired
     private lateinit var folderRepository: FolderJpaRepository
+
     @Autowired
     private lateinit var folderTemplateRepository: FolderTemplateJpaRepository
 
     @Test
     fun `a new document can be saved`() {
-        // I know! I'll fix this later ^^"
+        // I know! I'll fix this later ^^' ...
         val folderTemplate = aFolderTemplate()
         folderTemplateRepository.save(folderTemplate)
         val folder = aFolder(template = folderTemplate)
@@ -40,5 +40,4 @@ class DocumentJpaRepositoryTest {
         assertThat(savedDocument.type).isEqualTo(document.type)
         assertThat(savedDocument.predictedType).isEqualTo(document.predictedType)
     }
-
 }

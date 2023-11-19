@@ -1,5 +1,7 @@
-package com.alexandria.papyrus.domain
+package com.alexandria.papyrus.domain.services
 
+import com.alexandria.papyrus.domain.repositories.DocumentRepository
+import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.fakes.aDocument
 import com.alexandria.papyrus.fakes.aFolder
 import io.mockk.every
@@ -8,7 +10,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.just
 import io.mockk.runs
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -33,8 +35,8 @@ class FolderAndDocumentServiceTest {
 
         folderAndDocumentService.addDocumentToFolder(document, folder)
 
-        assertThat(document.parentFolder).isEqualTo(folder)
-        assertThat(folder.documents).contains(document)
+        Assertions.assertThat(document.parentFolder).isEqualTo(folder)
+        Assertions.assertThat(folder.documents).contains(document)
     }
 
 }

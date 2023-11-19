@@ -1,4 +1,4 @@
-package com.alexandria.papyrus.domain.utils
+package com.alexandria.papyrus.domain
 
 interface IdGenerator {
     fun generate(): String

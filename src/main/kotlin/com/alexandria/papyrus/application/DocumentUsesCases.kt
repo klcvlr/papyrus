@@ -1,10 +1,9 @@
 package com.alexandria.papyrus.application
 
-import com.alexandria.papyrus.domain.Document
-import com.alexandria.papyrus.domain.DocumentRepository
-import com.alexandria.papyrus.domain.FolderRepository
-import com.alexandria.papyrus.domain.exceptions.FolderNotFoundException
-import com.alexandria.papyrus.domain.utils.IdGenerator
+import com.alexandria.papyrus.domain.IdGenerator
+import com.alexandria.papyrus.domain.model.Document
+import com.alexandria.papyrus.domain.repositories.DocumentRepository
+import com.alexandria.papyrus.domain.repositories.FolderRepository
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional
@@ -23,9 +22,6 @@ class DocumentUsesCases(
         return document.identifier
     }
 
-
     private fun getParentFolder(parentFolderIdentifier: String) =
-        folderRepository.findByIdentifier(parentFolderIdentifier) ?: throw FolderNotFoundException(
-            parentFolderIdentifier
-        )
+        folderRepository.findByIdentifier(parentFolderIdentifier)
 }

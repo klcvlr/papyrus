@@ -1,4 +1,6 @@
-package com.alexandria.papyrus.domain
+package com.alexandria.papyrus.domain.repositories
+
+import com.alexandria.papyrus.domain.model.FolderTemplate
 
 interface FolderTemplateRepository {
     fun findByIdentifier(identifier: String): FolderTemplate

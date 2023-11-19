@@ -1,4 +1,4 @@
-package com.alexandria.papyrus.domain
+package com.alexandria.papyrus.domain.model
 
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 
 @Entity(name = "document")
-class Document() {
+class Document internal constructor() {
 
     @Id
     @Column(name = "identifier")
@@ -30,7 +30,7 @@ class Document() {
     @JoinColumn(name = "predicted_type", referencedColumnName = "identifier")
     private var _predictedType: DocumentType? = null
 
-    constructor(
+    internal constructor(
         identifier: String,
         name: String,
         parentFolder: Folder? = null,
@@ -43,7 +43,6 @@ class Document() {
         this._type = type
         this._predictedType = predictedType
     }
-
 
     fun rename(newName: String) {
         _name = newName
@@ -81,9 +80,5 @@ class Document() {
 
     override fun hashCode(): Int {
         return _identifier.hashCode()
-    }
-
-    override fun toString(): String {
-        return "Document(_identifier='$_identifier', _name='$_name', _parentFolder=${_parentFolder?.identifier}, _type=$_type, _predictedType=$_predictedType)"
     }
 }

@@ -1,11 +1,11 @@
 package com.alexandria.papyrus.application
 
-import com.alexandria.papyrus.domain.DocumentType
-import com.alexandria.papyrus.domain.FolderTemplate
-import com.alexandria.papyrus.domain.FolderTemplateAndFolderService
-import com.alexandria.papyrus.domain.FolderTemplateRepository
-import com.alexandria.papyrus.domain.exceptions.FolderTemplateNotFoundException
-import com.alexandria.papyrus.domain.utils.IdGenerator
+import com.alexandria.papyrus.domain.FolderTemplateNotFoundException
+import com.alexandria.papyrus.domain.IdGenerator
+import com.alexandria.papyrus.domain.model.DocumentType
+import com.alexandria.papyrus.domain.model.FolderTemplate
+import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
+import com.alexandria.papyrus.domain.services.FolderTemplateAndFolderService
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional
