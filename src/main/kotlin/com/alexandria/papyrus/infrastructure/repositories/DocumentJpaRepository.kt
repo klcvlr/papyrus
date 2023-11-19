@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class DocumentJpaRepository(
-    private val documentDAO: DocumentDAO
+    private val documentDAO: DocumentDAO,
 ) : DocumentRepository {
     override fun findByIdentifier(documentIdentifier: String): Document {
         return documentDAO.findById(documentIdentifier).get()

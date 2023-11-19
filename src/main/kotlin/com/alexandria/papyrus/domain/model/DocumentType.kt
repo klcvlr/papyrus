@@ -6,7 +6,6 @@ import jakarta.persistence.Id
 
 @Entity
 class DocumentType internal constructor() {
-
     @Id
     @Column(name = "identifier")
     private var _identifier: String = identifier
@@ -21,7 +20,6 @@ class DocumentType internal constructor() {
 
     val identifier: String get() = _identifier
     val name: String get() = _name
-
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

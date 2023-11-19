@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class FolderTemplateTest {
-
     @Test
     fun `a folderTemplate can be renamed`() {
         val folderTemplate = aFolderTemplate(name = "oldName")

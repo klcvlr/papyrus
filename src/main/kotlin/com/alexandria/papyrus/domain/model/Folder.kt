@@ -40,7 +40,7 @@ class Folder internal constructor() {
         template: FolderTemplate,
         name: String,
         parentFolder: Folder? = null,
-        associatedDocumentType: DocumentType? = null
+        associatedDocumentType: DocumentType? = null,
     ) : this() {
         this._identifier = identifier
         this._template = template
@@ -48,7 +48,6 @@ class Folder internal constructor() {
         this._parentFolder = parentFolder
         this._associatedDocumentType = associatedDocumentType
     }
-
 
     fun rename(newName: String) {
         _name = newName
@@ -66,7 +65,6 @@ class Folder internal constructor() {
         folder._parentFolder = this
         _subFolders.add(folder)
     }
-
 
     // ------------------ GETTERS ------------------
     val identifier: String get() = _identifier

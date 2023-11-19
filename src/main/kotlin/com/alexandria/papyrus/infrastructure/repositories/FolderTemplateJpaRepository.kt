@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class FolderTemplateJpaRepository(
-    private val folderTemplateDAO: FolderTemplateDAO
+    private val folderTemplateDAO: FolderTemplateDAO,
 ) : FolderTemplateRepository {
     override fun findByIdentifier(identifier: String): FolderTemplate {
         return folderTemplateDAO.findById(identifier).get()

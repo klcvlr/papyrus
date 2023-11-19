@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v1/folder-templates")
 class FolderTemplateController(private val folderTemplateUseCases: FolderTemplateUseCases) {
-
     @GetMapping
     fun allFolderTemplates(): List<FolderTemplateView> {
         return folderTemplateUseCases.findAllFolderTemplates().map {
@@ -24,14 +23,18 @@ class FolderTemplateController(private val folderTemplateUseCases: FolderTemplat
     }
 
     @GetMapping("/{folderTemplateIdentifier}")
-    fun folderTemplateByIdentifier(@PathVariable folderTemplateIdentifier: String): DetailedFolderTemplateView {
+    fun folderTemplateByIdentifier(
+        @PathVariable folderTemplateIdentifier: String,
+    ): DetailedFolderTemplateView {
         val folderTemplate = folderTemplateUseCases.findByIdentifier(folderTemplateIdentifier)
         return toDetailedFolderTemplateView(folderTemplate)
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createFolderTemplate(@RequestBody createFolderTemplateRequest: CreateFolderTemplateRequest) {
+    fun createFolderTemplate(
+        @RequestBody createFolderTemplateRequest: CreateFolderTemplateRequest,
+    ) {
         folderTemplateUseCases.create(createFolderTemplateRequest.folderTemplateName)
     }
 }

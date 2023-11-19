@@ -14,12 +14,15 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class ApplicationConfiguration {
-
     @Bean
     fun documentUseCases(
-        idGenerator: IdGenerator, documentRepository: DocumentRepository, folderRepository: FolderRepository
+        idGenerator: IdGenerator,
+        documentRepository: DocumentRepository,
+        folderRepository: FolderRepository,
     ) = DocumentUseCases(
-        idGenerator = idGenerator, documentRepository = documentRepository, folderRepository = folderRepository
+        idGenerator = idGenerator,
+        documentRepository = documentRepository,
+        folderRepository = folderRepository,
     )
 
     @Bean

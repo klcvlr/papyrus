@@ -3,7 +3,7 @@ package com.alexandria.papyrus.infrastructure.api
 import com.alexandria.papyrus.domain.model.Folder
 import com.alexandria.papyrus.infrastructure.api.DocumentView.Companion.toDocumentView
 
-data class FolderView (
+data class FolderView(
     val identifier: String,
     val name: String,
     val parentFolderIdentifier: String?,
@@ -12,13 +12,13 @@ data class FolderView (
     val associatedDocumentType: String?,
 )
 
-data class DetailedFolderView (
+data class DetailedFolderView(
     val identifier: String,
     val name: String,
     val parentFolderIdentifier: String?,
     val associatedDocumentType: String?,
     val documents: List<DocumentView>,
-    val subFolders: List<DetailedFolderView>
+    val subFolders: List<DetailedFolderView>,
 ) {
     companion object {
         fun toDetailedFolderView(folder: Folder): DetailedFolderView {
@@ -28,7 +28,7 @@ data class DetailedFolderView (
                 parentFolderIdentifier = folder.parentFolder?.identifier,
                 associatedDocumentType = folder.associatedDocumentType?.identifier,
                 documents = folder.documents.map { toDocumentView(it) },
-                subFolders = folder.subFolders.map { toDetailedFolderView(it) }
+                subFolders = folder.subFolders.map { toDetailedFolderView(it) },
             )
         }
     }

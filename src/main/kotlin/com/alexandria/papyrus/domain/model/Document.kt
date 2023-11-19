@@ -10,7 +10,6 @@ import jakarta.persistence.ManyToOne
 
 @Entity(name = "document")
 class Document internal constructor() {
-
     @Id
     @Column(name = "identifier")
     private var _identifier: String = ""
@@ -35,7 +34,7 @@ class Document internal constructor() {
         name: String,
         parentFolder: Folder,
         type: DocumentType? = null,
-        predictedType: DocumentType? = null
+        predictedType: DocumentType? = null,
     ) : this() {
         this._identifier = identifier
         this._name = name
@@ -60,14 +59,12 @@ class Document internal constructor() {
         _parentFolder = folder
     }
 
-
     // ------------------ GETTERS ------------------
     val identifier: String get() = _identifier
     val parentFolder: Folder get() = _parentFolder!!
     val name: String get() = _name
     val type: DocumentType? get() = _type
     val predictedType: DocumentType? get() = _predictedType
-
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

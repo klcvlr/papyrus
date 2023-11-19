@@ -19,7 +19,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
 class FolderTemplateAndFolderServiceTest {
-
     @MockK
     private lateinit var folderTemplateRepository: FolderTemplateRepository
 
@@ -114,5 +113,4 @@ class FolderTemplateAndFolderServiceTest {
         Assertions.assertThat(perezFolder.name).isEqualTo("Pérez")
         Assertions.assertThat(perezFolder.associatedDocumentType?.identifier).isEqualTo("PérezType")
     }
-
 }

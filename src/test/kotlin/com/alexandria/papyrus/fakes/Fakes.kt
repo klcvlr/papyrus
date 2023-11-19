@@ -13,13 +13,13 @@ fun aDocument(
     name: String = faker.gameOfThrones.houses(),
     parentFolder: Folder = aFolder(),
     type: DocumentType? = null,
-    predictedType: DocumentType? = null
+    predictedType: DocumentType? = null,
 ) = Document(
     identifier = identifier,
     name = name,
     parentFolder = parentFolder,
     type = type,
-    predictedType = predictedType
+    predictedType = predictedType,
 )
 
 fun aFolder(
@@ -27,7 +27,7 @@ fun aFolder(
     name: String = faker.studioGhibli.characters(),
     parentFolder: Folder? = null,
     template: FolderTemplate = aFolderTemplate(),
-    associatedDocumentType: DocumentType? = null
+    associatedDocumentType: DocumentType? = null,
 ) = Folder(
     identifier = identifier,
     name = name,
@@ -44,12 +44,11 @@ fun aDocumentType(
     name = name,
 )
 
-
 fun aFolderTemplate(
     identifier: String = faker.random.nextUUID(),
     name: String = faker.rickAndMorty.characters(),
     parentFolder: FolderTemplate? = null,
-    associatedDocumentType: DocumentType? = null
+    associatedDocumentType: DocumentType? = null,
 ) = FolderTemplate(
     identifier = identifier,
     name = name,

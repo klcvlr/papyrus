@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
 class FolderTest {
-
     @Test
     fun `a folder can be renamed`() {
         val folder = aFolder(name = "oldName")

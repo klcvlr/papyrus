@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class DocumentJpaRepositoryTest {
-
     @Autowired
     private lateinit var documentRepository: DocumentJpaRepository
 

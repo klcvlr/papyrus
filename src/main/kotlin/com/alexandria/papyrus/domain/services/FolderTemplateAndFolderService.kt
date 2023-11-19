@@ -10,30 +10,38 @@ import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 class FolderTemplateAndFolderService(
     private val idGenerator: IdGenerator,
     private val folderRepository: FolderRepository,
-    private val folderTemplateRepository: FolderTemplateRepository
+    private val folderTemplateRepository: FolderTemplateRepository,
 ) {
-    fun rename(folderTemplate: FolderTemplate, newName: String) {
+    fun rename(
+        folderTemplate: FolderTemplate,
+        newName: String,
+    ) {
         folderTemplate.rename(newName)
         val allFoldersCreatedFromThatFolderTemplate = findAllFoldersCreatedFrom(folderTemplate)
         allFoldersCreatedFromThatFolderTemplate.forEach { it.rename(newName) }
         folderRepository.saveAll(allFoldersCreatedFromThatFolderTemplate)
     }
 
-    fun addSubFolderTemplate(folderTemplate: FolderTemplate, subFolderTemplateName: String): String {
-        val subFolderTemplate = FolderTemplate(
-            identifier = idGenerator.generate(),
-            parentFolder = folderTemplate,
-            name = subFolderTemplateName,
-            associatedDocumentType = null,
-        )
+    fun addSubFolderTemplate(
+        folderTemplate: FolderTemplate,
+        subFolderTemplateName: String,
+    ): String {
+        val subFolderTemplate =
+            FolderTemplate(
+                identifier = idGenerator.generate(),
+                parentFolder = folderTemplate,
+                name = subFolderTemplateName,
+                associatedDocumentType = null,
+            )
         folderTemplate.addSubFolder(subFolderTemplate)
         val allFoldersCreatedFromThatFolderTemplate = findAllFoldersCreatedFrom(folderTemplate)
         allFoldersCreatedFromThatFolderTemplate.forEach {
-            val subFolder = Folder(
-                identifier = idGenerator.generate(),
-                template = folderTemplate,
-                name = subFolderTemplateName,
-            )
+            val subFolder =
+                Folder(
+                    identifier = idGenerator.generate(),
+                    template = folderTemplate,
+                    name = subFolderTemplateName,
+                )
             it.addSubFolder(subFolder)
         }
         folderTemplateRepository.save(subFolderTemplate)
@@ -41,7 +49,10 @@ class FolderTemplateAndFolderService(
         return subFolderTemplate.identifier
     }
 
-    fun changeAssociatedDocumentType(folderTemplate: FolderTemplate, newDocumentType: DocumentType) {
+    fun changeAssociatedDocumentType(
+        folderTemplate: FolderTemplate,
+        newDocumentType: DocumentType,
+    ) {
         folderTemplate.changeAssociatedDocumentType(newDocumentType)
         val allFoldersCreatedFromThatFolderTemplate = findAllFoldersCreatedFrom(folderTemplate)
         allFoldersCreatedFromThatFolderTemplate.forEach { it.changeAssociatedDocumentType(newDocumentType) }
@@ -59,21 +70,20 @@ class FolderTemplateAndFolderService(
             )
         } else {
             val subFolders = folderTemplate.subFolders.map { createFolderFromTemplate(it) }
-            val folder = Folder(
-                identifier = idGenerator.generate(),
-                template = folderTemplate,
-                name = folderTemplate.name,
-                associatedDocumentType = folderTemplate.documentType,
-            )
+            val folder =
+                Folder(
+                    identifier = idGenerator.generate(),
+                    template = folderTemplate,
+                    name = folderTemplate.name,
+                    associatedDocumentType = folderTemplate.documentType,
+                )
             subFolders.forEach { folder.addSubFolder(it) }
             return folder
         }
     }
 
-
     private fun findAllFoldersCreatedFrom(folderTemplate: FolderTemplate): List<Folder> {
         // TODO: This is not efficient, we should have a way to query by template identifier
         return folderRepository.findAll().filter { it.template.identifier == folderTemplate.identifier }
     }
-
 }

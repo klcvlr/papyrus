@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class FolderJpaRepository(
-    private val folderDAO: FolderDAO
+    private val folderDAO: FolderDAO,
 ) : FolderRepository {
     override fun findByIdentifier(identifier: String): Folder {
         return folderDAO.findById(identifier).get()

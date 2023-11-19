@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v1/documents")
 class DocumentController(private val documentUseCases: DocumentUseCases) {
-
     @GetMapping
     fun allDocuments(): List<DocumentView> {
         return documentUseCases.findAllDocuments()
@@ -22,16 +21,20 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     }
 
     @GetMapping("/{documentIdentifier}")
-    fun documentByIdentifier(@PathVariable documentIdentifier: String) {
+    fun documentByIdentifier(
+        @PathVariable documentIdentifier: String,
+    ) {
         documentUseCases.findByIdentifier(documentIdentifier)
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createDocument(@RequestBody createDocumentRequest: CreateDocumentRequest) {
+    fun createDocument(
+        @RequestBody createDocumentRequest: CreateDocumentRequest,
+    ) {
         documentUseCases.createDocument(
             createDocumentRequest.documentName,
-            createDocumentRequest.parentFolderIdentifier
+            createDocumentRequest.parentFolderIdentifier,
         )
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional
 @SpringBootTest
 @Transactional
 class DocumentTypeJpaRepositoryTest {
-
     @Autowired
     private lateinit var documentTypeRepository: DocumentTypeJpaRepository
 
@@ -24,5 +23,4 @@ class DocumentTypeJpaRepositoryTest {
         assertThat(savedDocumentType.identifier).isEqualTo("documentTypeId")
         assertThat(savedDocumentType.name).isEqualTo("picture")
     }
-
 }

@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
 class FolderAndDocumentServiceTest {
-
     @MockK
     private lateinit var folderRepository: FolderRepository
 
@@ -38,5 +37,4 @@ class FolderAndDocumentServiceTest {
         Assertions.assertThat(document.parentFolder).isEqualTo(folder)
         Assertions.assertThat(folder.documents).contains(document)
     }
-
 }

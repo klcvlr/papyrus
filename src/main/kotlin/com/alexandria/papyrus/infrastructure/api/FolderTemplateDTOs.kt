@@ -33,12 +33,13 @@ data class DetailedFolderTemplateView(
 ) {
     companion object {
         fun toDetailedFolderTemplateView(folderTemplate: FolderTemplate): DetailedFolderTemplateView {
-            return DetailedFolderTemplateView(identifier = folderTemplate.identifier,
+            return DetailedFolderTemplateView(
+                identifier = folderTemplate.identifier,
                 name = folderTemplate.name,
                 associatedDocumentType = folderTemplate.documentType?.identifier,
                 parentFolderIdentifier = folderTemplate.parentFolder?.identifier,
-                subFolderTemplates = folderTemplate.subFolders.map { toDetailedFolderTemplateView(it) })
+                subFolderTemplates = folderTemplate.subFolders.map { toDetailedFolderTemplateView(it) },
+            )
         }
     }
-
 }

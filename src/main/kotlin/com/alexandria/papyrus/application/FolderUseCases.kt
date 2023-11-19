@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 class FolderUseCases(
     private val folderRepository: FolderRepository,
     private val folderTemplateRepository: FolderTemplateRepository,
-    private val folderTemplateAndFolderService: FolderTemplateAndFolderService
+    private val folderTemplateAndFolderService: FolderTemplateAndFolderService,
 ) {
     @Transactional(readOnly = true)
     fun findAllFolders(): List<Folder> {

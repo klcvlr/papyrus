@@ -12,7 +12,6 @@ class DocumentUseCases(
     private val documentRepository: DocumentRepository,
     private val folderRepository: FolderRepository,
 ) {
-
     @Transactional(readOnly = true)
     fun findAllDocuments(): List<Document> {
         return documentRepository.findAll()
@@ -23,15 +22,20 @@ class DocumentUseCases(
         return documentRepository.findByIdentifier(identifier)
     }
 
-    fun createDocument(name: String, parentFolderIdentifier: String): String {
+    fun createDocument(
+        name: String,
+        parentFolderIdentifier: String,
+    ): String {
         val parentFolder = getParentFolder(parentFolderIdentifier)
-        val document = Document(
-            identifier = idGenerator.generate(), name = name, parentFolder = parentFolder
-        )
+        val document =
+            Document(
+                identifier = idGenerator.generate(),
+                name = name,
+                parentFolder = parentFolder,
+            )
         documentRepository.save(document)
         return document.identifier
     }
 
-    private fun getParentFolder(parentFolderIdentifier: String) =
-        folderRepository.findByIdentifier(parentFolderIdentifier)
+    private fun getParentFolder(parentFolderIdentifier: String) = folderRepository.findByIdentifier(parentFolderIdentifier)
 }

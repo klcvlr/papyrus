@@ -7,10 +7,8 @@ import com.tngtech.archunit.junit.ArchTest
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes
 import com.tngtech.archunit.library.Architectures.onionArchitecture
 
-
 @AnalyzeClasses(packages = ["com.alexandria.papyrus"], importOptions = [ImportOption.DoNotIncludeTests::class])
 class ArchitectureTest {
-
     @ArchTest
     fun `onion architecture validation`(appClasses: JavaClasses) {
         onionArchitecture().domainModels("com.alexandria.papyrus.domain.model..")

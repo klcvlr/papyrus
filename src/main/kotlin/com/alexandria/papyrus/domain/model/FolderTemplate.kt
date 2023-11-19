@@ -32,7 +32,7 @@ class FolderTemplate internal constructor() {
         identifier: String,
         name: String,
         parentFolder: FolderTemplate? = null,
-        associatedDocumentType: DocumentType? = null
+        associatedDocumentType: DocumentType? = null,
     ) : this() {
         this._identifier = identifier
         this._name = name
@@ -59,7 +59,6 @@ class FolderTemplate internal constructor() {
     fun rename(newName: String) {
         _name = newName
     }
-
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
