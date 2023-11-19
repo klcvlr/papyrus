@@ -16,12 +16,16 @@ class ArchitectureTest {
         onionArchitecture().domainModels("com.alexandria.papyrus.domain.model..")
             .domainServices("com.alexandria.papyrus.domain.services..", "com.alexandria.papyrus.domain.repositories..")
             .applicationServices("com.alexandria.papyrus.application..")
-            .adapter("persistence", "com.alexandria.papyrus.infrastructure.repositories..").check(appClasses)
+            .adapter("persistence", "com.alexandria.papyrus.infrastructure.repositories..")
+            .adapter("api", "com.alexandria.papyrus.infrastructure.api..")
+            .adapter("config", "com.alexandria.papyrus.config..")
+            .check(appClasses)
     }
 
     @ArchTest
     fun `domain layer should not contain repository implementations`(appClasses: JavaClasses) {
         classes().that().resideInAPackage("com.alexandria.papyrus.domain.repositories..").should().beInterfaces()
+            .because("repositories implementations should be in infrastructure layer")
             .check(appClasses)
     }
 }

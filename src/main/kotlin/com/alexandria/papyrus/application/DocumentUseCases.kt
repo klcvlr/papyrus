@@ -7,11 +7,21 @@ import com.alexandria.papyrus.domain.repositories.FolderRepository
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional
-class DocumentUsesCases(
+class DocumentUseCases(
     private val idGenerator: IdGenerator,
     private val documentRepository: DocumentRepository,
     private val folderRepository: FolderRepository,
 ) {
+
+    @Transactional(readOnly = true)
+    fun findAllDocuments(): List<Document> {
+        return documentRepository.findAll()
+    }
+
+    @Transactional(readOnly = true)
+    fun findByIdentifier(identifier: String): Document {
+        return documentRepository.findByIdentifier(identifier)
+    }
 
     fun createDocument(name: String, parentFolderIdentifier: String): String {
         val parentFolder = getParentFolder(parentFolderIdentifier)

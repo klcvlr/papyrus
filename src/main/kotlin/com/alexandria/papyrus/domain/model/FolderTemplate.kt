@@ -22,7 +22,7 @@ class FolderTemplate internal constructor() {
     private var _parentFolder: FolderTemplate? = null
 
     @OneToMany(mappedBy = "_parentFolder", cascade = [CascadeType.ALL])
-    private var _subFolders: List<FolderTemplate> = mutableListOf()
+    private var _subFolders: MutableList<FolderTemplate> = mutableListOf()
 
     @ManyToOne
     @JoinColumn(name = "associated_document_type_identifier", referencedColumnName = "identifier")
@@ -42,7 +42,7 @@ class FolderTemplate internal constructor() {
 
     fun addSubFolder(subFolder: FolderTemplate) {
         subFolder._parentFolder = this
-        this._subFolders = this.subFolders.plus(subFolder)
+        this._subFolders.add(subFolder)
     }
 
     fun changeAssociatedDocumentType(documentType: DocumentType) {

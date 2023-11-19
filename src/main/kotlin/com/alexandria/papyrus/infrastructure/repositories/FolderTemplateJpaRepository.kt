@@ -8,13 +8,21 @@ import org.springframework.stereotype.Repository
 @Repository
 class FolderTemplateJpaRepository(
     private val folderTemplateDAO: FolderTemplateDAO
-): FolderTemplateRepository {
+) : FolderTemplateRepository {
     override fun findByIdentifier(identifier: String): FolderTemplate {
         return folderTemplateDAO.findById(identifier).get()
     }
 
+    override fun findAll(): List<FolderTemplate> {
+        return folderTemplateDAO.findAll().toList()
+    }
+
     override fun save(folderTemplate: FolderTemplate) {
         folderTemplateDAO.save(folderTemplate)
+    }
+
+    override fun saveAll(folderTemplates: List<FolderTemplate>) {
+        folderTemplateDAO.saveAll(folderTemplates)
     }
 }
 

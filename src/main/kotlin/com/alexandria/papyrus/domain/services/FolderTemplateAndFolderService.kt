@@ -1,16 +1,16 @@
 package com.alexandria.papyrus.domain.services
 
+import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.model.DocumentType
 import com.alexandria.papyrus.domain.model.Folder
-import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.domain.model.FolderTemplate
+import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
-import com.alexandria.papyrus.domain.IdGenerator
 
 class FolderTemplateAndFolderService(
+    private val idGenerator: IdGenerator,
     private val folderRepository: FolderRepository,
-    private val folderTemplateRepository: FolderTemplateRepository,
-    private val idGenerator: IdGenerator
+    private val folderTemplateRepository: FolderTemplateRepository
 ) {
     fun rename(folderTemplate: FolderTemplate, newName: String) {
         folderTemplate.rename(newName)

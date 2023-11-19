@@ -30,10 +30,10 @@ class Folder internal constructor() {
     private var _associatedDocumentType: DocumentType? = null
 
     @OneToMany(mappedBy = "_parentFolder", cascade = [CascadeType.ALL])
-    private var _subFolders: List<Folder> = mutableListOf()
+    private var _subFolders: MutableList<Folder> = mutableListOf()
 
     @OneToMany(mappedBy = "_parentFolder", cascade = [CascadeType.ALL])
-    private var _documents: List<Document> = mutableListOf()
+    private var _documents: MutableList<Document> = mutableListOf()
 
     internal constructor(
         identifier: String,
@@ -59,12 +59,12 @@ class Folder internal constructor() {
     }
 
     fun addDocument(document: Document) {
-        this._documents = _documents.plus(document)
+        _documents.add(document)
     }
 
     fun addSubFolder(folder: Folder) {
         folder._parentFolder = this
-        this._subFolders = _subFolders.plus(folder)
+        _subFolders.add(folder)
     }
 
 

@@ -13,6 +13,10 @@ class DocumentJpaRepository(
         return documentDAO.findById(documentIdentifier).get()
     }
 
+    override fun findAll(): List<Document> {
+        return documentDAO.findAll().toList()
+    }
+
     override fun save(document: Document) {
         documentDAO.save(document)
     }

@@ -33,7 +33,7 @@ class Document internal constructor() {
     internal constructor(
         identifier: String,
         name: String,
-        parentFolder: Folder? = null,
+        parentFolder: Folder,
         type: DocumentType? = null,
         predictedType: DocumentType? = null
     ) : this() {
@@ -63,7 +63,7 @@ class Document internal constructor() {
 
     // ------------------ GETTERS ------------------
     val identifier: String get() = _identifier
-    val parentFolder: Folder? get() = _parentFolder
+    val parentFolder: Folder get() = _parentFolder!!
     val name: String get() = _name
     val type: DocumentType? get() = _type
     val predictedType: DocumentType? get() = _predictedType
