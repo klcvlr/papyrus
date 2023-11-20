@@ -3,6 +3,7 @@ package com.alexandria.papyrus.domain.model
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
@@ -17,14 +18,14 @@ class FolderTemplate internal constructor() {
     @Column(name = "name")
     private var _name: String = ""
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_folder_identifier", referencedColumnName = "identifier")
     private var _parentFolder: FolderTemplate? = null
 
-    @OneToMany(mappedBy = "_parentFolder", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "_parentFolder", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     private var _subFolders: MutableList<FolderTemplate> = mutableListOf()
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "associated_document_type_identifier", referencedColumnName = "identifier")
     private var _associatedDocumentType: DocumentType? = null
 

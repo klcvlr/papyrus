@@ -8,7 +8,6 @@ data class FolderTemplateView(
     val identifier: String,
     val name: String,
     val associatedDocumentType: String?,
-    val directSubFolderCount: Int,
     val parentFolderIdentifier: String?,
 ) {
     companion object {
@@ -17,7 +16,6 @@ data class FolderTemplateView(
                 identifier = folderTemplate.identifier,
                 name = folderTemplate.name,
                 associatedDocumentType = folderTemplate.documentType?.identifier,
-                directSubFolderCount = folderTemplate.subFolders.count(),
                 parentFolderIdentifier = folderTemplate.parentFolder?.identifier,
             )
         }
@@ -28,7 +26,7 @@ data class DetailedFolderTemplateView(
     val identifier: String,
     val name: String,
     val associatedDocumentType: String?,
-    val subFolderTemplates: List<DetailedFolderTemplateView>,
+    val subFolderTemplates: List<DetailedFolderTemplateView> = emptyList(),
     val parentFolderIdentifier: String?,
 ) {
     companion object {

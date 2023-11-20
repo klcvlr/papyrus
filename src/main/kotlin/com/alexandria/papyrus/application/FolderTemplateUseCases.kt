@@ -15,8 +15,8 @@ class FolderTemplateUseCases(
     private val folderTemplateAndFolderService: FolderTemplateAndFolderService,
 ) {
     @Transactional(readOnly = true)
-    fun findAllFolderTemplates(): List<FolderTemplate> {
-        return folderTemplateRepository.findAll()
+    fun findAllRootFolderTemplates(): List<FolderTemplate> {
+        return folderTemplateRepository.findAllRoots()
     }
 
     @Transactional(readOnly = true)

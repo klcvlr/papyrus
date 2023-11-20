@@ -5,7 +5,7 @@ import com.alexandria.papyrus.domain.model.FolderTemplate
 interface FolderTemplateRepository {
     fun findByIdentifier(identifier: String): FolderTemplate?
 
-    fun findAll(): List<FolderTemplate>
+    fun findAllRoots(): List<FolderTemplate>
 
     fun save(folderTemplate: FolderTemplate)
 

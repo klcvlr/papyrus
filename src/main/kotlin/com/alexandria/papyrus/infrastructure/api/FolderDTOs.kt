@@ -6,9 +6,6 @@ import com.alexandria.papyrus.infrastructure.api.DocumentView.Companion.toDocume
 data class FolderView(
     val identifier: String,
     val name: String,
-    val parentFolderIdentifier: String?,
-    val directSubFolderCount: Int,
-    val documentCount: Int,
     val associatedDocumentType: String?,
 )
 

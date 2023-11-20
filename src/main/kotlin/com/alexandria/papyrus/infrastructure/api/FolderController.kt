@@ -16,17 +16,13 @@ import org.springframework.web.bind.annotation.RestController
 class FolderController(private val folderUseCases: FolderUseCases) {
     @GetMapping
     fun allFolders(): List<FolderView> {
-        return folderUseCases.findAllFolders()
-            .map { folder ->
-                FolderView(
-                    identifier = folder.identifier,
-                    name = folder.name,
-                    associatedDocumentType = folder.associatedDocumentType?.identifier,
-                    directSubFolderCount = folder.subFolders.count(),
-                    documentCount = folder.documents.count(),
-                    parentFolderIdentifier = folder.parentFolder?.identifier,
-                )
-            }
+        return folderUseCases.findAllFolders().map { folder ->
+            FolderView(
+                identifier = folder.identifier,
+                name = folder.name,
+                associatedDocumentType = folder.associatedDocumentType?.identifier,
+            )
+        }
     }
 
     @GetMapping("/{folderIdentifier}")

@@ -32,12 +32,14 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql:42.2.27")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+    implementation("aws.sdk.kotlin:s3:0.35.0-beta")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.hsqldb:hsqldb:2.7.2")
     testImplementation("com.tngtech.archunit:archunit-junit5:1.2.0")
     testImplementation("io.mockk:mockk:${versions["mockk"]}")
     testImplementation("io.github.serpro69:kotlin-faker:${versions["faker"]}")
+    testImplementation("io.rest-assured:rest-assured:5.3.2")
 }
 
 tasks.withType<KotlinCompile> {
