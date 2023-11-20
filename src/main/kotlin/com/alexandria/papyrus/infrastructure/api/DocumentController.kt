@@ -3,6 +3,7 @@ package com.alexandria.papyrus.infrastructure.api
 import com.alexandria.papyrus.application.DocumentUseCases
 import com.alexandria.papyrus.infrastructure.api.DocumentView.Companion.toDocumentView
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -31,10 +32,12 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     @ResponseStatus(HttpStatus.CREATED)
     fun createDocument(
         @RequestBody createDocumentRequest: CreateDocumentRequest,
-    ) {
-        documentUseCases.createDocument(
-            createDocumentRequest.documentName,
-            createDocumentRequest.parentFolderIdentifier,
-        )
+    ): ResponseEntity<Unit> {
+        val documentIdentifier =
+            documentUseCases.createDocument(
+                createDocumentRequest.documentName,
+                createDocumentRequest.parentFolderIdentifier,
+            )
+        return entityWithLocation(documentIdentifier)
     }
 }

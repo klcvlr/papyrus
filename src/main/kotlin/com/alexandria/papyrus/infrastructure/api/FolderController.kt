@@ -3,6 +3,7 @@ package com.alexandria.papyrus.infrastructure.api
 import com.alexandria.papyrus.application.FolderUseCases
 import com.alexandria.papyrus.infrastructure.api.DetailedFolderView.Companion.toDetailedFolderView
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -37,9 +38,11 @@ class FolderController(private val folderUseCases: FolderUseCases) {
     @ResponseStatus(HttpStatus.CREATED)
     fun createFromTemplate(
         @RequestBody createFolderFromTemplateRequest: CreateFolderFromTemplateRequest,
-    ) {
-        folderUseCases.createFromTemplate(
-            folderTemplateIdentifier = createFolderFromTemplateRequest.folderTemplateIdentifier,
-        )
+    ): ResponseEntity<Unit> {
+        val folderIdentifier =
+            folderUseCases.createFromTemplate(
+                folderTemplateIdentifier = createFolderFromTemplateRequest.folderTemplateIdentifier,
+            )
+        return entityWithLocation(folderIdentifier)
     }
 }

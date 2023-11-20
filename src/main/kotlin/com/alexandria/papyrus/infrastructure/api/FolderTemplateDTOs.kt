@@ -4,6 +4,8 @@ import com.alexandria.papyrus.domain.model.FolderTemplate
 
 data class CreateFolderTemplateRequest(val folderTemplateName: String)
 
+data class AddSubFolderTemplateRequest(val folderTemplateName: String)
+
 data class FolderTemplateView(
     val identifier: String,
     val name: String,
