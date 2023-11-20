@@ -6,6 +6,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.3"
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
+    kotlin("plugin.jpa") version "1.8.22"
 }
 
 group = "com.alexandria"
@@ -30,16 +31,19 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.postgresql:postgresql:42.2.27")
+    implementation("org.liquibase:liquibase-core")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-    implementation("aws.sdk.kotlin:s3:0.35.0-beta")
+
+    runtimeOnly("org.postgresql:postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.hsqldb:hsqldb:2.7.2")
-    testImplementation("com.tngtech.archunit:archunit-junit5:1.2.0")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("io.rest-assured:rest-assured:5.3.2")
     testImplementation("io.mockk:mockk:${versions["mockk"]}")
     testImplementation("io.github.serpro69:kotlin-faker:${versions["faker"]}")
-    testImplementation("io.rest-assured:rest-assured:5.3.2")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.2.0")
 }
 
 tasks.withType<KotlinCompile> {

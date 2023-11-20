@@ -3,6 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/papyrus
     username: toth
     password: parchment
+  liquibase:
+    change-log: classpath:db/changelog/changelog.yml
+    enabled: true
 springdoc:
   swagger-ui:
     path: /api-docs

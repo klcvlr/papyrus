@@ -1,0 +1,128 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-create_DOCUMENT_TYPE_table
+      author: Kevin Lacavalerie
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: document_type
+            columns:
+              - column:
+                  name: identifier
+                  type: text
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 2-create_FOLDER_TEMPLATE_table
+      author: Kevin Lacavalerie
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: folder_template
+            columns:
+              - column:
+                  name: identifier
+                  type: text
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_folder_identifier
+                  type: text
+                  constraints:
+                    foreignKeyName: fk_folder_template__parent_folder_identifier
+                    references: folder_template(identifier)
+              - column:
+                  name: associated_document_type_identifier
+                  type: text
+                  constraints:
+                    foreignKeyName: fk_folder_template__associated_document_type_identifier
+                    references: document_type(identifier)
+
+  - changeSet:
+      id: 3-create_FOLDER_table
+      author: Kevin Lacavalerie
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: folder
+            columns:
+              - column:
+                  name: identifier
+                  type: text
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_folder_identifier
+                  type: text
+                  constraints:
+                    foreignKeyName: fk_folder__parent_folder_identifier
+                    references: folder(identifier)
+              - column:
+                  name: associated_document_type_identifier
+                  type: text
+                  constraints:
+                    foreignKeyName: fk_folder__associated_document_type_identifier
+                    references: document_type(identifier)
+              - column:
+                  name: template_identifier
+                  type: text
+                  constraints:
+                    foreignKeyName: fk_folder__template_identifier
+                    references: folder_template(identifier)
+
+  - changeSet:
+      id: 4-create_DOCUMENT_table
+      author: Kevin Lacavalerie
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: document
+            columns:
+              - column:
+                  name: identifier
+                  type: text
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_folder_identifier
+                  type: text
+                  constraints:
+                    foreignKeyName: fk_document__parent_folder_identifier
+                    references: folder(identifier)
+              - column:
+                  name: type_identifier
+                  type: text
+                  constraints:
+                    foreignKeyName: fk_document__type_identifier
+                    references: document_type(identifier)
+              - column:
+                  name: predicted_type_identifier
+                  type: text
+                  constraints:
+                    foreignKeyName: fk_document__predicted_type_identifier
+                    references: document_type(identifier)

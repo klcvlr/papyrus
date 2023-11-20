@@ -1,8 +1,10 @@
 package com.alexandria.papyrus.end2end
 
+import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
@@ -13,6 +15,10 @@ class FoldersE2ETest {
     @LocalServerPort
     private var port: Int = 0
 
+    @BeforeEach
+    fun setUp() {
+        RestAssured.baseURI = "http://localhost:$port/api/"
+    }
 
     @Test
     fun `create folder from a folder template`() {
