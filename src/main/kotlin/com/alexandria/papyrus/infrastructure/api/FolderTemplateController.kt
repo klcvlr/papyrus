@@ -36,20 +36,20 @@ class FolderTemplateController(private val folderTemplateUseCases: FolderTemplat
     fun createFolderTemplate(
         @RequestBody createFolderTemplateRequest: CreateFolderTemplateRequest,
     ): ResponseEntity<Unit> {
-        val folderTemplateIdentifier = folderTemplateUseCases.create(createFolderTemplateRequest.folderTemplateName)
+        val folderTemplateIdentifier = folderTemplateUseCases.create(createFolderTemplateRequest.name)
         return entityWithLocation(folderTemplateIdentifier)
     }
 
-    @PostMapping("/{folderTemplateIdentifier}/add-sub-folder-template")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PostMapping("/{folderTemplateIdentifier}/create-sub-folder")
+    @ResponseStatus(HttpStatus.CREATED)
     fun addSubFolderTemplate(
         @PathVariable folderTemplateIdentifier: String,
-        @RequestBody addSubFolderTemplateRequest: AddSubFolderTemplateRequest,
+        @RequestBody createSubFolderTemplateRequest: CreateSubFolderTemplateRequest,
     ): ResponseEntity<Unit> {
         val subFolderTemplateIdentifier =
             folderTemplateUseCases.addSubFolder(
                 folderTemplateIdentifier,
-                addSubFolderTemplateRequest.folderTemplateName,
+                createSubFolderTemplateRequest.name,
             )
         return entityWithLocation(subFolderTemplateIdentifier)
     }

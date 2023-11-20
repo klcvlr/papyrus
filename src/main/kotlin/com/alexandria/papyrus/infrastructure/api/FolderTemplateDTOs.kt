@@ -2,9 +2,9 @@ package com.alexandria.papyrus.infrastructure.api
 
 import com.alexandria.papyrus.domain.model.FolderTemplate
 
-data class CreateFolderTemplateRequest(val folderTemplateName: String)
+data class CreateFolderTemplateRequest(val name: String)
 
-data class AddSubFolderTemplateRequest(val folderTemplateName: String)
+data class CreateSubFolderTemplateRequest(val name: String)
 
 data class FolderTemplateView(
     val identifier: String,

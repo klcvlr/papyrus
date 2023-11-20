@@ -41,7 +41,7 @@ class FolderController(private val folderUseCases: FolderUseCases) {
     ): ResponseEntity<Unit> {
         val folderIdentifier =
             folderUseCases.createFromTemplate(
-                folderTemplateIdentifier = createFolderFromTemplateRequest.folderTemplateIdentifier,
+                folderTemplateIdentifier = createFolderFromTemplateRequest.templateIdentifier,
             )
         return entityWithLocation(folderIdentifier)
     }

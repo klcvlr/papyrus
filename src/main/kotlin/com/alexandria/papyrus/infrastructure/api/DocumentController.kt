@@ -35,7 +35,7 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     ): ResponseEntity<Unit> {
         val documentIdentifier =
             documentUseCases.createDocument(
-                createDocumentRequest.documentName,
+                createDocumentRequest.name,
                 createDocumentRequest.parentFolderIdentifier,
             )
         return entityWithLocation(documentIdentifier)

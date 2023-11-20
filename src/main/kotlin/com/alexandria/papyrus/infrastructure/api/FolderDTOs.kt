@@ -32,5 +32,5 @@ data class DetailedFolderView(
 }
 
 data class CreateFolderFromTemplateRequest(
-    val folderTemplateIdentifier: String,
+    val templateIdentifier: String,
 )

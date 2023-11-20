@@ -2,7 +2,7 @@ package com.alexandria.papyrus.infrastructure.api
 
 import com.alexandria.papyrus.domain.model.Document
 
-data class CreateDocumentRequest(val documentName: String, val parentFolderIdentifier: String)
+data class CreateDocumentRequest(val name: String, val parentFolderIdentifier: String)
 
 data class DocumentView(
     val identifier: String,

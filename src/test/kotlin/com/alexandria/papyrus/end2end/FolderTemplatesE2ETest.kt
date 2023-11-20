@@ -3,7 +3,6 @@ package com.alexandria.papyrus.end2end
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -28,16 +27,10 @@ class FolderTemplatesE2ETest {
     }
 
     @Test
-    fun test() {
-        assertThat(postgresqlContainer.isRunning()).isTrue()
-    }
-
-
-    @Test
     fun `create a folder template`() {
         // CREATE ROOT FOLDER TEMPLATE
         val createFolderTemplateUrl = "v1/folder-templates"
-        val createFolderTemplateRequestBody = """ { "folderTemplateName": "newFolderTemplate" } """
+        val createFolderTemplateRequestBody = """ { "name": "newFolderTemplate" } """
         val locationUrl =
             given()
                 .contentType(ContentType.JSON)
@@ -67,10 +60,11 @@ class FolderTemplatesE2ETest {
     companion object {
         @Container
         @JvmStatic
-        private val postgresqlContainer: PostgreSQLContainer<*> = PostgreSQLContainer("postgres:16.1-alpine")
-            .withDatabaseName("papyrus")
-            .withUsername("toth")
-            .withPassword("parchment")
+        private val postgresqlContainer: PostgreSQLContainer<*> =
+            PostgreSQLContainer("postgres:16.1-alpine")
+                .withDatabaseName("papyrus")
+                .withUsername("toth")
+                .withPassword("parchment")
 
         @DynamicPropertySource
         @JvmStatic
@@ -81,4 +75,3 @@ class FolderTemplatesE2ETest {
         }
     }
 }
-

@@ -9,8 +9,14 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Testcontainers
 class FoldersE2ETest {
     @LocalServerPort
     private var port: Int = 0
@@ -26,7 +32,7 @@ class FoldersE2ETest {
         val createFolderUrl = "http://localhost:$port/api/v1/folders"
 
         // CREATE ROOT FOLDER TEMPLATE
-        val createRootFolderTemplateRequestBody = """ { "folderTemplateName": "rootFolder" } """
+        val createRootFolderTemplateRequestBody = """ { "name": "rootFolder" } """
         val rootFolderTemplateLocation =
             given()
                 .contentType(ContentType.JSON)
@@ -41,9 +47,9 @@ class FoldersE2ETest {
         val rootFolderTemplateId = rootFolderTemplateLocation.split("/").last()
 
         // CREATE SUB FOLDER TEMPLATE
-        val addSubFolderTemplateRequestBody = """ { "folderTemplateName": "subFolder" } """
+        val addSubFolderTemplateRequestBody = """ { "name": "subFolder" } """
         val addSubFolderTemplateUrl =
-            "http://localhost:$port/api/v1/folder-templates/$rootFolderTemplateId/add-sub-folder-template"
+            "http://localhost:$port/api/v1/folder-templates/$rootFolderTemplateId/create-sub-folder"
         given()
             .contentType(ContentType.JSON)
             .body(addSubFolderTemplateRequestBody)
@@ -54,7 +60,7 @@ class FoldersE2ETest {
             .header("Location", notNullValue())
 
         // CREATE FOLDER FROM TEMPLATE
-        val createFolderRequestBody = """ { "folderTemplateIdentifier": "$rootFolderTemplateId" } """
+        val createFolderRequestBody = """ { "templateIdentifier": "$rootFolderTemplateId" } """
         val folderLocation =
             given()
                 .contentType(ContentType.JSON)
@@ -66,6 +72,7 @@ class FoldersE2ETest {
                 .header("Location", notNullValue())
                 .extract()
                 .header("Location")
+        val folderId = folderLocation.split("/").last()
 
         // GET CREATED FOLDER AND ASSERT IT WAS CREATED LIKE THE TEMPLATE
         given()
@@ -74,10 +81,33 @@ class FoldersE2ETest {
             .assertThat()
             .statusCode(200)
             .contentType(ContentType.JSON)
-            .body("identifier", notNullValue())
-            .body("name", equalTo("rootFolderTemplate"))
+            .body("identifier", equalTo(folderId))
+            .body("name", equalTo("rootFolder"))
             .body("associatedType", nullValue())
             .body("parentFolderIdentifier", nullValue())
-            .body("subFolders", nullValue())
+            .body("subFolders.size()", equalTo(1))
+            .body("subFolders[0].name", equalTo("subFolder"))
+            .body("subFolders[0].parentFolderIdentifier", equalTo(folderId))
+            .body("subFolders[0].associatedDocumentType", nullValue())
+            .body("subFolders[0].documents.size()", equalTo(0))
+            .body("subFolders[0].subFolders.size()", equalTo(0))
+    }
+
+    companion object {
+        @Container
+        @JvmStatic
+        private val postgresqlContainer: PostgreSQLContainer<*> =
+            PostgreSQLContainer("postgres:16.1-alpine")
+                .withDatabaseName("papyrus")
+                .withUsername("toth")
+                .withPassword("parchment")
+
+        @DynamicPropertySource
+        @JvmStatic
+        fun postgresqlProperties(registry: DynamicPropertyRegistry) {
+            registry.add("spring.datasource.url", postgresqlContainer::getJdbcUrl)
+            registry.add("spring.datasource.username", postgresqlContainer::getUsername)
+            registry.add("spring.datasource.password", postgresqlContainer::getPassword)
+        }
     }
 }
