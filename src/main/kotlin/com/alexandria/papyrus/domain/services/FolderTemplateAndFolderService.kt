@@ -61,8 +61,8 @@ class FolderTemplateAndFolderService(
     }
 
     fun createFolderFromTemplate(folderTemplate: FolderTemplate): Folder {
-        if (folderTemplate.subFolders.isEmpty()) {
-            return Folder(
+        return if (folderTemplate.subFolders.isEmpty()) {
+            Folder(
                 identifier = idGenerator.generate(),
                 template = folderTemplate,
                 name = folderTemplate.name,
@@ -78,7 +78,7 @@ class FolderTemplateAndFolderService(
                     associatedDocumentType = folderTemplate.documentType,
                 )
             subFolders.forEach { folder.addSubFolder(it) }
-            return folder
+            folder
         }
     }
 

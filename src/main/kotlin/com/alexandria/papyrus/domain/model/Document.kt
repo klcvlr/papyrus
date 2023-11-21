@@ -22,6 +22,10 @@ class Document internal constructor() {
     private var _parentFolder: Folder? = null
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "root_folder_identifier", referencedColumnName = "identifier")
+    private var _rootFolder: Folder? = null
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "type_identifier", referencedColumnName = "identifier")
     private var _type: DocumentType? = null
 
@@ -33,12 +37,14 @@ class Document internal constructor() {
         identifier: String,
         name: String,
         parentFolder: Folder,
+        rootFolder: Folder,
         type: DocumentType? = null,
         predictedType: DocumentType? = null,
     ) : this() {
         this._identifier = identifier
         this._name = name
         this._parentFolder = parentFolder
+        this._rootFolder = rootFolder
         this._type = type
         this._predictedType = predictedType
     }
@@ -62,6 +68,7 @@ class Document internal constructor() {
     // ------------------ GETTERS ------------------
     val identifier: String get() = _identifier
     val parentFolder: Folder get() = _parentFolder!!
+    val rootFolder: Folder get() = _rootFolder!!
     val name: String get() = _name
     val type: DocumentType? get() = _type
     val predictedType: DocumentType? get() = _predictedType

@@ -12,12 +12,14 @@ fun aDocument(
     identifier: String = faker.random.nextUUID(),
     name: String = faker.gameOfThrones.houses(),
     parentFolder: Folder = aFolder(),
+    rootFolder: Folder = aFolder(),
     type: DocumentType? = null,
     predictedType: DocumentType? = null,
 ) = Document(
     identifier = identifier,
     name = name,
     parentFolder = parentFolder,
+    rootFolder = rootFolder,
     type = type,
     predictedType = predictedType,
 )

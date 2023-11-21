@@ -115,6 +115,12 @@ databaseChangeLog:
                     foreignKeyName: fk_document__parent_folder_identifier
                     references: folder(identifier)
               - column:
+                  name: root_folder_identifier
+                  type: text
+                  constraints:
+                    foreignKeyName: fk_document__root_folder_identifier
+                    references: folder(identifier)
+              - column:
                   name: type_identifier
                   type: text
                   constraints:

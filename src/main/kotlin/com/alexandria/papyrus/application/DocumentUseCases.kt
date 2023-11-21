@@ -27,16 +27,22 @@ class DocumentUseCases(
     fun createDocument(
         name: String,
         parentFolderIdentifier: String,
+        rootFolderIdentifier: String,
     ): String {
         val parentFolder =
             folderRepository.findByIdentifier(parentFolderIdentifier) ?: throw FolderNotFoundException(
                 parentFolderIdentifier,
+            )
+        val rootFolder =
+            folderRepository.findByIdentifier(rootFolderIdentifier) ?: throw FolderNotFoundException(
+                rootFolderIdentifier,
             )
         val document =
             Document(
                 identifier = idGenerator.generate(),
                 name = name,
                 parentFolder = parentFolder,
+                rootFolder = rootFolder,
             )
         documentRepository.save(document)
         return document.identifier

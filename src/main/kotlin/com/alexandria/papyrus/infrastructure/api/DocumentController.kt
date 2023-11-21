@@ -24,8 +24,9 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     @GetMapping("/{documentIdentifier}")
     fun documentByIdentifier(
         @PathVariable documentIdentifier: String,
-    ) {
-        documentUseCases.findByIdentifier(documentIdentifier)
+    ): DocumentView {
+        val document = documentUseCases.findByIdentifier(documentIdentifier)
+        return toDocumentView(document)
     }
 
     @PostMapping
@@ -36,7 +37,8 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
         val documentIdentifier =
             documentUseCases.createDocument(
                 createDocumentRequest.name,
-                createDocumentRequest.parentFolderIdentifier,
+                createDocumentRequest.folderIdentifier,
+                createDocumentRequest.rootFolderIdentifier,
             )
         return entityWithLocation(documentIdentifier)
     }
