@@ -6,6 +6,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses
 import com.tngtech.archunit.junit.ArchTest
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes
 import com.tngtech.archunit.library.Architectures.onionArchitecture
+import org.springframework.transaction.annotation.Transactional
 
 @AnalyzeClasses(packages = ["com.alexandria.papyrus"], importOptions = [ImportOption.DoNotIncludeTests::class])
 class ArchitectureTest {
@@ -16,14 +17,20 @@ class ArchitectureTest {
             .applicationServices("com.alexandria.papyrus.application..")
             .adapter("persistence", "com.alexandria.papyrus.infrastructure.repositories..")
             .adapter("api", "com.alexandria.papyrus.infrastructure.api..")
-            .adapter("config", "com.alexandria.papyrus.config..")
-            .check(appClasses)
+            .adapter("config", "com.alexandria.papyrus.config..").check(appClasses)
     }
 
     @ArchTest
     fun `domain layer should not contain repository implementations`(appClasses: JavaClasses) {
         classes().that().resideInAPackage("com.alexandria.papyrus.domain.repositories..").should().beInterfaces()
-            .because("repositories implementations should be in infrastructure layer")
+            .because("repositories implementations should be in infrastructure layer").check(appClasses)
+    }
+
+    @ArchTest
+    fun `use case classes should be annotated with @Transactional`(appClasses: JavaClasses) {
+        classes().that().resideInAPackage("com.alexandria.papyrus.application..").should()
+            .beAnnotatedWith(Transactional::class.java)
+            .because("every use case occurs in a transaction. we only use spring's @Transactional annotations - not jakarta's")
             .check(appClasses)
     }
 }
