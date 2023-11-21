@@ -1,13 +1,14 @@
 package com.alexandria.papyrus.config
 
+import com.alexandria.papyrus.application.DocumentTypeUseCases
 import com.alexandria.papyrus.application.DocumentUseCases
 import com.alexandria.papyrus.application.FolderTemplateUseCases
 import com.alexandria.papyrus.application.FolderUseCases
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
+import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
-import com.alexandria.papyrus.domain.services.FolderAndDocumentService
 import com.alexandria.papyrus.domain.services.FolderTemplateAndFolderService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,6 +24,15 @@ class ApplicationConfiguration {
         idGenerator = idGenerator,
         documentRepository = documentRepository,
         folderRepository = folderRepository,
+    )
+
+    @Bean
+    fun documentTypeUseCase(
+        idGenerator: IdGenerator,
+        documentTypeRepository: DocumentTypeRepository,
+    ) = DocumentTypeUseCases(
+        idGenerator = idGenerator,
+        documentTypeRepository = documentTypeRepository,
     )
 
     @Bean
@@ -56,14 +66,5 @@ class ApplicationConfiguration {
         idGenerator = idGenerator,
         folderRepository = folderRepository,
         folderTemplateRepository = folderTemplateRepository,
-    )
-
-    @Bean
-    fun folderAndDocumentService(
-        folderRepository: FolderRepository,
-        documentRepository: DocumentRepository,
-    ) = FolderAndDocumentService(
-        folderRepository = folderRepository,
-        documentRepository = documentRepository,
     )
 }

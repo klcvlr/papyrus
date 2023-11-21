@@ -14,3 +14,8 @@ class DocumentNotFoundException(private val identifier: String) : Exception() {
     override val message: String
         get() = "Document with identifier '$identifier' not found"
 }
+
+class DocumentTypeNotFoundException(private val identifier: String) : Exception() {
+    override val message: String
+        get() = "DocumentType with identifier '$identifier' not found"
+}

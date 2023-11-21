@@ -14,8 +14,8 @@ class DocumentTypeJpaRepository(
         return documentTypeDAO.findById(identifier).getOrNull()
     }
 
-    override fun save(documentType: DocumentType) {
-        documentTypeDAO.save(documentType)
+    override fun save(documentType: DocumentType): DocumentType {
+        return documentTypeDAO.save(documentType)
     }
 }
 
