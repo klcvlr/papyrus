@@ -28,22 +28,8 @@ class FolderTemplatesE2ETest {
 
     @Test
     fun `create a folder template`() {
-        // CREATE ROOT FOLDER TEMPLATE
-        val createFolderTemplateUrl = "v1/folder-templates"
-        val createFolderTemplateRequestBody = """ { "name": "newFolderTemplate" } """
-        val locationUrl =
-            given()
-                .contentType(ContentType.JSON)
-                .body(createFolderTemplateRequestBody)
-                .post(createFolderTemplateUrl)
-                .then()
-                .assertThat()
-                .statusCode(201)
-                .header("Location", notNullValue())
-                .extract()
-                .header("Location")
+        val locationUrl = createAFolderTemplate("newFolderTemplate")
 
-        // request to the URL provided in the 'Location' header
         given()
             .get(locationUrl)
             .then()
@@ -55,6 +41,15 @@ class FolderTemplatesE2ETest {
             .body("associatedType", nullValue())
             .body("parentFolderIdentifier", nullValue())
             .body("subFolderTemplate", nullValue())
+    }
+
+    @Test
+    fun `get request on a folder template that does not exist`()  {
+        given()
+            .get("v1/folder-templates/123")
+            .then()
+            .assertThat()
+            .statusCode(404)
     }
 
     companion object {

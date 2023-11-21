@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class DocumentTest {
-
     @Test
     fun `a document can be created`() {
         // I usually don't test that a constructor constructs... but this one has some logic about the root folder
@@ -16,13 +15,14 @@ class DocumentTest {
         val documentType = aDocumentType(identifier = "documentTypeIdentifier")
         val predictedDocumentType = aDocumentType(identifier = "predictedDocumentTypeIdentifier")
 
-        val document = aDocument(
-            identifier = "documentIdentifier",
-            name = "documentName",
-            parentFolder = folder,
-            type = documentType,
-            predictedType = predictedDocumentType,
-        )
+        val document =
+            aDocument(
+                identifier = "documentIdentifier",
+                name = "documentName",
+                parentFolder = folder,
+                type = documentType,
+                predictedType = predictedDocumentType,
+            )
 
         assertThat(document.identifier).isEqualTo("documentIdentifier")
         assertThat(document.name).isEqualTo("documentName")

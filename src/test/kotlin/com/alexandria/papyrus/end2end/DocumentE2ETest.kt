@@ -3,7 +3,9 @@ package com.alexandria.papyrus.end2end
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.notNullValue
+import org.hamcrest.Matchers.nullValue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -28,54 +30,14 @@ class DocumentE2ETest {
 
     @Test
     fun `create a document`() {
-        // CREATE ROOT FOLDER TEMPLATE
-        val createFolderTemplateUrl = "v1/folder-templates"
-        val createFolderTemplateRequestBody = """ { "name": "newFolderTemplate" } """
-
-        val folderTemplateLocation =
-            given()
-                .contentType(ContentType.JSON)
-                .body(createFolderTemplateRequestBody)
-                .post(createFolderTemplateUrl)
-                .then().assertThat()
-                .statusCode(201)
-                .header("Location", notNullValue())
-                .extract()
-                .header("Location")
+        val folderTemplateLocation = createAFolderTemplate("newFolderTemplate")
         val folderTemplateId = folderTemplateLocation.split("/").last()
 
-        // CREATE FOLDER FROM TEMPLATE
-        val createFolderFromTemplateUrl = "v1/folders"
-        val createFolderFromTemplateRequestBody = """ { "templateIdentifier": "$folderTemplateId" } """
-
-        val folderLocation =
-            given()
-                .contentType(ContentType.JSON)
-                .body(createFolderFromTemplateRequestBody)
-                .post(createFolderFromTemplateUrl)
-                .then().assertThat()
-                .statusCode(201)
-                .header("Location", notNullValue())
-                .extract()
-                .header("Location")
+        val folderLocation = createFolderFromTemplate(folderTemplateId)
         val folderId = folderLocation.split("/").last()
 
-        // CREATE DOCUMENT
-        val createDocumentUrl = "v1/documents"
-        val createDocumentRequestBody = """ { "name": "newDocument", "folderIdentifier": "$folderId", "rootFolderIdentifier": "$folderId" } """
+        val documentLocation = createDocument("newDocument", folderId)
 
-        val documentLocation =
-            given()
-                .contentType(ContentType.JSON)
-                .body(createDocumentRequestBody)
-                .post(createDocumentUrl)
-                .then().assertThat()
-                .statusCode(201)
-                .header("Location", notNullValue())
-                .extract()
-                .header("Location")
-
-        // GET DOCUMENT AND ASSERT IT HAS BEEN PROPERLY CREATED
         given()
             .get(documentLocation)
             .then().assertThat()
@@ -85,7 +47,73 @@ class DocumentE2ETest {
             .body("name", equalTo("newDocument"))
             .body("associatedType", nullValue())
             .body("parentFolderIdentifier", equalTo(folderId))
-            .body("rootFolderIdentifier", equalTo(folderId))
+    }
+
+    @Test
+    fun `change a document's type`() {
+        val folderTemplateLocation = createAFolderTemplate("newFolderTemplate")
+        val folderTemplateId = folderTemplateLocation.split("/").last()
+
+        val folderLocation = createFolderFromTemplate(folderTemplateId)
+        val folderId = folderLocation.split("/").last()
+
+        val documentTypeLocation = createDocumentType("newDocumentType")
+        val documentTypeId = documentTypeLocation.split("/").last()
+
+        val documentLocation = createDocument("newDocument", folderId)
+        val documentId = documentLocation.split("/").last()
+
+        changeDocumentType(documentId, documentTypeId)
+
+        given()
+            .get(documentLocation)
+            .then().assertThat()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("identifier", equalTo(documentId))
+            .body("name", equalTo("newDocument"))
+            .body("type.identifier", equalTo(documentTypeId))
+            .body("type.name", equalTo("newDocumentType"))
+            .body("predictedType", nullValue())
+            .body("parentFolderIdentifier", equalTo(folderId))
+    }
+
+    @Test
+    fun `change a document's predicted type`() {
+        val folderTemplateLocation = createAFolderTemplate("newFolderTemplate")
+        val folderTemplateId = folderTemplateLocation.split("/").last()
+
+        val folderLocation = createFolderFromTemplate(folderTemplateId)
+        val folderId = folderLocation.split("/").last()
+
+        val documentTypeLocation = createDocumentType("newDocumentType")
+        val documentTypeId = documentTypeLocation.split("/").last()
+
+        val documentLocation = createDocument("newDocument", folderId)
+        val documentId = documentLocation.split("/").last()
+
+        changePredictedDocumentType(documentId, documentTypeId)
+
+        given()
+            .get(documentLocation)
+            .then().assertThat()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("identifier", equalTo(documentId))
+            .body("name", equalTo("newDocument"))
+            .body("type", nullValue())
+            .body("predictedType.identifier", equalTo(documentTypeId))
+            .body("predictedType.name", equalTo("newDocumentType"))
+            .body("parentFolderIdentifier", equalTo(folderId))
+    }
+
+    @Test
+    fun `get a document that does not exist returns a 404`() {
+        given()
+            .get("v1/documents/123")
+            .then()
+            .assertThat()
+            .statusCode(404)
     }
 
     companion object {

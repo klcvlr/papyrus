@@ -1,6 +1,7 @@
 package com.alexandria.papyrus.infrastructure.api
 
 import com.alexandria.papyrus.domain.DocumentNotFoundException
+import com.alexandria.papyrus.domain.DocumentTypeNotFoundException
 import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.FolderTemplateNotFoundException
 import org.springframework.http.HttpStatus
@@ -14,6 +15,7 @@ class RestExceptionHandler {
         FolderNotFoundException::class,
         FolderTemplateNotFoundException::class,
         DocumentNotFoundException::class,
+        DocumentTypeNotFoundException::class,
     )
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun handleAccessDeniedException(exception: Exception) = exception.message

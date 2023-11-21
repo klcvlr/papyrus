@@ -2,7 +2,6 @@ package com.alexandria.papyrus.end2end
 
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
-import io.restassured.http.ContentType
 import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -28,19 +27,7 @@ class DocumentTypeE2ETest {
 
     @Test
     fun `create a document type`() {
-        val documentTypeUrl = "v1/document-types"
-        val createDocumentTypeRequestBody = """ { "name": "newDocumentType" } """
-
-        val documentTypeLocation =
-            given()
-                .contentType(ContentType.JSON)
-                .body(createDocumentTypeRequestBody)
-                .post(documentTypeUrl)
-                .then().assertThat()
-                .statusCode(201)
-                .header("Location", notNullValue())
-                .extract()
-                .header("Location")
+        val documentTypeLocation = createDocumentType("newDocumentType")
 
         given()
             .get(documentTypeLocation)
@@ -48,6 +35,15 @@ class DocumentTypeE2ETest {
             .statusCode(200)
             .body("identifier", notNullValue())
             .body("name", equalTo("newDocumentType"))
+    }
+
+    @Test
+    fun `get a document type that does not exist returns a 404`() {
+        given()
+            .get("v1/document-types/123")
+            .then()
+            .assertThat()
+            .statusCode(404)
     }
 
     companion object {

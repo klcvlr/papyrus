@@ -31,7 +31,7 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createDocument(
+    fun create(
         @RequestBody createDocumentRequest: CreateDocumentRequest,
     ): ResponseEntity<Unit> {
         val documentIdentifier =
@@ -40,5 +40,23 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
                 createDocumentRequest.folderIdentifier,
             )
         return entityWithLocation(documentIdentifier)
+    }
+
+    @PostMapping("/{documentIdentifier}/change-type")
+    @ResponseStatus(HttpStatus.OK)
+    fun changeType(
+        @PathVariable documentIdentifier: String,
+        @RequestBody changeTypeRequest: ChangeTypeRequest,
+    ) {
+        documentUseCases.changeType(documentIdentifier, changeTypeRequest.typeIdentifier)
+    }
+
+    @PostMapping("/{documentIdentifier}/change-predicted-type")
+    @ResponseStatus(HttpStatus.OK)
+    fun changePredictedType(
+        @PathVariable documentIdentifier: String,
+        @RequestBody changePredictedTypeRequest: ChangePredictedTypeRequest,
+    ) {
+        documentUseCases.changePredictedType(documentIdentifier, changePredictedTypeRequest.typeIdentifier)
     }
 }

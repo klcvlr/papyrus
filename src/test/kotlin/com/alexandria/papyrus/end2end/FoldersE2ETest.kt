@@ -28,53 +28,14 @@ class FoldersE2ETest {
 
     @Test
     fun `create folder from a folder template`() {
-        val createFolderTemplateUrl = "http://localhost:$port/api/v1/folder-templates"
-        val createFolderUrl = "http://localhost:$port/api/v1/folders"
-
-        // CREATE ROOT FOLDER TEMPLATE
-        val createRootFolderTemplateRequestBody = """ { "name": "rootFolder" } """
-        val rootFolderTemplateLocation =
-            given()
-                .contentType(ContentType.JSON)
-                .body(createRootFolderTemplateRequestBody)
-                .post(createFolderTemplateUrl)
-                .then()
-                .assertThat()
-                .statusCode(201)
-                .header("Location", notNullValue())
-                .extract()
-                .header("Location")
+        val rootFolderTemplateLocation = createAFolderTemplate("rootFolder")
         val rootFolderTemplateId = rootFolderTemplateLocation.split("/").last()
 
-        // CREATE SUB FOLDER TEMPLATE
-        val addSubFolderTemplateRequestBody = """ { "name": "subFolder" } """
-        val addSubFolderTemplateUrl =
-            "http://localhost:$port/api/v1/folder-templates/$rootFolderTemplateId/create-sub-folder"
-        given()
-            .contentType(ContentType.JSON)
-            .body(addSubFolderTemplateRequestBody)
-            .post(addSubFolderTemplateUrl)
-            .then()
-            .assertThat()
-            .statusCode(201)
-            .header("Location", notNullValue())
+        createSubFolderTemplate(rootFolderTemplateId, "subFolder")
 
-        // CREATE FOLDER FROM TEMPLATE
-        val createFolderRequestBody = """ { "templateIdentifier": "$rootFolderTemplateId" } """
-        val folderLocation =
-            given()
-                .contentType(ContentType.JSON)
-                .body(createFolderRequestBody)
-                .post(createFolderUrl)
-                .then()
-                .assertThat()
-                .statusCode(201)
-                .header("Location", notNullValue())
-                .extract()
-                .header("Location")
+        val folderLocation = createFolderFromTemplate(rootFolderTemplateId)
         val folderId = folderLocation.split("/").last()
 
-        // GET CREATED FOLDER AND ASSERT IT WAS CREATED LIKE THE TEMPLATE
         given()
             .get(folderLocation)
             .then()
@@ -91,6 +52,26 @@ class FoldersE2ETest {
             .body("subFolders[0].associatedDocumentType", nullValue())
             .body("subFolders[0].documents.size()", equalTo(0))
             .body("subFolders[0].subFolders.size()", equalTo(0))
+    }
+
+    @Test
+    fun `create a folder from a template that does not exist returns a 404`() {
+        given()
+            .contentType(ContentType.JSON)
+            .body(""" { "templateIdentifier": "123" } """)
+            .post("v1/folders")
+            .then()
+            .assertThat()
+            .statusCode(404)
+    }
+
+    @Test
+    fun `get request on a folder that does not exist returns a 404`()  {
+        given()
+            .get("v1/folder/123")
+            .then()
+            .assertThat()
+            .statusCode(404)
     }
 
     companion object {

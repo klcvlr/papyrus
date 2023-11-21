@@ -9,7 +9,10 @@ class FolderAndDocumentService(
     private val folderRepository: FolderRepository,
     private val documentRepository: DocumentRepository,
 ) {
-    fun addDocumentToFolder(documentIdentifier: String, folderIdentifier: String) {
+    fun addDocumentToFolder(
+        documentIdentifier: String,
+        folderIdentifier: String,
+    ) {
         val document = documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
         val folder = folderRepository.findByIdentifier(folderIdentifier) ?: throw FolderNotFoundException(folderIdentifier)
         document.changeParentFolder(folder)
