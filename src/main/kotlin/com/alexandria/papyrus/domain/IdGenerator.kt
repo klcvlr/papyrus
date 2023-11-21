@@ -1,5 +1,7 @@
 package com.alexandria.papyrus.domain
 
-interface IdGenerator {
-    fun generate(): String
+import java.util.*
+
+class IdGenerator {
+    fun generate(): String = UUID.randomUUID().toString()
 }

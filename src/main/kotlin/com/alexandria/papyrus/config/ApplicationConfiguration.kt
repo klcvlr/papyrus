@@ -16,6 +16,9 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class ApplicationConfiguration {
     @Bean
+    fun idGenerator() = IdGenerator()
+
+    @Bean
     fun documentUseCases(
         idGenerator: IdGenerator,
         documentRepository: DocumentRepository,
