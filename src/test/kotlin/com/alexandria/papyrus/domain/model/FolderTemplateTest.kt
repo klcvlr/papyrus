@@ -2,7 +2,7 @@ package com.alexandria.papyrus.domain.model
 
 import com.alexandria.papyrus.fakes.aDocumentType
 import com.alexandria.papyrus.fakes.aFolderTemplate
-import org.junit.jupiter.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class FolderTemplateTest {
@@ -12,7 +12,7 @@ class FolderTemplateTest {
 
         folderTemplate.rename("newName")
 
-        Assertions.assertEquals("newName", folderTemplate.name)
+        assertThat(folderTemplate.name).isEqualTo("newName")
     }
 
     @Test
@@ -23,7 +23,7 @@ class FolderTemplateTest {
         val newDocumentType = aDocumentType(identifier = "newDocumentTypeIdentifier")
         folderTemplate.changeAssociatedDocumentType(newDocumentType)
 
-        Assertions.assertEquals(newDocumentType, folderTemplate.documentType)
+        assertThat(folderTemplate.documentType).isEqualTo(newDocumentType)
     }
 
     @Test
@@ -33,8 +33,8 @@ class FolderTemplateTest {
 
         folderTemplate.addSubFolder(subFolderTemplate)
 
-        org.assertj.core.api.Assertions.assertThat(folderTemplate.subFolders).contains(subFolderTemplate)
-        org.assertj.core.api.Assertions.assertThat(subFolderTemplate.parentFolder).isEqualTo(folderTemplate)
+        assertThat(folderTemplate.subFolders).contains(subFolderTemplate)
+        assertThat(subFolderTemplate.parentFolder).isEqualTo(folderTemplate)
     }
 
     @Test
@@ -44,6 +44,6 @@ class FolderTemplateTest {
 
         folderTemplate.changeAssociatedDocumentType(documentType)
 
-        org.assertj.core.api.Assertions.assertThat(folderTemplate.documentType).isEqualTo(documentType)
+        assertThat(folderTemplate.documentType).isEqualTo(documentType)
     }
 }
