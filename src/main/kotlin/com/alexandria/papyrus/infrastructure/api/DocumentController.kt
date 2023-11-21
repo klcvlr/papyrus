@@ -38,7 +38,6 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
             documentUseCases.createDocument(
                 createDocumentRequest.name,
                 createDocumentRequest.folderIdentifier,
-                createDocumentRequest.rootFolderIdentifier,
             )
         return entityWithLocation(documentIdentifier)
     }

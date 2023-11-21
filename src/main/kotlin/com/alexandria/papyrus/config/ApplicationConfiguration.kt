@@ -23,10 +23,12 @@ class ApplicationConfiguration {
         idGenerator: IdGenerator,
         documentRepository: DocumentRepository,
         folderRepository: FolderRepository,
+        documentTypeRepository: DocumentTypeRepository,
     ) = DocumentUseCases(
         idGenerator = idGenerator,
         documentRepository = documentRepository,
         folderRepository = folderRepository,
+        documentTypeRepository = documentTypeRepository,
     )
 
     @Bean

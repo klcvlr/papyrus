@@ -37,14 +37,13 @@ class Document internal constructor() {
         identifier: String,
         name: String,
         parentFolder: Folder,
-        rootFolder: Folder,
         type: DocumentType? = null,
         predictedType: DocumentType? = null,
     ) : this() {
         this._identifier = identifier
         this._name = name
         this._parentFolder = parentFolder
-        this._rootFolder = rootFolder
+        this._rootFolder = parentFolder.rootFolder
         this._type = type
         this._predictedType = predictedType
     }
@@ -62,6 +61,7 @@ class Document internal constructor() {
     }
 
     fun addToFolder(folder: Folder) {
+        _rootFolder = folder.rootFolder
         _parentFolder = folder
     }
 
@@ -84,5 +84,10 @@ class Document internal constructor() {
 
     override fun hashCode(): Int {
         return _identifier.hashCode()
+    }
+
+    fun changeParentFolder(folder: Folder) {
+        _parentFolder = folder
+        _rootFolder = folder.rootFolder
     }
 }

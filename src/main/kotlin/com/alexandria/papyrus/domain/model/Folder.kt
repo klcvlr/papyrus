@@ -26,6 +26,10 @@ class Folder internal constructor() {
     private var _parentFolder: Folder? = null
 
     @ManyToOne
+    @JoinColumn(name = "root_folder_identifier", referencedColumnName = "identifier")
+    private var _rootFolder: Folder? = null
+
+    @ManyToOne
     @JoinColumn(name = "associated_document_type_identifier", referencedColumnName = "identifier")
     private var _associatedDocumentType: DocumentType? = null
 
@@ -47,6 +51,7 @@ class Folder internal constructor() {
         this._name = name
         this._parentFolder = parentFolder
         this._associatedDocumentType = associatedDocumentType
+        this._rootFolder = parentFolder?._rootFolder ?: this
     }
 
     fun rename(newName: String) {
@@ -63,6 +68,7 @@ class Folder internal constructor() {
 
     fun addSubFolder(folder: Folder) {
         folder._parentFolder = this
+        folder._rootFolder = this._rootFolder
         _subFolders.add(folder)
     }
 
@@ -70,6 +76,7 @@ class Folder internal constructor() {
     val identifier: String get() = _identifier
     val template: FolderTemplate get() = _template!!
     val parentFolder: Folder? get() = _parentFolder
+    val rootFolder: Folder? get() = _rootFolder
     val name: String get() = _name
     val associatedDocumentType: DocumentType? get() = _associatedDocumentType
     val subFolders: List<Folder> get() = _subFolders

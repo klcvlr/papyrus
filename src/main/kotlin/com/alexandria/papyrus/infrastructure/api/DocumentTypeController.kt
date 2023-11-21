@@ -1,7 +1,6 @@
 package com.alexandria.papyrus.infrastructure.api
 
 import com.alexandria.papyrus.application.DocumentTypeUseCases
-import com.alexandria.papyrus.domain.model.DocumentType
 import com.alexandria.papyrus.infrastructure.api.DocumentTypeView.Companion.toDocumentTypeView
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
