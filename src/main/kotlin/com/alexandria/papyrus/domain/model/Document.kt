@@ -65,12 +65,18 @@ class Document internal constructor() {
         _parentFolder = folder
     }
 
+    fun changeParentFolder(folder: Folder) {
+        _parentFolder = folder
+        _rootFolder = folder.rootFolder
+    }
+
     // ------------------ GETTERS ------------------
     val identifier: String get() = _identifier
     val parentFolder: Folder get() = _parentFolder!!
     val rootFolder: Folder get() = _rootFolder!!
     val name: String get() = _name
     val type: DocumentType? get() = _type
+
     val predictedType: DocumentType? get() = _predictedType
 
     override fun equals(other: Any?): Boolean {
@@ -84,10 +90,5 @@ class Document internal constructor() {
 
     override fun hashCode(): Int {
         return _identifier.hashCode()
-    }
-
-    fun changeParentFolder(folder: Folder) {
-        _parentFolder = folder
-        _rootFolder = folder.rootFolder
     }
 }
