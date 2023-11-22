@@ -1,9 +1,10 @@
 package com.alexandria.papyrus.domain.services
 
+import com.alexandria.papyrus.domain.FolderTemplateNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
-import com.alexandria.papyrus.domain.model.DocumentType
 import com.alexandria.papyrus.domain.model.Folder
 import com.alexandria.papyrus.domain.model.FolderTemplate
+import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 
@@ -11,6 +12,7 @@ class FolderTemplateAndFolderService(
     private val idGenerator: IdGenerator,
     private val folderRepository: FolderRepository,
     private val folderTemplateRepository: FolderTemplateRepository,
+    private val documentTypeRepository: DocumentTypeRepository,
 ) {
     fun rename(
         folderTemplate: FolderTemplate,
@@ -50,9 +52,18 @@ class FolderTemplateAndFolderService(
     }
 
     fun changeAssociatedDocumentType(
-        folderTemplate: FolderTemplate,
-        newDocumentType: DocumentType,
+        folderTemplateIdentifier: String,
+        newDocumentTypeIdentifier: String,
     ) {
+        val folderTemplate =
+            folderTemplateRepository.findByIdentifier(folderTemplateIdentifier)
+                ?: throw FolderTemplateNotFoundException(
+                    folderTemplateIdentifier,
+                )
+        val newDocumentType =
+            documentTypeRepository.findByIdentifier(newDocumentTypeIdentifier) ?: throw FolderTemplateNotFoundException(
+                newDocumentTypeIdentifier,
+            )
         folderTemplate.changeAssociatedDocumentType(newDocumentType)
         val allFoldersCreatedFromThatFolderTemplate = findAllFoldersCreatedFrom(folderTemplate)
         allFoldersCreatedFromThatFolderTemplate.forEach { it.changeAssociatedDocumentType(newDocumentType) }

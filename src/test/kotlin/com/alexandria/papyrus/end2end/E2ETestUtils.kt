@@ -55,6 +55,22 @@ fun createFolderFromTemplate(folderTemplateId: String): String {
         .header("Location")
 }
 
+fun renameFolderTemplate(
+    folderTemplateId: String,
+    newName: String,
+) {
+    val requestUrl = "v1/folder-templates/$folderTemplateId/rename"
+    val requestBody = """ { "name": "$newName" } """
+
+    given()
+        .contentType(ContentType.JSON)
+        .body(requestBody)
+        .post(requestUrl)
+        .then()
+        .assertThat()
+        .statusCode(204)
+}
+
 fun createDocument(
     name: String,
     folderId: String,
@@ -103,7 +119,7 @@ fun changeDocumentType(
         .post(requestUrl)
         .then()
         .assertThat()
-        .statusCode(200)
+        .statusCode(204)
 }
 
 fun changePredictedDocumentType(
@@ -119,5 +135,21 @@ fun changePredictedDocumentType(
         .post(requestUrl)
         .then()
         .assertThat()
-        .statusCode(200)
+        .statusCode(204)
+}
+
+fun changeFolderTemplateAssociatedDocumentType(
+    folderTemplateIdentifier: String,
+    documentTypeId: String,
+) {
+    val requestUrl = "v1/folder-templates/$folderTemplateIdentifier/change-associated-type"
+    val requestBody = """ { "typeIdentifier": "$documentTypeId" } """
+
+    given()
+        .contentType(ContentType.JSON)
+        .body(requestBody)
+        .post(requestUrl)
+        .then()
+        .assertThat()
+        .statusCode(204)
 }

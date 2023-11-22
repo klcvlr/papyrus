@@ -44,12 +44,77 @@ class FolderTemplatesE2ETest {
     }
 
     @Test
-    fun `get request on a folder template that does not exist`() {
+    fun `a 404 status is return on a GET request for a folder template that does not exist`() {
+        val nonExistingFolderTemplate = "123"
         given()
-            .get("v1/folder-templates/123")
+            .get("v1/folder-templates/$nonExistingFolderTemplate")
             .then()
             .assertThat()
             .statusCode(404)
+    }
+
+    @Test
+    fun `a folder template can be renamed`() {
+        val folderTemplateLocationUrl = createAFolderTemplate("folderTemplate")
+        val folderTemplateId = folderTemplateLocationUrl.split("/").last()
+
+        renameFolderTemplate(folderTemplateId, "newFolderTemplateName")
+
+        given()
+            .get(folderTemplateLocationUrl)
+            .then()
+            .assertThat()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("identifier", equalTo(folderTemplateId))
+            .body("name", equalTo("newFolderTemplateName"))
+            .body("associatedType", nullValue())
+            .body("parentFolderIdentifier", nullValue())
+            .body("subFolderTemplate", nullValue())
+    }
+
+    @Test
+    fun `a folder template's associated type can be changed`() {
+        val folderTemplateLocationUrl = createAFolderTemplate("folderTemplate")
+        val folderTemplateId = folderTemplateLocationUrl.split("/").last()
+
+        renameFolderTemplate(folderTemplateId, "newFolderTemplateName")
+
+        given()
+            .get(folderTemplateLocationUrl)
+            .then()
+            .assertThat()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("identifier", equalTo(folderTemplateId))
+            .body("name", equalTo("newFolderTemplateName"))
+            .body("associatedType", nullValue())
+            .body("parentFolderIdentifier", nullValue())
+            .body("subFolderTemplate", nullValue())
+    }
+
+    @Test
+    fun `a folder template's associated document type can be changed`() {
+        val folderTemplateLocationUrl = createAFolderTemplate("folderTemplateName")
+        val folderTemplateId = folderTemplateLocationUrl.split("/").last()
+
+        val createDocumentTypeLocation = createDocumentType("documentTypeName")
+        val documentTypeId = createDocumentTypeLocation.split("/").last()
+
+        changeFolderTemplateAssociatedDocumentType(folderTemplateId, documentTypeId)
+
+        given()
+            .get(folderTemplateLocationUrl)
+            .then()
+            .assertThat()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("identifier", equalTo(folderTemplateId))
+            .body("name", equalTo("folderTemplateName"))
+            .body("associatedDocumentType.identifier", equalTo(documentTypeId))
+            .body("associatedDocumentType.name", equalTo("documentTypeName"))
+            .body("parentFolderIdentifier", nullValue())
+            .body("subFolderTemplate", nullValue())
     }
 
     companion object {

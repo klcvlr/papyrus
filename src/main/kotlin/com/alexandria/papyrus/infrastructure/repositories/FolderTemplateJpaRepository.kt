@@ -22,10 +22,6 @@ class FolderTemplateJpaRepository(
     override fun save(folderTemplate: FolderTemplate) {
         folderTemplateDAO.save(folderTemplate)
     }
-
-    override fun saveAll(folderTemplates: List<FolderTemplate>) {
-        folderTemplateDAO.saveAll(folderTemplates)
-    }
 }
 
 interface FolderTemplateDAO : CrudRepository<FolderTemplate, String> {

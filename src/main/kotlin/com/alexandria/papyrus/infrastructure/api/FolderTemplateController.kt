@@ -53,4 +53,28 @@ class FolderTemplateController(private val folderTemplateUseCases: FolderTemplat
             )
         return entityWithLocation(subFolderTemplateIdentifier)
     }
+
+    @PostMapping("/{folderTemplateIdentifier}/rename")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun rename(
+        @PathVariable folderTemplateIdentifier: String,
+        @RequestBody renameFolderTemplateRequest: RenameFolderTemplateRequest,
+    ) {
+        folderTemplateUseCases.rename(
+            folderTemplateIdentifier,
+            renameFolderTemplateRequest.name,
+        )
+    }
+
+    @PostMapping("/{folderTemplateIdentifier}/change-associated-type")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun changeAssociatedType(
+        @PathVariable folderTemplateIdentifier: String,
+        @RequestBody changeAssociatedDocumentTypeRequest: ChangeAssociatedDocumentTypeRequest,
+    ) {
+        folderTemplateUseCases.changeAssociatedDocumentType(
+            folderTemplateIdentifier,
+            changeAssociatedDocumentTypeRequest.typeIdentifier,
+        )
+    }
 }

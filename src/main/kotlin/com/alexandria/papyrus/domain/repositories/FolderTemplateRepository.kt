@@ -8,6 +8,4 @@ interface FolderTemplateRepository {
     fun findAllRoots(): List<FolderTemplate>
 
     fun save(folderTemplate: FolderTemplate)
-
-    fun saveAll(folderTemplates: List<FolderTemplate>)
 }

@@ -1,6 +1,7 @@
 package com.alexandria.papyrus.domain.services
 
 import com.alexandria.papyrus.domain.IdGenerator
+import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 import com.alexandria.papyrus.fakes.aDocumentType
@@ -11,8 +12,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.just
-import io.mockk.runs
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -26,6 +25,9 @@ class FolderTemplateAndFolderServiceTest {
     private lateinit var folderRepository: FolderRepository
 
     @MockK
+    private lateinit var documentTypeRepository: DocumentTypeRepository
+
+    @MockK
     private lateinit var idGenerator: IdGenerator
 
     @InjectMockKs
@@ -37,8 +39,8 @@ class FolderTemplateAndFolderServiceTest {
         val folder1 = aFolder(template = folderTemplate, name = "oldName")
         val folder2 = aFolder(name = "oldName")
         every { folderRepository.findAll() } returns listOf(folder1, folder2)
-        every { folderTemplateRepository.save(any()) } just runs
-        every { folderRepository.saveAll(any()) } just runs
+        every { folderTemplateRepository.save(any()) } returns Unit
+        every { folderRepository.saveAll(any()) } returns Unit
 
         folderTemplateAndFolderService.rename(folderTemplate, "newName")
 
@@ -52,8 +54,8 @@ class FolderTemplateAndFolderServiceTest {
         val folder1 = aFolder(template = folderTemplate)
         val folder2 = aFolder()
         every { folderRepository.findAll() } returns listOf(folder1, folder2)
-        every { folderTemplateRepository.save(any()) } just runs
-        every { folderRepository.saveAll(any()) } just runs
+        every { folderTemplateRepository.save(any()) } returns Unit
+        every { folderRepository.saveAll(any()) } returns Unit
         every { idGenerator.generate() } returns Faker().random.nextUUID()
 
         folderTemplateAndFolderService.addSubFolderTemplate(folderTemplate, "subFolderTemplateName")
@@ -70,10 +72,12 @@ class FolderTemplateAndFolderServiceTest {
         val folder2 = aFolder()
         val documentType = aDocumentType(identifier = "documentTypeIdentifier")
         every { folderRepository.findAll() } returns listOf(folder1, folder2)
-        every { folderTemplateRepository.save(any()) } just runs
-        every { folderRepository.saveAll(any()) } just runs
+        every { folderTemplateRepository.findByIdentifier("folderTemplateIdentifier") } returns folderTemplate
+        every { documentTypeRepository.findByIdentifier("documentTypeIdentifier") } returns documentType
+        every { folderTemplateRepository.save(any()) } returns Unit
+        every { folderRepository.saveAll(any()) } returns Unit
 
-        folderTemplateAndFolderService.changeAssociatedDocumentType(folderTemplate, documentType)
+        folderTemplateAndFolderService.changeAssociatedDocumentType(folderTemplate.identifier, documentType.identifier)
 
         Assertions.assertThat(folder1.associatedDocumentType).isEqualTo(documentType)
         Assertions.assertThat(folder2.associatedDocumentType).isNull()

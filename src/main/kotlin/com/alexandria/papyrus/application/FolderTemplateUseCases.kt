@@ -2,7 +2,6 @@ package com.alexandria.papyrus.application
 
 import com.alexandria.papyrus.domain.FolderTemplateNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
-import com.alexandria.papyrus.domain.model.DocumentType
 import com.alexandria.papyrus.domain.model.FolderTemplate
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 import com.alexandria.papyrus.domain.services.FolderTemplateAndFolderService
@@ -63,13 +62,9 @@ class FolderTemplateUseCases(
     }
 
     fun changeAssociatedDocumentType(
-        identifier: String,
-        newDocumentType: DocumentType,
+        folderTemplateIdentifier: String,
+        newDocumentTypeIdentifier: String,
     ) {
-        val folderTemplate =
-            folderTemplateRepository.findByIdentifier(identifier) ?: throw FolderTemplateNotFoundException(
-                identifier,
-            )
-        folderTemplateAndFolderService.changeAssociatedDocumentType(folderTemplate, newDocumentType)
+        folderTemplateAndFolderService.changeAssociatedDocumentType(folderTemplateIdentifier, newDocumentTypeIdentifier)
     }
 }

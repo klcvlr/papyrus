@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class IdGeneratorTest {
-
     @Test
     fun `generates unique ids`() {
         val idGenerator = IdGenerator()

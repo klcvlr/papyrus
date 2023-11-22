@@ -37,7 +37,7 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     }
 
     @PostMapping("/{documentIdentifier}/change-type")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeType(
         @PathVariable documentIdentifier: String,
         @RequestBody changeTypeRequest: ChangeTypeRequest,
@@ -46,7 +46,7 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     }
 
     @PostMapping("/{documentIdentifier}/change-predicted-type")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changePredictedType(
         @PathVariable documentIdentifier: String,
         @RequestBody changePredictedTypeRequest: ChangePredictedTypeRequest,

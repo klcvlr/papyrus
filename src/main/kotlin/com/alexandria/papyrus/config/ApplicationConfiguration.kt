@@ -67,9 +67,11 @@ class ApplicationConfiguration {
         idGenerator: IdGenerator,
         folderTemplateRepository: FolderTemplateRepository,
         folderRepository: FolderRepository,
+        documentTypeRepository: DocumentTypeRepository,
     ) = FolderTemplateAndFolderService(
         idGenerator = idGenerator,
         folderRepository = folderRepository,
         folderTemplateRepository = folderTemplateRepository,
+        documentTypeRepository = documentTypeRepository,
     )
 }
