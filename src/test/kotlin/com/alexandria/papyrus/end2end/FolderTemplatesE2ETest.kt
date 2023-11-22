@@ -44,7 +44,7 @@ class FolderTemplatesE2ETest {
     }
 
     @Test
-    fun `get request on a folder template that does not exist`()  {
+    fun `get request on a folder template that does not exist`() {
         given()
             .get("v1/folder-templates/123")
             .then()

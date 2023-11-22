@@ -66,7 +66,7 @@ class FoldersE2ETest {
     }
 
     @Test
-    fun `get request on a folder that does not exist returns a 404`()  {
+    fun `get request on a folder that does not exist returns a 404`() {
         given()
             .get("v1/folder/123")
             .then()

@@ -15,12 +15,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v1/documents")
 class DocumentController(private val documentUseCases: DocumentUseCases) {
-    @GetMapping
-    fun allDocuments(): List<DocumentView> {
-        return documentUseCases.findAllDocuments()
-            .map { toDocumentView(it) }
-    }
-
     @GetMapping("/{documentIdentifier}")
     fun documentByIdentifier(
         @PathVariable documentIdentifier: String,

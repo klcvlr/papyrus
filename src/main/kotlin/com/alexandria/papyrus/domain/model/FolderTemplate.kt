@@ -41,13 +41,17 @@ class FolderTemplate internal constructor() {
         this._associatedDocumentType = associatedDocumentType
     }
 
-    fun addSubFolder(subFolder: FolderTemplate) {
-        subFolder._parentFolder = this
-        this._subFolders.add(subFolder)
+    fun rename(newName: String) {
+        _name = newName
     }
 
     fun changeAssociatedDocumentType(documentType: DocumentType) {
         _associatedDocumentType = documentType
+    }
+
+    fun addSubFolder(subFolder: FolderTemplate) {
+        subFolder._parentFolder = this
+        this._subFolders.add(subFolder)
     }
 
     // ------------------ GETTERS ------------------
@@ -55,11 +59,8 @@ class FolderTemplate internal constructor() {
     val parentFolder: FolderTemplate? get() = _parentFolder
     val name: String get() = _name
     val documentType: DocumentType? get() = _associatedDocumentType
-    val subFolders: List<FolderTemplate> get() = _subFolders
 
-    fun rename(newName: String) {
-        _name = newName
-    }
+    val subFolders: List<FolderTemplate> get() = _subFolders
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

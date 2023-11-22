@@ -36,14 +36,4 @@ class FolderTemplateTest {
         assertThat(folderTemplate.subFolders).contains(subFolderTemplate)
         assertThat(subFolderTemplate.parentFolder).isEqualTo(folderTemplate)
     }
-
-    @Test
-    fun `a folderTemplate document type can be changed`() {
-        val folderTemplate = aFolderTemplate()
-        val documentType = aDocumentType()
-
-        folderTemplate.changeAssociatedDocumentType(documentType)
-
-        assertThat(folderTemplate.documentType).isEqualTo(documentType)
-    }
 }

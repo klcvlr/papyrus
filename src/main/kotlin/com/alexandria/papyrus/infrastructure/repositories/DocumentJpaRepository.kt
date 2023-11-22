@@ -14,10 +14,6 @@ class DocumentJpaRepository(
         return documentDAO.findById(documentIdentifier).getOrNull()
     }
 
-    override fun findAll(): List<Document> {
-        return documentDAO.findAll().toList()
-    }
-
     override fun save(document: Document) {
         documentDAO.save(document)
     }

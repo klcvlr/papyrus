@@ -18,11 +18,6 @@ class DocumentUseCases(
     private val folderRepository: FolderRepository,
 ) {
     @Transactional(readOnly = true)
-    fun findAllDocuments(): List<Document> {
-        return documentRepository.findAll()
-    }
-
-    @Transactional(readOnly = true)
     fun findByIdentifier(identifier: String): Document {
         return documentRepository.findByIdentifier(identifier) ?: throw DocumentNotFoundException(identifier)
     }

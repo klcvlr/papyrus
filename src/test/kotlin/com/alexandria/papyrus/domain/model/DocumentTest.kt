@@ -42,18 +42,6 @@ class DocumentTest {
     }
 
     @Test
-    fun `a document can be added to a folder`() {
-        val rootFolder = aFolder(identifier = "rootFolderIdentifier")
-        val folder = aFolder(identifier = "folderIdentifier", parentFolder = rootFolder)
-        val document = aDocument("documentIdentifier")
-
-        document.addToFolder(folder)
-
-        assertThat(document.parentFolder).isEqualTo(folder)
-        assertThat(document.rootFolder).isEqualTo(rootFolder)
-    }
-
-    @Test
     fun `a document's type can be changed`() {
         val oldDocumentType = aDocumentType(identifier = "oldDocumentTypeIdentifier")
         val newDocumentType = aDocumentType(identifier = "newDocumentTypeIdentifier")
@@ -73,5 +61,17 @@ class DocumentTest {
         document.changePredictedType(newDocumentType)
 
         assertThat(document.predictedType).isEqualTo(newDocumentType)
+    }
+
+    @Test
+    fun `a document can be added to a folder`() {
+        val rootFolder = aFolder(identifier = "rootFolderIdentifier")
+        val folder = aFolder(identifier = "folderIdentifier", parentFolder = rootFolder)
+        val document = aDocument("documentIdentifier")
+
+        document.addToFolder(folder)
+
+        assertThat(document.parentFolder).isEqualTo(folder)
+        assertThat(document.rootFolder).isEqualTo(rootFolder)
     }
 }
