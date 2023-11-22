@@ -1,6 +1,5 @@
 package com.alexandria.papyrus.domain.model
 
-import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -17,19 +16,19 @@ class Document internal constructor() {
     @Column(name = "name")
     private var _name: String = ""
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_folder_identifier", referencedColumnName = "identifier")
     private var _parentFolder: Folder? = null
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_folder_identifier", referencedColumnName = "identifier")
     private var _rootFolder: Folder? = null
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_identifier", referencedColumnName = "identifier")
     private var _type: DocumentType? = null
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "predicted_type_identifier", referencedColumnName = "identifier")
     private var _predictedType: DocumentType? = null
 
