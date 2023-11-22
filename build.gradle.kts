@@ -24,15 +24,21 @@ val versions =
     mapOf(
         "mockk" to "1.13.8",
         "faker" to "1.15.0",
+        "rest-assured" to "5.3.2",
+        "archunit-junit5" to "1.2.0",
     )
 
 dependencies {
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.liquibase:liquibase-core")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
     runtimeOnly("org.postgresql:postgresql")
 
@@ -40,10 +46,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
-    testImplementation("io.rest-assured:rest-assured:5.3.2")
+    testImplementation("io.rest-assured:rest-assured:${versions["rest-assured"]}")
     testImplementation("io.mockk:mockk:${versions["mockk"]}")
     testImplementation("io.github.serpro69:kotlin-faker:${versions["faker"]}")
-    testImplementation("com.tngtech.archunit:archunit-junit5:1.2.0")
+    testImplementation("com.tngtech.archunit:archunit-junit5:${versions["archunit-junit5"]}")
 }
 
 tasks.withType<KotlinCompile> {

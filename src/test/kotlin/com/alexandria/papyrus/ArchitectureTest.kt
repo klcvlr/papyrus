@@ -28,7 +28,9 @@ class ArchitectureTest {
 
     @ArchTest
     fun `use case classes should be annotated with @Transactional`(appClasses: JavaClasses) {
-        classes().that().resideInAPackage("com.alexandria.papyrus.application..").should()
+        classes().that().resideInAPackage("com.alexandria.papyrus.application..")
+            .and().doNotHaveSimpleName("Companion")
+            .should()
             .beAnnotatedWith(Transactional::class.java)
             .because("every use case occurs in a transaction. we only use spring's @Transactional annotations - not jakarta's")
             .check(appClasses)
