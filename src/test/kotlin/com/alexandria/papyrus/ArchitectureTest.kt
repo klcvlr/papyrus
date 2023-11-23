@@ -15,8 +15,8 @@ class ArchitectureTest {
         onionArchitecture().domainModels("com.alexandria.papyrus.domain.model..")
             .domainServices("com.alexandria.papyrus.domain.services..", "com.alexandria.papyrus.domain.repositories..")
             .applicationServices("com.alexandria.papyrus.application..")
-            .adapter("persistence", "com.alexandria.papyrus.infrastructure.repositories..")
-            .adapter("api", "com.alexandria.papyrus.infrastructure.api..")
+            .adapter("persistence", "com.alexandria.papyrus.adapters.repositories..")
+            .adapter("rest", "com.alexandria.papyrus.adapters.rest..")
             .adapter("config", "com.alexandria.papyrus.config..").check(appClasses)
     }
 

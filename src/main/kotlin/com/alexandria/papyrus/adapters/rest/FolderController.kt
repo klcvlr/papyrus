@@ -1,7 +1,7 @@
-package com.alexandria.papyrus.infrastructure.api
+package com.alexandria.papyrus.adapters.rest
 
 import com.alexandria.papyrus.application.FolderUseCases
-import com.alexandria.papyrus.infrastructure.api.DetailedFolderView.Companion.toDetailedFolderView
+import com.alexandria.papyrus.adapters.rest.DetailedFolderView.Companion.toDetailedFolderView
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

@@ -1,7 +1,7 @@
-package com.alexandria.papyrus.infrastructure.api
+package com.alexandria.papyrus.adapters.rest
 
 import com.alexandria.papyrus.domain.model.FolderTemplate
-import com.alexandria.papyrus.infrastructure.api.DocumentTypeView.Companion.toDocumentTypeView
+import com.alexandria.papyrus.adapters.rest.DocumentTypeView.Companion.toDocumentTypeView
 
 data class CreateFolderTemplateRequest(val name: String)
 

@@ -1,4 +1,4 @@
-package com.alexandria.papyrus.infrastructure.api
+package com.alexandria.papyrus.adapters.rest
 
 import com.alexandria.papyrus.domain.DocumentNotFoundException
 import com.alexandria.papyrus.domain.DocumentTypeNotFoundException

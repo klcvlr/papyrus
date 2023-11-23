@@ -1,7 +1,7 @@
-package com.alexandria.papyrus.infrastructure.api
+package com.alexandria.papyrus.adapters.rest
 
 import com.alexandria.papyrus.application.DocumentTypeUseCases
-import com.alexandria.papyrus.infrastructure.api.DocumentTypeView.Companion.toDocumentTypeView
+import com.alexandria.papyrus.adapters.rest.DocumentTypeView.Companion.toDocumentTypeView
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

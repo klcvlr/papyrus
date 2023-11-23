@@ -1,4 +1,4 @@
-package com.alexandria.papyrus.infrastructure.repositories
+package com.alexandria.papyrus.adapters.repositories
 
 import com.alexandria.papyrus.domain.model.FolderTemplate
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
