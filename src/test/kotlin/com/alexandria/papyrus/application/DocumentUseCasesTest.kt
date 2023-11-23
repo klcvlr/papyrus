@@ -3,6 +3,7 @@ package com.alexandria.papyrus.application
 import com.alexandria.papyrus.domain.DocumentNotFoundException
 import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
+import com.alexandria.papyrus.domain.notification.DocumentNotificationPublisher
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
 import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
 import com.alexandria.papyrus.domain.repositories.FileRepository
@@ -36,6 +37,9 @@ class DocumentUseCasesTest {
     @MockK
     private lateinit var fileRepository: FileRepository
 
+    @MockK
+    private lateinit var documentNotificationPublisher: DocumentNotificationPublisher
+
     @InjectMockKs
     private lateinit var documentUseCases: DocumentUseCases
 
@@ -62,12 +66,13 @@ class DocumentUseCasesTest {
 
     @Test
     fun `document can be created`() {
-        val document = aDocument(identifier = "documentIdentifier")
+        val document = aDocument(identifier = "documentIdentifier", name = "documentName")
         val fileWrapper = aFileWrapper()
         every { idGenerator.generate() } returns document.identifier
         every { documentRepository.save(document) } returns Unit
         every { folderRepository.findByIdentifier("parentFolderIdentifier") } returns document.parentFolder
         every { fileRepository.save(fileWrapper) } returns Unit
+        every { documentNotificationPublisher.publishUploadCompleted(document.name) } returns Unit
 
         val createdDocumentIdentifier = documentUseCases.createDocument("documentName", "parentFolderIdentifier", fileWrapper)
 
