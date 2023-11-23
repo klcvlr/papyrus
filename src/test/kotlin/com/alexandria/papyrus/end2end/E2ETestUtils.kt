@@ -3,6 +3,7 @@ package com.alexandria.papyrus.end2end
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers
+import java.io.File
 
 fun createAFolderTemplate(folderTemplateName: String): String {
     val requestUrl = "v1/folder-templates"
@@ -74,12 +75,15 @@ fun renameFolderTemplate(
 fun createDocument(
     name: String,
     folderId: String,
+    file: File,
 ): String {
     val requestUrl = "v1/documents"
     val requestBody = """ { "name": "$name", "folderIdentifier": "$folderId" } """
 
     return given()
-        .contentType(ContentType.JSON)
+        .contentType("multipart/form-data")
+        .multiPart("createDocumentRequest", requestBody, "application/json")
+        .multiPart("file", file)
         .body(requestBody)
         .post(requestUrl)
         .then()

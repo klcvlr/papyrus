@@ -8,9 +8,11 @@ import org.hamcrest.Matchers.notNullValue
 import org.hamcrest.Matchers.nullValue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.core.io.ResourceLoader
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
@@ -22,6 +24,9 @@ import org.testcontainers.junit.jupiter.Testcontainers
 class DocumentE2ETest {
     @LocalServerPort
     private var port: Int = 0
+
+    @Autowired
+    private lateinit var resourceLoader: ResourceLoader
 
     @BeforeEach
     fun setUp() {
@@ -36,7 +41,8 @@ class DocumentE2ETest {
         val folderLocation = createFolderFromTemplate(folderTemplateId)
         val folderId = folderLocation.split("/").last()
 
-        val documentLocation = createDocument("newDocument", folderId)
+        val file = resourceLoader.getResource("classpath:banner.txt").file
+        val documentLocation = createDocument("newDocument", folderId, file)
 
         given()
             .get(documentLocation)
@@ -60,7 +66,8 @@ class DocumentE2ETest {
         val documentTypeLocation = createDocumentType("newDocumentType")
         val documentTypeId = documentTypeLocation.split("/").last()
 
-        val documentLocation = createDocument("newDocument", folderId)
+        val file = resourceLoader.getResource("classpath:banner.txt").file
+        val documentLocation = createDocument("newDocument", folderId, file)
         val documentId = documentLocation.split("/").last()
 
         changeDocumentType(documentId, documentTypeId)
@@ -89,7 +96,8 @@ class DocumentE2ETest {
         val documentTypeLocation = createDocumentType("newDocumentType")
         val documentTypeId = documentTypeLocation.split("/").last()
 
-        val documentLocation = createDocument("newDocument", folderId)
+        val file = resourceLoader.getResource("classpath:banner.txt").file
+        val documentLocation = createDocument("newDocument", folderId, file)
         val documentId = documentLocation.split("/").last()
 
         changePredictedDocumentType(documentId, documentTypeId)

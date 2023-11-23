@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/v1/documents")
@@ -23,10 +25,11 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
         return toDocumentView(document)
     }
 
-    @PostMapping
+    @PostMapping(consumes = ["multipart/form-data"])
     @ResponseStatus(HttpStatus.CREATED)
     fun create(
-        @RequestBody createDocumentRequest: CreateDocumentRequest,
+        @RequestPart createDocumentRequest: CreateDocumentRequest,
+        @RequestPart file: MultipartFile,
     ): ResponseEntity<Unit> {
         val documentIdentifier =
             documentUseCases.createDocument(
