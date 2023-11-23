@@ -1,8 +1,8 @@
 package com.alexandria.papyrus.adapters.rest
 
-import com.alexandria.papyrus.application.FolderTemplateUseCases
 import com.alexandria.papyrus.adapters.rest.DetailedFolderTemplateView.Companion.toDetailedFolderTemplateView
 import com.alexandria.papyrus.adapters.rest.FolderTemplateView.Companion.toFolderTemplateView
+import com.alexandria.papyrus.application.FolderTemplateUseCases
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

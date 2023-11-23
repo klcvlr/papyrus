@@ -1,8 +1,10 @@
 package com.alexandria.papyrus.adapters.repositories
 
+import com.alexandria.papyrus.domain.repositories.FileRepository
 import com.alexandria.papyrus.fakes.aDocument
 import com.alexandria.papyrus.fakes.aFolder
 import com.alexandria.papyrus.fakes.aFolderTemplate
+import com.ninjasquad.springmockk.MockkBean
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,6 +30,9 @@ class DocumentJpaRepositoryTest {
 
     @Autowired
     private lateinit var folderTemplateRepository: FolderTemplateJpaRepository
+
+    @MockkBean
+    private lateinit var fileRepository: FileRepository
 
     @Test
     fun `a new document can be saved`() {

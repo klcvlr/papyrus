@@ -5,8 +5,10 @@ import com.alexandria.papyrus.domain.DocumentTypeNotFoundException
 import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.model.Document
+import com.alexandria.papyrus.domain.model.FileWrapper
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
 import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
+import com.alexandria.papyrus.domain.repositories.FileRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,6 +18,7 @@ class DocumentUseCases(
     private val documentRepository: DocumentRepository,
     private val documentTypeRepository: DocumentTypeRepository,
     private val folderRepository: FolderRepository,
+    private val fileRepository: FileRepository,
 ) {
     @Transactional(readOnly = true)
     fun findByIdentifier(identifier: String): Document {
@@ -25,6 +28,7 @@ class DocumentUseCases(
     fun createDocument(
         name: String,
         parentFolderIdentifier: String,
+        file: FileWrapper,
     ): String {
         val parentFolder =
             folderRepository.findByIdentifier(parentFolderIdentifier) ?: throw FolderNotFoundException(
@@ -36,6 +40,7 @@ class DocumentUseCases(
                 name = name,
                 parentFolder = parentFolder,
             )
+        fileRepository.save(file)
         documentRepository.save(document)
         return document.identifier
     }

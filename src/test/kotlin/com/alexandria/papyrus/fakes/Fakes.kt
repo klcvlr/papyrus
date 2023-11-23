@@ -2,6 +2,7 @@ package com.alexandria.papyrus.fakes
 
 import com.alexandria.papyrus.domain.model.Document
 import com.alexandria.papyrus.domain.model.DocumentType
+import com.alexandria.papyrus.domain.model.FileWrapper
 import com.alexandria.papyrus.domain.model.Folder
 import com.alexandria.papyrus.domain.model.FolderTemplate
 import io.github.serpro69.kfaker.Faker
@@ -54,4 +55,12 @@ fun aFolderTemplate(
     name = name,
     parentFolder = parentFolder,
     associatedDocumentType = associatedDocumentType,
+)
+
+fun aFileWrapper(
+    name: String = faker.onePiece.islands(),
+    content: ByteArray = faker.futurama.quotes().toByteArray(),
+) = FileWrapper(
+    name = name,
+    content = content,
 )

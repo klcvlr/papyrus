@@ -1,7 +1,7 @@
 package com.alexandria.papyrus.adapters.rest
 
-import com.alexandria.papyrus.domain.model.Document
 import com.alexandria.papyrus.adapters.rest.DocumentTypeView.Companion.toDocumentTypeView
+import com.alexandria.papyrus.domain.model.Document
 
 data class CreateDocumentRequest(val name: String, val folderIdentifier: String)
 

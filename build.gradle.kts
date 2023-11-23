@@ -26,9 +26,13 @@ val versions =
         "faker" to "1.15.0",
         "rest-assured" to "5.3.2",
         "archunit-junit5" to "1.2.0",
+        "spring-cloud-aws" to "3.0.0",
+        "springmockk" to "4.0.2",
     )
 
 dependencies {
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:${versions["spring-cloud-aws"]}"))
+
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 
@@ -39,6 +43,7 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
     runtimeOnly("org.postgresql:postgresql")
 
@@ -50,6 +55,7 @@ dependencies {
     testImplementation("io.mockk:mockk:${versions["mockk"]}")
     testImplementation("io.github.serpro69:kotlin-faker:${versions["faker"]}")
     testImplementation("com.tngtech.archunit:archunit-junit5:${versions["archunit-junit5"]}")
+    testImplementation("com.ninja-squad:springmockk:${versions["springmockk"]}")
 }
 
 tasks.withType<KotlinCompile> {

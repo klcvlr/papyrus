@@ -5,9 +5,11 @@ import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
 import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
+import com.alexandria.papyrus.domain.repositories.FileRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.fakes.aDocument
 import com.alexandria.papyrus.fakes.aDocumentType
+import com.alexandria.papyrus.fakes.aFileWrapper
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -30,6 +32,9 @@ class DocumentUseCasesTest {
 
     @MockK
     private lateinit var folderRepository: FolderRepository
+
+    @MockK
+    private lateinit var fileRepository: FileRepository
 
     @InjectMockKs
     private lateinit var documentUseCases: DocumentUseCases
@@ -58,21 +63,25 @@ class DocumentUseCasesTest {
     @Test
     fun `document can be created`() {
         val document = aDocument(identifier = "documentIdentifier")
+        val fileWrapper = aFileWrapper()
         every { idGenerator.generate() } returns document.identifier
         every { documentRepository.save(document) } returns Unit
         every { folderRepository.findByIdentifier("parentFolderIdentifier") } returns document.parentFolder
+        every { fileRepository.save(fileWrapper) } returns Unit
 
-        val createdDocumentIdentifier = documentUseCases.createDocument("documentName", "parentFolderIdentifier")
+        val createdDocumentIdentifier = documentUseCases.createDocument("documentName", "parentFolderIdentifier", fileWrapper)
 
         assertThat(createdDocumentIdentifier).isEqualTo(document.identifier)
     }
 
     @Test
     fun `an exception is thrown when creating a document in a folder that does not exist`() {
+        val fileWrapper = aFileWrapper()
         every { folderRepository.findByIdentifier(any()) } returns null
+        every { fileRepository.save(fileWrapper) } returns Unit
 
         assertThatThrownBy {
-            documentUseCases.createDocument("documentName", "parentFolderIdentifier")
+            documentUseCases.createDocument("documentName", "parentFolderIdentifier", fileWrapper)
         }.isInstanceOf(
             FolderNotFoundException::class.java,
         ).hasMessage("Folder with identifier 'parentFolderIdentifier' not found")

@@ -1,11 +1,26 @@
 spring:
+
   datasource:
     url: jdbc:postgresql://localhost:5432/papyrus
     username: toth
     password: parchment
+
   liquibase:
     change-log: classpath:db/changelog/changelog.yml
     enabled: true
+
+  cloud:
+    aws:
+      credentials:
+        profile:
+          name: iamadmin-general
+      region:
+        static: eu-west-3
+
 springdoc:
   swagger-ui:
     path: /api-docs
+
+logging:
+  level:
+    io.awspring.cloud: DEBUG

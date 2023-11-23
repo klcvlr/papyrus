@@ -1,7 +1,9 @@
 package com.alexandria.papyrus.adapters.repositories
 
 import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
+import com.alexandria.papyrus.domain.repositories.FileRepository
 import com.alexandria.papyrus.fakes.aDocumentType
+import com.ninjasquad.springmockk.MockkBean
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +23,9 @@ import org.testcontainers.junit.jupiter.Testcontainers
 class DocumentTypeJpaRepositoryTest {
     @Autowired
     private lateinit var documentTypeRepository: DocumentTypeRepository
+
+    @MockkBean
+    private lateinit var fileRepository: FileRepository
 
     @Test
     fun `a new documentType can be saved`() {

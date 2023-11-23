@@ -1,7 +1,8 @@
 package com.alexandria.papyrus.adapters.rest
 
-import com.alexandria.papyrus.application.DocumentUseCases
 import com.alexandria.papyrus.adapters.rest.DocumentView.Companion.toDocumentView
+import com.alexandria.papyrus.application.DocumentUseCases
+import com.alexandria.papyrus.domain.model.FileWrapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -31,10 +32,16 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
         @RequestPart createDocumentRequest: CreateDocumentRequest,
         @RequestPart file: MultipartFile,
     ): ResponseEntity<Unit> {
+        val fileWrapper =
+            FileWrapper(
+                name = file.originalFilename!!,
+                content = file.bytes,
+            )
         val documentIdentifier =
             documentUseCases.createDocument(
                 createDocumentRequest.name,
                 createDocumentRequest.folderIdentifier,
+                fileWrapper,
             )
         return entityWithLocation(documentIdentifier)
     }

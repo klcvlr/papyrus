@@ -1,7 +1,7 @@
 package com.alexandria.papyrus.adapters.rest
 
-import com.alexandria.papyrus.domain.model.Folder
 import com.alexandria.papyrus.adapters.rest.DocumentView.Companion.toDocumentView
+import com.alexandria.papyrus.domain.model.Folder
 
 data class FolderView(
     val identifier: String,

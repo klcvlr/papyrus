@@ -7,6 +7,7 @@ import com.alexandria.papyrus.application.FolderUseCases
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
 import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
+import com.alexandria.papyrus.domain.repositories.FileRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 import com.alexandria.papyrus.domain.services.FolderTemplateAndFolderService
@@ -24,11 +25,13 @@ class ApplicationConfiguration {
         documentRepository: DocumentRepository,
         folderRepository: FolderRepository,
         documentTypeRepository: DocumentTypeRepository,
+        fileRepository: FileRepository,
     ) = DocumentUseCases(
         idGenerator = idGenerator,
         documentRepository = documentRepository,
         folderRepository = folderRepository,
         documentTypeRepository = documentTypeRepository,
+        fileRepository = fileRepository,
     )
 
     @Bean
