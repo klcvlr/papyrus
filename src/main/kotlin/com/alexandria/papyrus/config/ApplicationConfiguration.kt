@@ -5,7 +5,7 @@ import com.alexandria.papyrus.application.DocumentUseCases
 import com.alexandria.papyrus.application.FolderTemplateUseCases
 import com.alexandria.papyrus.application.FolderUseCases
 import com.alexandria.papyrus.domain.IdGenerator
-import com.alexandria.papyrus.domain.notification.DocumentNotificationPublisher
+import com.alexandria.papyrus.domain.notification.NotificationPublisher
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
 import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
 import com.alexandria.papyrus.domain.repositories.FileRepository
@@ -27,14 +27,14 @@ class ApplicationConfiguration {
         folderRepository: FolderRepository,
         documentTypeRepository: DocumentTypeRepository,
         fileRepository: FileRepository,
-        documentNotificationPublisher: DocumentNotificationPublisher,
+        notificationPublisher: NotificationPublisher,
     ) = DocumentUseCases(
         idGenerator = idGenerator,
         documentRepository = documentRepository,
         folderRepository = folderRepository,
         documentTypeRepository = documentTypeRepository,
         fileRepository = fileRepository,
-        documentNotificationPublisher = documentNotificationPublisher,
+        notificationPublisher = notificationPublisher,
     )
 
     @Bean

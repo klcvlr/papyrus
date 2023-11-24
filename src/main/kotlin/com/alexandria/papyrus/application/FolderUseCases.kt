@@ -27,11 +27,7 @@ class FolderUseCases(
     }
 
     fun createFromTemplate(folderTemplateIdentifier: String): String {
-        val folderTemplate =
-            folderTemplateRepository.findByIdentifier(folderTemplateIdentifier)
-                ?: throw FolderTemplateNotFoundException(
-                    folderTemplateIdentifier,
-                )
+        val folderTemplate = folderTemplateRepository.findByIdentifier(folderTemplateIdentifier) ?: throw FolderTemplateNotFoundException(folderTemplateIdentifier)
         val folder = folderTemplateAndFolderService.createFolderFromTemplate(folderTemplate)
         folderRepository.save(folder)
         return folder.identifier

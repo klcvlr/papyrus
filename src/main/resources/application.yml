@@ -24,3 +24,9 @@ springdoc:
 logging:
   level:
     io.awspring.cloud: DEBUG
+
+papyrus:
+  cloud:
+    topic: papyrus
+    queue: documents-uploaded
+    bucket: io.alexandria.papyrus.codex

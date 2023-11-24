@@ -6,7 +6,7 @@ import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.model.Document
 import com.alexandria.papyrus.domain.model.FileWrapper
-import com.alexandria.papyrus.domain.notification.DocumentNotificationPublisher
+import com.alexandria.papyrus.domain.notification.NotificationPublisher
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
 import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
 import com.alexandria.papyrus.domain.repositories.FileRepository
@@ -20,7 +20,7 @@ class DocumentUseCases(
     private val documentTypeRepository: DocumentTypeRepository,
     private val folderRepository: FolderRepository,
     private val fileRepository: FileRepository,
-    private val documentNotificationPublisher: DocumentNotificationPublisher,
+    private val notificationPublisher: NotificationPublisher,
 ) {
     @Transactional(readOnly = true)
     fun findByIdentifier(identifier: String): Document {
@@ -44,7 +44,7 @@ class DocumentUseCases(
             )
         fileRepository.save(file)
         documentRepository.save(document)
-        documentNotificationPublisher.publishUploadCompleted(document.name)
+        notificationPublisher.sendUploadNotification(document.name)
         return document.identifier
     }
 

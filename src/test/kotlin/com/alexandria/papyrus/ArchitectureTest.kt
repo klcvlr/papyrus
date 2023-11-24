@@ -38,7 +38,7 @@ class ArchitectureTest {
                     |if this tests fails, you likely:
                     |    - broke one of those rules
                     |    - or you added a new package in the adapters that you need to declare here. (make sure it's in the right spot though!)
-                """.trimMargin()
+                """.trimMargin(),
             )
             .check(appClasses)
     }
