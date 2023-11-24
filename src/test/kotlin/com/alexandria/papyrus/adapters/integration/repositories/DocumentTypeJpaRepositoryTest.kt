@@ -1,9 +1,8 @@
-package com.alexandria.papyrus.adapters.repositories
+package com.alexandria.papyrus.adapters.integration.repositories
 
+import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
 import com.alexandria.papyrus.domain.repositories.FileRepository
-import com.alexandria.papyrus.fakes.aDocument
-import com.alexandria.papyrus.fakes.aFolder
-import com.alexandria.papyrus.fakes.aFolderTemplate
+import com.alexandria.papyrus.fakes.aDocumentType
 import com.ninjasquad.springmockk.MockkBean
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -20,39 +19,23 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @DataJpaTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ComponentScan(basePackages = ["com.alexandria.papyrus.adapters.repositories"])
-class DocumentJpaRepositoryTest {
+@ComponentScan(basePackages = ["com.alexandria.papyrus.adapters.integration.repositories"])
+class DocumentTypeJpaRepositoryTest {
     @Autowired
-    private lateinit var documentRepository: DocumentJpaRepository
-
-    @Autowired
-    private lateinit var folderRepository: FolderJpaRepository
-
-    @Autowired
-    private lateinit var folderTemplateRepository: FolderTemplateJpaRepository
+    private lateinit var documentTypeRepository: DocumentTypeRepository
 
     @MockkBean
     private lateinit var fileRepository: FileRepository
 
     @Test
-    fun `a new document can be saved`() {
-        // I know! I'll fix this later ^^' ...
-        val folderTemplate = aFolderTemplate()
-        folderTemplateRepository.save(folderTemplate)
-        val folder = aFolder(template = folderTemplate)
-        folderRepository.save(folder)
-        val document = aDocument(identifier = "documentId", parentFolder = folder)
-        documentRepository.save(document)
-        println(document)
+    fun `a new documentType can be saved`() {
+        val documentType = aDocumentType(identifier = "documentTypeId", name = "picture")
 
-        documentRepository.save(document)
+        documentTypeRepository.save(documentType)
 
-        val savedDocument = documentRepository.findByIdentifier("documentId")
-        assertThat(savedDocument?.identifier).isEqualTo("documentId")
-        assertThat(savedDocument?.name).isEqualTo(document.name)
-        assertThat(savedDocument?.parentFolder).isEqualTo(document.parentFolder)
-        assertThat(savedDocument?.type).isEqualTo(document.type)
-        assertThat(savedDocument?.predictedType).isEqualTo(document.predictedType)
+        val savedDocumentType = documentTypeRepository.findByIdentifier("documentTypeId")
+        assertThat(savedDocumentType?.identifier).isEqualTo("documentTypeId")
+        assertThat(savedDocumentType?.name).isEqualTo("picture")
     }
 
     companion object {

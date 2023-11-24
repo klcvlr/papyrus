@@ -1,4 +1,4 @@
-package com.alexandria.papyrus.adapters.messaging
+package com.alexandria.papyrus.adapters.integration.messaging
 
 import com.alexandria.papyrus.domain.notification.DocumentNotificationPublisher
 import io.awspring.cloud.sqs.operations.SqsTemplate

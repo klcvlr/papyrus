@@ -1,4 +1,4 @@
-package com.alexandria.papyrus.adapters.rest
+package com.alexandria.papyrus.adapters.exposition.rest
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder

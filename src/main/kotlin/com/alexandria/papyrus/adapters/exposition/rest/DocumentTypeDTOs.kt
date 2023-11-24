@@ -1,4 +1,4 @@
-package com.alexandria.papyrus.adapters.rest
+package com.alexandria.papyrus.adapters.exposition.rest
 
 import com.alexandria.papyrus.domain.model.DocumentType
 

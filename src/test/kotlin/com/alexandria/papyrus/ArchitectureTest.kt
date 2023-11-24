@@ -15,8 +15,10 @@ class ArchitectureTest {
         onionArchitecture().domainModels("com.alexandria.papyrus.domain.model..")
             .domainServices("com.alexandria.papyrus.domain.services..", "com.alexandria.papyrus.domain.repositories..")
             .applicationServices("com.alexandria.papyrus.application..")
-            .adapter("persistence", "com.alexandria.papyrus.adapters.repositories..")
-            .adapter("rest", "com.alexandria.papyrus.adapters.rest..")
+            .adapter("rest", "com.alexandria.papyrus.adapters.exposition.rest..")
+            .adapter("inbound-messaging", "com.alexandria.papyrus.adapters.exposition.messaging..")
+            .adapter("outbound-messaging", "com.alexandria.papyrus.adapters.integration.messaging..")
+            .adapter("persistence", "com.alexandria.papyrus.adapters.integration.repositories..")
             .adapter("config", "com.alexandria.papyrus.config..").check(appClasses)
     }
 
@@ -28,10 +30,8 @@ class ArchitectureTest {
 
     @ArchTest
     fun `use case classes should be annotated with @Transactional`(appClasses: JavaClasses) {
-        classes().that().resideInAPackage("com.alexandria.papyrus.application..")
-            .and().doNotHaveSimpleName("Companion")
-            .should()
-            .beAnnotatedWith(Transactional::class.java)
+        classes().that().resideInAPackage("com.alexandria.papyrus.application..").and().doNotHaveSimpleName("Companion")
+            .should().beAnnotatedWith(Transactional::class.java)
             .because("every use case occurs in a transaction. we only use spring's @Transactional annotations - not jakarta's")
             .check(appClasses)
     }

@@ -1,6 +1,6 @@
-package com.alexandria.papyrus.adapters.rest
+package com.alexandria.papyrus.adapters.exposition.rest
 
-import com.alexandria.papyrus.adapters.rest.DetailedFolderView.Companion.toDetailedFolderView
+import com.alexandria.papyrus.adapters.exposition.rest.DetailedFolderView.Companion.toDetailedFolderView
 import com.alexandria.papyrus.application.FolderUseCases
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

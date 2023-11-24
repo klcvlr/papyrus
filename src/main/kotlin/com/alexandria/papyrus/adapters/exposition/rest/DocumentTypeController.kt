@@ -1,6 +1,6 @@
-package com.alexandria.papyrus.adapters.rest
+package com.alexandria.papyrus.adapters.exposition.rest
 
-import com.alexandria.papyrus.adapters.rest.DocumentTypeView.Companion.toDocumentTypeView
+import com.alexandria.papyrus.adapters.exposition.rest.DocumentTypeView.Companion.toDocumentTypeView
 import com.alexandria.papyrus.application.DocumentTypeUseCases
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

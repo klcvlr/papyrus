@@ -1,6 +1,6 @@
-package com.alexandria.papyrus.adapters.rest
+package com.alexandria.papyrus.adapters.exposition.rest
 
-import com.alexandria.papyrus.adapters.rest.DocumentView.Companion.toDocumentView
+import com.alexandria.papyrus.adapters.exposition.rest.DocumentView.Companion.toDocumentView
 import com.alexandria.papyrus.application.DocumentUseCases
 import com.alexandria.papyrus.domain.model.FileWrapper
 import org.springframework.http.HttpStatus
