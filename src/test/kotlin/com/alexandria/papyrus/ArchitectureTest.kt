@@ -19,7 +19,28 @@ class ArchitectureTest {
             .adapter("inbound-messaging", "com.alexandria.papyrus.adapters.exposition.messaging..")
             .adapter("outbound-messaging", "com.alexandria.papyrus.adapters.integration.messaging..")
             .adapter("persistence", "com.alexandria.papyrus.adapters.integration.repositories..")
-            .adapter("config", "com.alexandria.papyrus.config..").check(appClasses)
+            .adapter("config", "com.alexandria.papyrus.config..")
+            .because(
+                """we enforce the onion architecture:
+                    |
+                    |domain layer -> should not depend on any other layer
+                    |
+                    |application -> layer should only depend on domain layer
+                    |
+                    |adapters -> should only depend on application and domain layers
+                    |adapters -> should not depend on each other:
+                    |    - for instance: rest layer should not depend on inbound-messaging layer
+                    |    - for instance: persistence layer should not depend on outbound-messaging layer
+                    |    - simply put: adapters should not depend on each other!
+                    |
+                    |config layer -> is just where we put our spring configuration classes
+                    |
+                    |if this tests fails, you likely:
+                    |    - broke one of those rules
+                    |    - or you added a new package in the adapters that you need to declare here. (make sure it's in the right spot though!)
+                """.trimMargin()
+            )
+            .check(appClasses)
     }
 
     @ArchTest
