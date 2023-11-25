@@ -28,7 +28,6 @@ class DocumentUseCases(
     }
 
     fun createDocument(
-        name: String,
         parentFolderIdentifier: String,
         file: FileWrapper,
     ): String {
@@ -39,12 +38,12 @@ class DocumentUseCases(
         val document =
             Document(
                 identifier = idGenerator.generate(),
-                name = name,
+                name = file.name,
                 parentFolder = parentFolder,
             )
-        fileRepository.save(file)
+        fileRepository.save(generateFileId(file), file)
         documentRepository.save(document)
-        notificationPublisher.sendUploadNotification(document.name)
+        notificationPublisher.sendUploadNotification(document.identifier)
         return document.identifier
     }
 
@@ -52,8 +51,14 @@ class DocumentUseCases(
         documentIdentifier: String,
         documentTypeIdentifier: String,
     ) {
-        val document = documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
-        val type = documentTypeRepository.findByIdentifier(documentTypeIdentifier) ?: throw DocumentTypeNotFoundException(documentTypeIdentifier)
+        val document =
+            documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(
+                documentIdentifier,
+            )
+        val type =
+            documentTypeRepository.findByIdentifier(documentTypeIdentifier) ?: throw DocumentTypeNotFoundException(
+                documentTypeIdentifier,
+            )
         document.changeType(type)
         documentRepository.save(document)
     }
@@ -62,9 +67,19 @@ class DocumentUseCases(
         documentIdentifier: String,
         documentTypeIdentifier: String,
     ) {
-        val document = documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
-        val type = documentTypeRepository.findByIdentifier(documentTypeIdentifier) ?: throw DocumentTypeNotFoundException(documentTypeIdentifier)
+        val document =
+            documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(
+                documentIdentifier,
+            )
+        val type =
+            documentTypeRepository.findByIdentifier(documentTypeIdentifier) ?: throw DocumentTypeNotFoundException(
+                documentTypeIdentifier,
+            )
         document.changePredictedType(type)
         documentRepository.save(document)
+    }
+
+    private fun generateFileId(file: FileWrapper): String {
+        return "${idGenerator.generate()}-${file.name}"
     }
 }

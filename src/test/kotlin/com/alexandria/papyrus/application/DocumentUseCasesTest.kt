@@ -71,10 +71,10 @@ class DocumentUseCasesTest {
         every { idGenerator.generate() } returns document.identifier
         every { documentRepository.save(document) } returns Unit
         every { folderRepository.findByIdentifier("parentFolderIdentifier") } returns document.parentFolder
-        every { fileRepository.save(fileWrapper) } returns Unit
-        every { notificationPublisher.sendUploadNotification(document.name) } returns Unit
+        every { fileRepository.save(any(), fileWrapper) } returns Unit
+        every { notificationPublisher.sendUploadNotification(document.identifier) } returns Unit
 
-        val createdDocumentIdentifier = documentUseCases.createDocument("documentName", "parentFolderIdentifier", fileWrapper)
+        val createdDocumentIdentifier = documentUseCases.createDocument("parentFolderIdentifier", fileWrapper)
 
         assertThat(createdDocumentIdentifier).isEqualTo(document.identifier)
     }
@@ -83,10 +83,10 @@ class DocumentUseCasesTest {
     fun `an exception is thrown when creating a document in a folder that does not exist`() {
         val fileWrapper = aFileWrapper()
         every { folderRepository.findByIdentifier(any()) } returns null
-        every { fileRepository.save(fileWrapper) } returns Unit
+        every { fileRepository.save(any(), fileWrapper) } returns Unit
 
         assertThatThrownBy {
-            documentUseCases.createDocument("documentName", "parentFolderIdentifier", fileWrapper)
+            documentUseCases.createDocument("parentFolderIdentifier", fileWrapper)
         }.isInstanceOf(
             FolderNotFoundException::class.java,
         ).hasMessage("Folder with identifier 'parentFolderIdentifier' not found")

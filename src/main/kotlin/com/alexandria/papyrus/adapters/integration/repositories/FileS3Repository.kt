@@ -13,10 +13,14 @@ class FileS3Repository(
 ) :
     FileRepository {
     override fun findByIdentifier(identifier: String): FileWrapper? {
-        TODO()
+        val download = s3Template.download(cloudEndpoints.bucket, identifier)
+        return FileWrapper(download.filename, download.inputStream.readAllBytes())
     }
 
-    override fun save(file: FileWrapper) {
-        s3Template.upload(cloudEndpoints.bucket, file.name, file.content.inputStream())
+    override fun save(
+        identifier: String,
+        file: FileWrapper,
+    ) {
+        s3Template.upload(cloudEndpoints.bucket, identifier, file.content.inputStream())
     }
 }

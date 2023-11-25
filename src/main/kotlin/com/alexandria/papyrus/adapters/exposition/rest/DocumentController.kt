@@ -34,12 +34,11 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     ): ResponseEntity<Unit> {
         val fileWrapper =
             FileWrapper(
-                name = file.originalFilename!!,
+                name = createDocumentRequest.name,
                 content = file.bytes,
             )
         val documentIdentifier =
             documentUseCases.createDocument(
-                createDocumentRequest.name,
                 createDocumentRequest.folderIdentifier,
                 fileWrapper,
             )
