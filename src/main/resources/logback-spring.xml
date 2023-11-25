@@ -2,13 +2,7 @@
 <configuration>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <provider class="net.logstash.logback.composite.loggingevent.MdcJsonProvider">
-                <fieldName>MDC</fieldName>
-                <includeMdcKeyName>correlationId</includeMdcKeyName>
-                <includeMdcKeyName>requestSource</includeMdcKeyName>
-            </provider>
-        </encoder>
+        <encoder class="ch.qos.logback.classic.encoder.JsonEncoder"/>
     </appender>
 
     <root level="INFO">

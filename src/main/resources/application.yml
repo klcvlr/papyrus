@@ -21,10 +21,6 @@ springdoc:
   swagger-ui:
     path: /api-docs
 
-logging:
-  level:
-    io.awspring.cloud: DEBUG
-
 papyrus:
   cloud:
     topic: papyrus
