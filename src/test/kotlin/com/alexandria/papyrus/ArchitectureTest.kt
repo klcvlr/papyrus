@@ -1,11 +1,14 @@
 package com.alexandria.papyrus
 
+import com.tngtech.archunit.core.domain.JavaClass.Predicates.*
 import com.tngtech.archunit.core.domain.JavaClasses
+import com.tngtech.archunit.core.domain.properties.CanBeAnnotated.Predicates.annotatedWith
 import com.tngtech.archunit.core.importer.ImportOption
 import com.tngtech.archunit.junit.AnalyzeClasses
 import com.tngtech.archunit.junit.ArchTest
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes
 import com.tngtech.archunit.library.Architectures.onionArchitecture
+import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.transaction.annotation.Transactional
 
 @AnalyzeClasses(packages = ["com.alexandria.papyrus"], importOptions = [ImportOption.DoNotIncludeTests::class])
@@ -20,6 +23,10 @@ class ArchitectureTest {
             .adapter("outbound-messaging", "com.alexandria.papyrus.adapters.integration.messaging..")
             .adapter("persistence", "com.alexandria.papyrus.adapters.integration.repositories..")
             .adapter("config", "com.alexandria.papyrus.config..")
+            .ignoreDependency(
+                resideInAPackage("com.alexandria.papyrus.adapters.."),
+                resideInAPackage("com.alexandria.papyrus.config").and(annotatedWith(ConfigurationProperties::class.java)),
+            )
             .because(
                 """we enforce the onion architecture:
                     |
@@ -32,6 +39,8 @@ class ArchitectureTest {
                     |    - for instance: rest layer should not depend on inbound-messaging layer
                     |    - for instance: persistence layer should not depend on outbound-messaging layer
                     |    - simply put: adapters should not depend on each other!
+                    |    
+                    |    note: an exception is made for @ConfigurationProperties classes. they are allowed to be used other adapter layers.
                     |
                     |config layer -> is just where we put our spring configuration classes
                     |
