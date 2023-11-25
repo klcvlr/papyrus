@@ -30,6 +30,7 @@ class DocumentTypeE2ETest {
         val documentTypeLocation = createDocumentType("newDocumentType")
 
         given()
+            .auth().basic("user", "user")
             .get(documentTypeLocation)
             .then().assertThat()
             .statusCode(200)
@@ -40,6 +41,7 @@ class DocumentTypeE2ETest {
     @Test
     fun `get a document type that does not exist returns a 404`() {
         given()
+            .auth().basic("user", "user")
             .get("v1/document-types/123")
             .then()
             .assertThat()

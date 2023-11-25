@@ -5,6 +5,7 @@ import com.alexandria.papyrus.adapters.exposition.rest.FolderTemplateView.Compan
 import com.alexandria.papyrus.application.FolderTemplateUseCases
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -17,11 +18,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/folder-templates")
 class FolderTemplateController(private val folderTemplateUseCases: FolderTemplateUseCases) {
     @GetMapping
-    fun allFolderTemplates(): List<FolderTemplateView> {
-        return folderTemplateUseCases.findAllRootFolderTemplates().map {
-            toFolderTemplateView(it)
-        }
-    }
+    fun allFolderTemplates(authentication: Authentication): List<FolderTemplateView> =
+        folderTemplateUseCases.findAllRootFolderTemplatesForUser(authentication.name).map { toFolderTemplateView(it) }
 
     @GetMapping("/{folderTemplateIdentifier}")
     fun folderTemplateByIdentifier(
@@ -35,8 +33,9 @@ class FolderTemplateController(private val folderTemplateUseCases: FolderTemplat
     @ResponseStatus(HttpStatus.CREATED)
     fun createFolderTemplate(
         @RequestBody createFolderTemplateRequest: CreateFolderTemplateRequest,
+        authentication: Authentication,
     ): ResponseEntity<Unit> {
-        val folderTemplateIdentifier = folderTemplateUseCases.create(createFolderTemplateRequest.name)
+        val folderTemplateIdentifier = folderTemplateUseCases.create(authentication.name, createFolderTemplateRequest.name)
         return entityWithLocation(folderTemplateIdentifier)
     }
 
@@ -45,11 +44,13 @@ class FolderTemplateController(private val folderTemplateUseCases: FolderTemplat
     fun addSubFolderTemplate(
         @PathVariable folderTemplateIdentifier: String,
         @RequestBody createSubFolderTemplateRequest: CreateSubFolderTemplateRequest,
+        authentication: Authentication,
     ): ResponseEntity<Unit> {
         val subFolderTemplateIdentifier =
             folderTemplateUseCases.addSubFolder(
                 folderTemplateIdentifier,
                 createSubFolderTemplateRequest.name,
+                authentication.name,
             )
         return entityWithLocation(subFolderTemplateIdentifier)
     }
@@ -59,11 +60,9 @@ class FolderTemplateController(private val folderTemplateUseCases: FolderTemplat
     fun rename(
         @PathVariable folderTemplateIdentifier: String,
         @RequestBody renameFolderTemplateRequest: RenameFolderTemplateRequest,
+        authentication: Authentication,
     ) {
-        folderTemplateUseCases.rename(
-            folderTemplateIdentifier,
-            renameFolderTemplateRequest.name,
-        )
+        folderTemplateUseCases.rename(folderTemplateIdentifier, renameFolderTemplateRequest.name, authentication.name)
     }
 
     @PostMapping("/{folderTemplateIdentifier}/change-associated-type")
@@ -71,10 +70,12 @@ class FolderTemplateController(private val folderTemplateUseCases: FolderTemplat
     fun changeAssociatedType(
         @PathVariable folderTemplateIdentifier: String,
         @RequestBody changeAssociatedDocumentTypeRequest: ChangeAssociatedDocumentTypeRequest,
+        authentication: Authentication,
     ) {
         folderTemplateUseCases.changeAssociatedDocumentType(
             folderTemplateIdentifier,
             changeAssociatedDocumentTypeRequest.typeIdentifier,
+            authentication.name,
         )
     }
 }

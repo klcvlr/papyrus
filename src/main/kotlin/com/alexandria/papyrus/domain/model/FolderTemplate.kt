@@ -29,16 +29,21 @@ class FolderTemplate internal constructor() {
     @JoinColumn(name = "associated_document_type_identifier", referencedColumnName = "identifier")
     private var _associatedDocumentType: DocumentType? = null
 
+    @Column(name = "user_identifier")
+    private var _user: String = ""
+
     internal constructor(
         identifier: String,
         name: String,
         parentFolder: FolderTemplate? = null,
         associatedDocumentType: DocumentType? = null,
+        user: String,
     ) : this() {
         this._identifier = identifier
         this._name = name
         this._parentFolder = parentFolder
         this._associatedDocumentType = associatedDocumentType
+        this._user = user
     }
 
     fun rename(newName: String) {
@@ -59,8 +64,8 @@ class FolderTemplate internal constructor() {
     val parentFolder: FolderTemplate? get() = _parentFolder
     val name: String get() = _name
     val documentType: DocumentType? get() = _associatedDocumentType
-
     val subFolders: List<FolderTemplate> get() = _subFolders
+    val user: String get() = _user
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

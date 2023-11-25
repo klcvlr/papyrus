@@ -17,14 +17,13 @@ data class DocumentView(
     val predictedType: DocumentTypeView?,
 ) {
     companion object {
-        fun toDocumentView(document: Document): DocumentView {
-            return DocumentView(
+        fun toDocumentView(document: Document): DocumentView =
+            DocumentView(
                 identifier = document.identifier,
                 name = document.name,
                 parentFolderIdentifier = document.parentFolder.identifier,
                 type = if (document.type != null) toDocumentTypeView(document.type!!) else null,
                 predictedType = if (document.predictedType != null) toDocumentTypeView(document.predictedType!!) else null,
             )
-        }
     }
 }

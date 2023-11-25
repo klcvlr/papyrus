@@ -31,6 +31,7 @@ class FolderTemplatesE2ETest {
         val locationUrl = createAFolderTemplate("newFolderTemplate")
 
         given()
+            .auth().basic("user", "user")
             .get(locationUrl)
             .then()
             .assertThat()
@@ -41,12 +42,14 @@ class FolderTemplatesE2ETest {
             .body("associatedType", nullValue())
             .body("parentFolderIdentifier", nullValue())
             .body("subFolderTemplate", nullValue())
+            .body("user", equalTo("user"))
     }
 
     @Test
     fun `a 404 status is return on a GET request for a folder template that does not exist`() {
         val nonExistingFolderTemplate = "123"
         given()
+            .auth().basic("user", "user")
             .get("v1/folder-templates/$nonExistingFolderTemplate")
             .then()
             .assertThat()
@@ -61,6 +64,7 @@ class FolderTemplatesE2ETest {
         renameFolderTemplate(folderTemplateId, "newFolderTemplateName")
 
         given()
+            .auth().basic("user", "user")
             .get(folderTemplateLocationUrl)
             .then()
             .assertThat()
@@ -81,6 +85,7 @@ class FolderTemplatesE2ETest {
         renameFolderTemplate(folderTemplateId, "newFolderTemplateName")
 
         given()
+            .auth().basic("user", "user")
             .get(folderTemplateLocationUrl)
             .then()
             .assertThat()
@@ -104,6 +109,7 @@ class FolderTemplatesE2ETest {
         changeFolderTemplateAssociatedDocumentType(folderTemplateId, documentTypeId)
 
         given()
+            .auth().basic("user", "user")
             .get(folderTemplateLocationUrl)
             .then()
             .assertThat()

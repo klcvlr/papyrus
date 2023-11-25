@@ -35,6 +35,7 @@ data class DetailedFolderTemplateView(
     val associatedDocumentType: DocumentTypeView?,
     val subFolderTemplates: List<DetailedFolderTemplateView> = emptyList(),
     val parentFolderIdentifier: String?,
+    val user: String,
 ) {
     companion object {
         fun toDetailedFolderTemplateView(folderTemplate: FolderTemplate): DetailedFolderTemplateView {
@@ -51,6 +52,7 @@ data class DetailedFolderTemplateView(
                     },
                 parentFolderIdentifier = folderTemplate.parentFolder?.identifier,
                 subFolderTemplates = folderTemplate.subFolders.map { toDetailedFolderTemplateView(it) },
+                user = folderTemplate.user,
             )
         }
     }

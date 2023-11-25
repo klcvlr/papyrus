@@ -37,6 +37,7 @@ class FoldersE2ETest {
         val folderId = folderLocation.split("/").last()
 
         given()
+            .auth().basic("user", "user")
             .get(folderLocation)
             .then()
             .assertThat()
@@ -57,6 +58,7 @@ class FoldersE2ETest {
     @Test
     fun `create a folder from a template that does not exist returns a 404`() {
         given()
+            .auth().basic("user", "user")
             .contentType(ContentType.JSON)
             .body(""" { "templateIdentifier": "123" } """)
             .post("v1/folders")
@@ -68,6 +70,7 @@ class FoldersE2ETest {
     @Test
     fun `get request on a folder that does not exist returns a 404`() {
         given()
+            .auth().basic("user", "user")
             .get("v1/folder/123")
             .then()
             .assertThat()

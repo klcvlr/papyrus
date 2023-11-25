@@ -45,6 +45,7 @@ class DocumentE2ETest {
         val documentLocation = createDocument("newDocument", folderId, file)
 
         given()
+            .auth().basic("user", "user")
             .get(documentLocation)
             .then().assertThat()
             .statusCode(200)
@@ -73,6 +74,7 @@ class DocumentE2ETest {
         changeDocumentType(documentId, documentTypeId)
 
         given()
+            .auth().basic("user", "user")
             .get(documentLocation)
             .then().assertThat()
             .statusCode(200)
@@ -103,6 +105,7 @@ class DocumentE2ETest {
         changePredictedDocumentType(documentId, documentTypeId)
 
         given()
+            .auth().basic("user", "user")
             .get(documentLocation)
             .then().assertThat()
             .statusCode(200)
@@ -118,6 +121,7 @@ class DocumentE2ETest {
     @Test
     fun `get a document that does not exist returns a 404`() {
         given()
+            .auth().basic("user", "user")
             .get("v1/documents/123")
             .then()
             .assertThat()

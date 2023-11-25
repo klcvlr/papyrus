@@ -5,10 +5,7 @@ import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 
-class FolderAndDocumentService(
-    private val folderRepository: FolderRepository,
-    private val documentRepository: DocumentRepository,
-) {
+class FolderAndDocumentService(private val folderRepository: FolderRepository, private val documentRepository: DocumentRepository) {
     fun addDocumentToFolder(
         documentIdentifier: String,
         folderIdentifier: String,

@@ -17,6 +17,14 @@ spring:
       region:
         static: eu-west-3
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+
 springdoc:
   swagger-ui:
     path: /api-docs

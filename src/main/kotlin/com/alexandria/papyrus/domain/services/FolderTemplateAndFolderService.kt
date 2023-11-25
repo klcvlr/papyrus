@@ -27,6 +27,7 @@ class FolderTemplateAndFolderService(
     fun addSubFolderTemplate(
         folderTemplate: FolderTemplate,
         subFolderTemplateName: String,
+        userIdentifier: String,
     ): String {
         val subFolderTemplate =
             FolderTemplate(
@@ -34,6 +35,7 @@ class FolderTemplateAndFolderService(
                 parentFolder = folderTemplate,
                 name = subFolderTemplateName,
                 associatedDocumentType = null,
+                user = userIdentifier,
             )
         folderTemplate.addSubFolder(subFolderTemplate)
         val allFoldersCreatedFromThatFolderTemplate = findAllFoldersCreatedFrom(folderTemplate)
@@ -54,6 +56,7 @@ class FolderTemplateAndFolderService(
     fun changeAssociatedDocumentType(
         folderTemplateIdentifier: String,
         newDocumentTypeIdentifier: String,
+        userIdentifier: String,
     ) {
         val folderTemplate =
             folderTemplateRepository.findByIdentifier(folderTemplateIdentifier)
@@ -71,7 +74,10 @@ class FolderTemplateAndFolderService(
         folderRepository.saveAll(allFoldersCreatedFromThatFolderTemplate)
     }
 
-    fun createFolderFromTemplate(folderTemplate: FolderTemplate): Folder {
+    fun createFolderFromTemplate(
+        folderTemplate: FolderTemplate,
+        userIdentifier: String,
+    ): Folder {
         return if (folderTemplate.subFolders.isEmpty()) {
             Folder(
                 identifier = idGenerator.generate(),
@@ -80,7 +86,7 @@ class FolderTemplateAndFolderService(
                 associatedDocumentType = folderTemplate.documentType,
             )
         } else {
-            val subFolders = folderTemplate.subFolders.map { createFolderFromTemplate(it) }
+            val subFolders = folderTemplate.subFolders.map { createFolderFromTemplate(it, userIdentifier) }
             val folder =
                 Folder(
                     identifier = idGenerator.generate(),

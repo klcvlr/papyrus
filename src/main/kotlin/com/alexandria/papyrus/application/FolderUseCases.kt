@@ -20,15 +20,21 @@ class FolderUseCases(
     }
 
     @Transactional(readOnly = true)
-    fun findByIdentifier(folderIdentifier: String): Folder {
+    fun findByIdentifier(
+        folderIdentifier: String,
+        userIdentifier: String,
+    ): Folder {
         return folderRepository.findByIdentifier(folderIdentifier) ?: throw FolderNotFoundException(
             folderIdentifier,
         )
     }
 
-    fun createFromTemplate(folderTemplateIdentifier: String): String {
+    fun createFromTemplate(
+        folderTemplateIdentifier: String,
+        userIdentifier: String,
+    ): String {
         val folderTemplate = folderTemplateRepository.findByIdentifier(folderTemplateIdentifier) ?: throw FolderTemplateNotFoundException(folderTemplateIdentifier)
-        val folder = folderTemplateAndFolderService.createFolderFromTemplate(folderTemplate)
+        val folder = folderTemplateAndFolderService.createFolderFromTemplate(folderTemplate, userIdentifier)
         folderRepository.save(folder)
         return folder.identifier
     }

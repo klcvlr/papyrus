@@ -53,12 +53,13 @@ class FolderTemplateAndFolderServiceTest {
         val folderTemplate = aFolderTemplate(identifier = "folderTemplateIdentifier")
         val folder1 = aFolder(template = folderTemplate)
         val folder2 = aFolder()
+        val user = "userIdentifier"
         every { folderRepository.findAll() } returns listOf(folder1, folder2)
         every { folderTemplateRepository.save(any()) } returns Unit
         every { folderRepository.saveAll(any()) } returns Unit
         every { idGenerator.generate() } returns Faker().random.nextUUID()
 
-        folderTemplateAndFolderService.addSubFolderTemplate(folderTemplate, "subFolderTemplateName")
+        folderTemplateAndFolderService.addSubFolderTemplate(folderTemplate, "subFolderTemplateName", user)
 
         Assertions.assertThat(folder1.subFolders).hasSize(1)
         Assertions.assertThat(folder1.subFolders.first().name).isEqualTo("subFolderTemplateName")
@@ -68,6 +69,7 @@ class FolderTemplateAndFolderServiceTest {
     @Test
     fun `changing the associated document type of a FolderTemplate propagates to all the Folders created from that FolderTemplate`() {
         val folderTemplate = aFolderTemplate(identifier = "folderTemplateIdentifier")
+        val user = "userIdentifier"
         val folder1 = aFolder(template = folderTemplate)
         val folder2 = aFolder()
         val documentType = aDocumentType(identifier = "documentTypeIdentifier")
@@ -77,7 +79,7 @@ class FolderTemplateAndFolderServiceTest {
         every { folderTemplateRepository.save(any()) } returns Unit
         every { folderRepository.saveAll(any()) } returns Unit
 
-        folderTemplateAndFolderService.changeAssociatedDocumentType(folderTemplate.identifier, documentType.identifier)
+        folderTemplateAndFolderService.changeAssociatedDocumentType(folderTemplate.identifier, documentType.identifier, user)
 
         Assertions.assertThat(folder1.associatedDocumentType).isEqualTo(documentType)
         Assertions.assertThat(folder2.associatedDocumentType).isNull()
@@ -85,6 +87,7 @@ class FolderTemplateAndFolderServiceTest {
 
     @Test
     fun `creating a folder from a folderTemple creates the entire folder structure`() {
+        val user = "userIdentifier"
         val rootTemplateFolder = aFolderTemplate(name = "root")
         val verstappenTemplate = aFolderTemplate(name = "Verstappen")
         val leclercTemplate = aFolderTemplate(name = " Leclerc", associatedDocumentType = aDocumentType("LeclercType"))
@@ -94,7 +97,7 @@ class FolderTemplateAndFolderServiceTest {
         leclercTemplate.addSubFolder(perezTemplate)
         every { idGenerator.generate() } returns Faker().random.nextUUID()
 
-        val rootFolder = folderTemplateAndFolderService.createFolderFromTemplate(rootTemplateFolder)
+        val rootFolder = folderTemplateAndFolderService.createFolderFromTemplate(rootTemplateFolder, user)
 
         // Let's poop 💩 all over that 'one assert per test' rule
         Assertions.assertThat(rootFolder.subFolders).hasSize(2)

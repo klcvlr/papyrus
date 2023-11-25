@@ -10,13 +10,9 @@ import kotlin.jvm.optionals.getOrNull
 class FolderJpaRepository(
     private val folderDAO: FolderDAO,
 ) : FolderRepository {
-    override fun findByIdentifier(identifier: String): Folder? {
-        return folderDAO.findById(identifier).getOrNull()
-    }
+    override fun findByIdentifier(identifier: String): Folder? = folderDAO.findById(identifier).getOrNull()
 
-    override fun findAll(): List<Folder> {
-        return folderDAO.findAll().toList()
-    }
+    override fun findAll(): List<Folder> = folderDAO.findAll().toList()
 
     override fun save(folder: Folder) {
         folderDAO.save(folder)

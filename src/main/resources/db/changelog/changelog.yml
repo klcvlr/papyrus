@@ -18,6 +18,9 @@ databaseChangeLog:
                   type: text
                   constraints:
                     nullable: false
+              - column:
+                  name: user_identifier
+                  type: text
 
   - changeSet:
       id: 2-create_FOLDER_TEMPLATE_table
@@ -50,6 +53,11 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_folder_template__associated_document_type_identifier
                     references: document_type(identifier)
+              - column:
+                  name: user_identifier
+                  type: text
+                  constraints:
+                    nullable: false
 
   - changeSet:
       id: 3-create_FOLDER_table
@@ -94,6 +102,9 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_folder__template_identifier
                     references: folder_template(identifier)
+              - column:
+                  name: user_identifier
+                  type: text
 
   - changeSet:
       id: 4-create_DOCUMENT_table
@@ -138,3 +149,6 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_document__predicted_type_identifier
                     references: document_type(identifier)
+              - column:
+                  name: user_identifier
+                  type: text

@@ -10,7 +10,6 @@ class SNSNotificationPublisher(
     private val snsTemplate: SnsTemplate,
     private val cloudEndpoints: CloudEndpoints,
 ) : NotificationPublisher {
-    override fun sendUploadNotification(documentId: String) {
+    override fun sendUploadNotification(documentId: String) =
         snsTemplate.sendNotification(cloudEndpoints.topic, documentId, "upload-completed")
-    }
 }

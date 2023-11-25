@@ -21,10 +21,7 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     @GetMapping("/{documentIdentifier}")
     fun documentByIdentifier(
         @PathVariable documentIdentifier: String,
-    ): DocumentView {
-        val document = documentUseCases.findByIdentifier(documentIdentifier)
-        return toDocumentView(document)
-    }
+    ): DocumentView = toDocumentView(documentUseCases.findByIdentifier(documentIdentifier))
 
     @PostMapping(consumes = ["multipart/form-data"])
     @ResponseStatus(HttpStatus.CREATED)
@@ -32,16 +29,8 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
         @RequestPart createDocumentRequest: CreateDocumentRequest,
         @RequestPart file: MultipartFile,
     ): ResponseEntity<Unit> {
-        val fileWrapper =
-            FileWrapper(
-                name = createDocumentRequest.name,
-                content = file.bytes,
-            )
-        val documentIdentifier =
-            documentUseCases.createDocument(
-                createDocumentRequest.folderIdentifier,
-                fileWrapper,
-            )
+        val fileWrapper = FileWrapper(name = createDocumentRequest.name, content = file.bytes)
+        val documentIdentifier = documentUseCases.createDocument(createDocumentRequest.folderIdentifier, fileWrapper)
         return entityWithLocation(documentIdentifier)
     }
 

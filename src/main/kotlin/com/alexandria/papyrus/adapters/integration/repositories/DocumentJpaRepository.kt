@@ -10,9 +10,7 @@ import kotlin.jvm.optionals.getOrNull
 class DocumentJpaRepository(
     private val documentDAO: DocumentDAO,
 ) : DocumentRepository {
-    override fun findByIdentifier(documentIdentifier: String): Document? {
-        return documentDAO.findById(documentIdentifier).getOrNull()
-    }
+    override fun findByIdentifier(documentIdentifier: String): Document? = documentDAO.findById(documentIdentifier).getOrNull()
 
     override fun save(document: Document) {
         documentDAO.save(document)

@@ -49,12 +49,14 @@ fun aFolderTemplate(
     identifier: String = faker.random.nextUUID(),
     name: String = faker.rickAndMorty.characters(),
     parentFolder: FolderTemplate? = null,
+    userIdentifier: String = faker.archer.characters(),
     associatedDocumentType: DocumentType? = null,
 ) = FolderTemplate(
     identifier = identifier,
     name = name,
     parentFolder = parentFolder,
     associatedDocumentType = associatedDocumentType,
+    user = userIdentifier,
 )
 
 fun aFileWrapper(

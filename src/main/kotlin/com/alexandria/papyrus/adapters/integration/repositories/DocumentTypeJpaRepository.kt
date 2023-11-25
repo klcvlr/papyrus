@@ -10,13 +10,9 @@ import kotlin.jvm.optionals.getOrNull
 class DocumentTypeJpaRepository(
     private val documentTypeDAO: DocumentTypeDAO,
 ) : DocumentTypeRepository {
-    override fun findByIdentifier(identifier: String): DocumentType? {
-        return documentTypeDAO.findById(identifier).getOrNull()
-    }
+    override fun findByIdentifier(identifier: String): DocumentType? = documentTypeDAO.findById(identifier).getOrNull()
 
-    override fun save(documentType: DocumentType): DocumentType {
-        return documentTypeDAO.save(documentType)
-    }
+    override fun save(documentType: DocumentType): DocumentType = documentTypeDAO.save(documentType)
 }
 
 interface DocumentTypeDAO : CrudRepository<DocumentType, String>

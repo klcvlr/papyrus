@@ -10,6 +10,7 @@ fun createAFolderTemplate(folderTemplateName: String): String {
     val requestBody = """ { "name": "$folderTemplateName" } """
 
     return given()
+        .auth().basic("user", "user")
         .contentType(ContentType.JSON)
         .body(requestBody)
         .post(requestUrl)
@@ -29,6 +30,7 @@ fun createSubFolderTemplate(
     val requestBody = """ { "name": "$subFolderTemplateName" } """
 
     return given()
+        .auth().basic("user", "user")
         .contentType(ContentType.JSON)
         .body(requestBody)
         .post(requestUrl)
@@ -45,6 +47,7 @@ fun createFolderFromTemplate(folderTemplateId: String): String {
     val requestBody = """ { "templateIdentifier": "$folderTemplateId" } """
 
     return given()
+        .auth().basic("user", "user")
         .contentType(ContentType.JSON)
         .body(requestBody)
         .post(requestUrl)
@@ -64,6 +67,7 @@ fun renameFolderTemplate(
     val requestBody = """ { "name": "$newName" } """
 
     given()
+        .auth().basic("user", "user")
         .contentType(ContentType.JSON)
         .body(requestBody)
         .post(requestUrl)
@@ -81,6 +85,7 @@ fun createDocument(
     val requestBody = """ { "name": "$name", "folderIdentifier": "$folderId" } """
 
     return given()
+        .auth().basic("user", "user")
         .contentType("multipart/form-data")
         .multiPart("createDocumentRequest", requestBody, "application/json")
         .multiPart("file", file)
@@ -99,6 +104,7 @@ fun createDocumentType(name: String): String {
     val requestBody = """ { "name": "$name" } """
 
     return given()
+        .auth().basic("user", "user")
         .contentType(ContentType.JSON)
         .body(requestBody)
         .post(requestUrl)
@@ -118,6 +124,7 @@ fun changeDocumentType(
     val requestBody = """ { "typeIdentifier": "$documentTypeId" } """
 
     given()
+        .auth().basic("user", "user")
         .contentType(ContentType.JSON)
         .body(requestBody)
         .post(requestUrl)
@@ -134,6 +141,7 @@ fun changePredictedDocumentType(
     val requestBody = """ { "typeIdentifier": "$documentTypeId" } """
 
     given()
+        .auth().basic("user", "user")
         .contentType(ContentType.JSON)
         .body(requestBody)
         .post(requestUrl)
@@ -150,6 +158,7 @@ fun changeFolderTemplateAssociatedDocumentType(
     val requestBody = """ { "typeIdentifier": "$documentTypeId" } """
 
     given()
+        .auth().basic("user", "user")
         .contentType(ContentType.JSON)
         .body(requestBody)
         .post(requestUrl)

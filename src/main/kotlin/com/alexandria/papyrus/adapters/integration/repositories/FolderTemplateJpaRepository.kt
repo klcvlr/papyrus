@@ -4,6 +4,7 @@ import com.alexandria.papyrus.domain.model.FolderTemplate
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import kotlin.jvm.optionals.getOrNull
 
@@ -11,13 +12,12 @@ import kotlin.jvm.optionals.getOrNull
 class FolderTemplateJpaRepository(
     private val folderTemplateDAO: FolderTemplateDAO,
 ) : FolderTemplateRepository {
-    override fun findByIdentifier(identifier: String): FolderTemplate? {
-        return folderTemplateDAO.findById(identifier).getOrNull()
-    }
+    override fun findByIdentifier(identifier: String): FolderTemplate? = folderTemplateDAO.findById(identifier).getOrNull()
 
-    override fun findAllRoots(): List<FolderTemplate> {
-        return folderTemplateDAO.findAllRoots().toList()
-    }
+    override fun findAllRootFolderTemplatesForUser(userIdentifier: String): List<FolderTemplate> =
+        folderTemplateDAO.findAllRootFolderTemplatesForUser(
+            userIdentifier,
+        ).toList()
 
     override fun save(folderTemplate: FolderTemplate) {
         folderTemplateDAO.save(folderTemplate)
@@ -25,6 +25,8 @@ class FolderTemplateJpaRepository(
 }
 
 interface FolderTemplateDAO : CrudRepository<FolderTemplate, String> {
-    @Query("SELECT ft FROM FolderTemplate ft WHERE ft._parentFolder IS NULL")
-    fun findAllRoots(): List<FolderTemplate>
+    @Query("SELECT ft FROM FolderTemplate ft WHERE ft._user = :userIdentifier AND ft._parentFolder IS NULL")
+    fun findAllRootFolderTemplatesForUser(
+        @Param("userIdentifier") userIdentifier: String,
+    ): List<FolderTemplate>
 }

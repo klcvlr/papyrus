@@ -12,16 +12,11 @@ class DocumentTypeUseCases(
     private val documentTypeRepository: DocumentTypeRepository,
 ) {
     @Transactional(readOnly = true)
-    fun findByIdentifier(identifier: String): DocumentType {
-        return documentTypeRepository.findByIdentifier(identifier) ?: throw DocumentTypeNotFoundException(identifier)
-    }
+    fun findByIdentifier(identifier: String): DocumentType =
+        documentTypeRepository.findByIdentifier(identifier) ?: throw DocumentTypeNotFoundException(identifier)
 
     fun create(name: String): String {
-        val documentType =
-            DocumentType(
-                identifier = idGenerator.generate(),
-                name = name,
-            )
+        val documentType = DocumentType(identifier = idGenerator.generate(), name = name)
         documentTypeRepository.save(documentType)
         return documentType.identifier
     }
