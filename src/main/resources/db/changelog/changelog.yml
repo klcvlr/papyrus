@@ -21,6 +21,8 @@ databaseChangeLog:
               - column:
                   name: user_identifier
                   type: text
+                  constraints:
+                    nullable: false
 
   - changeSet:
       id: 2-create_FOLDER_TEMPLATE_table
@@ -105,6 +107,8 @@ databaseChangeLog:
               - column:
                   name: user_identifier
                   type: text
+                  constraints:
+                    nullable: false
 
   - changeSet:
       id: 4-create_DOCUMENT_table
@@ -152,3 +156,5 @@ databaseChangeLog:
               - column:
                   name: user_identifier
                   type: text
+                  constraints:
+                    nullable: false

@@ -45,6 +45,7 @@ class FolderTemplateAndFolderService(
                     identifier = idGenerator.generate(),
                     template = folderTemplate,
                     name = subFolderTemplateName,
+                    user = userIdentifier,
                 )
             it.addSubFolder(subFolder)
         }
@@ -84,6 +85,7 @@ class FolderTemplateAndFolderService(
                 template = folderTemplate,
                 name = folderTemplate.name,
                 associatedDocumentType = folderTemplate.documentType,
+                user = userIdentifier,
             )
         } else {
             val subFolders = folderTemplate.subFolders.map { createFolderFromTemplate(it, userIdentifier) }
@@ -93,6 +95,7 @@ class FolderTemplateAndFolderService(
                     template = folderTemplate,
                     name = folderTemplate.name,
                     associatedDocumentType = folderTemplate.documentType,
+                    user = userIdentifier,
                 )
             subFolders.forEach { folder.addSubFolder(it) }
             folder

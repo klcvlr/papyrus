@@ -26,7 +26,7 @@ val versions =
         "faker" to "1.15.0",
         "rest-assured" to "5.3.2",
         "archunit-junit5" to "1.2.0",
-        "spring-cloud-aws" to "3.0.0",
+        "spring-cloud-aws" to "3.0.3",
         "springmockk" to "4.0.2",
     )
 

@@ -32,12 +32,16 @@ class Document internal constructor() {
     @JoinColumn(name = "predicted_type_identifier", referencedColumnName = "identifier")
     private var _predictedType: DocumentType? = null
 
+    @Column(name = "user_identifier")
+    private var _user: String = ""
+
     internal constructor(
         identifier: String,
         name: String,
         parentFolder: Folder,
         type: DocumentType? = null,
         predictedType: DocumentType? = null,
+        user: String,
     ) : this() {
         this._identifier = identifier
         this._name = name
@@ -45,6 +49,7 @@ class Document internal constructor() {
         this._rootFolder = parentFolder.rootFolder
         this._type = type
         this._predictedType = predictedType
+        this._user = user
     }
 
     fun rename(newName: String) {
@@ -75,8 +80,8 @@ class Document internal constructor() {
     val rootFolder: Folder get() = _rootFolder!!
     val name: String get() = _name
     val type: DocumentType? get() = _type
-
     val predictedType: DocumentType? get() = _predictedType
+    val user: String get() = _user
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -54,6 +54,7 @@ class DocumentE2ETest {
             .body("name", equalTo("newDocument"))
             .body("associatedType", nullValue())
             .body("parentFolderIdentifier", equalTo(folderId))
+            .body("user", equalTo("user"))
     }
 
     @Test
@@ -85,6 +86,7 @@ class DocumentE2ETest {
             .body("type.name", equalTo("newDocumentType"))
             .body("predictedType", nullValue())
             .body("parentFolderIdentifier", equalTo(folderId))
+            .body("user", equalTo("user"))
     }
 
     @Test
@@ -116,6 +118,7 @@ class DocumentE2ETest {
             .body("predictedType.identifier", equalTo(documentTypeId))
             .body("predictedType.name", equalTo("newDocumentType"))
             .body("parentFolderIdentifier", equalTo(folderId))
+            .body("user", equalTo("user"))
     }
 
     @Test

@@ -47,11 +47,11 @@ class DocumentTypeUseCasesTest {
 
     @Test
     fun `document type can be created`() {
-        val documentType = aDocumentType(identifier = "documentTypeIdentifier")
+        val documentType = aDocumentType(identifier = "documentTypeIdentifier", user = "user")
         every { idGenerator.generate() } returns documentType.identifier
         every { documentTypeRepository.save(any()) } returns documentType
 
-        val createdDocumentTypeIdentifier = documentTypeUseCases.create("documentTypeName")
+        val createdDocumentTypeIdentifier = documentTypeUseCases.create("documentTypeName", "user")
 
         assertThat(createdDocumentTypeIdentifier).isEqualTo(documentType.identifier)
     }

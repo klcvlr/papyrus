@@ -15,8 +15,11 @@ class DocumentTypeUseCases(
     fun findByIdentifier(identifier: String): DocumentType =
         documentTypeRepository.findByIdentifier(identifier) ?: throw DocumentTypeNotFoundException(identifier)
 
-    fun create(name: String): String {
-        val documentType = DocumentType(identifier = idGenerator.generate(), name = name)
+    fun create(
+        name: String,
+        user: String,
+    ): String {
+        val documentType = DocumentType(identifier = idGenerator.generate(), name = name, user = user)
         documentTypeRepository.save(documentType)
         return documentType.identifier
     }

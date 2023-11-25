@@ -36,6 +36,7 @@ class DocumentTypeE2ETest {
             .statusCode(200)
             .body("identifier", notNullValue())
             .body("name", equalTo("newDocumentType"))
+            .body("user", equalTo("user"))
     }
 
     @Test

@@ -15,12 +15,14 @@ fun aDocument(
     parentFolder: Folder = aFolder(),
     type: DocumentType? = null,
     predictedType: DocumentType? = null,
+    user: String = aUser(),
 ) = Document(
     identifier = identifier,
     name = name,
     parentFolder = parentFolder,
     type = type,
     predictedType = predictedType,
+    user = user,
 )
 
 fun aFolder(
@@ -29,34 +31,38 @@ fun aFolder(
     parentFolder: Folder? = null,
     template: FolderTemplate = aFolderTemplate(),
     associatedDocumentType: DocumentType? = null,
+    user: String = aUser(),
 ) = Folder(
     identifier = identifier,
     name = name,
     parentFolder = parentFolder,
     template = template,
     associatedDocumentType = associatedDocumentType,
+    user = user,
 )
 
 fun aDocumentType(
     identifier: String = faker.random.nextUUID(),
     name: String = faker.harryPotter.spells(),
+    user: String = aUser(),
 ) = DocumentType(
     identifier = identifier,
     name = name,
+    user,
 )
 
 fun aFolderTemplate(
     identifier: String = faker.random.nextUUID(),
     name: String = faker.rickAndMorty.characters(),
     parentFolder: FolderTemplate? = null,
-    userIdentifier: String = faker.archer.characters(),
+    user: String = aUser(),
     associatedDocumentType: DocumentType? = null,
 ) = FolderTemplate(
     identifier = identifier,
     name = name,
     parentFolder = parentFolder,
     associatedDocumentType = associatedDocumentType,
-    user = userIdentifier,
+    user = user,
 )
 
 fun aFileWrapper(
@@ -66,3 +72,5 @@ fun aFileWrapper(
     name = name,
     content = content,
 )
+
+fun aUser(name: String = faker.name.name()) = name

@@ -11,6 +11,7 @@ import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.fakes.aDocument
 import com.alexandria.papyrus.fakes.aDocumentType
 import com.alexandria.papyrus.fakes.aFileWrapper
+import com.alexandria.papyrus.fakes.aUser
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -68,13 +69,14 @@ class DocumentUseCasesTest {
     fun `document can be created`() {
         val document = aDocument(identifier = "documentIdentifier", name = "documentName")
         val fileWrapper = aFileWrapper()
+        val user = aUser()
         every { idGenerator.generate() } returns document.identifier
         every { documentRepository.save(document) } returns Unit
         every { folderRepository.findByIdentifier("parentFolderIdentifier") } returns document.parentFolder
         every { fileRepository.save(any(), fileWrapper) } returns Unit
         every { notificationPublisher.sendUploadNotification(document.identifier) } returns Unit
 
-        val createdDocumentIdentifier = documentUseCases.createDocument("parentFolderIdentifier", fileWrapper)
+        val createdDocumentIdentifier = documentUseCases.createDocument("parentFolderIdentifier", fileWrapper, user)
 
         assertThat(createdDocumentIdentifier).isEqualTo(document.identifier)
     }
@@ -82,11 +84,12 @@ class DocumentUseCasesTest {
     @Test
     fun `an exception is thrown when creating a document in a folder that does not exist`() {
         val fileWrapper = aFileWrapper()
+        val user = aUser()
         every { folderRepository.findByIdentifier(any()) } returns null
         every { fileRepository.save(any(), fileWrapper) } returns Unit
 
         assertThatThrownBy {
-            documentUseCases.createDocument("parentFolderIdentifier", fileWrapper)
+            documentUseCases.createDocument("parentFolderIdentifier", fileWrapper, user)
         }.isInstanceOf(
             FolderNotFoundException::class.java,
         ).hasMessage("Folder with identifier 'parentFolderIdentifier' not found")
@@ -96,11 +99,12 @@ class DocumentUseCasesTest {
     fun `document type can be changed`() {
         val document = aDocument(identifier = "documentIdentifier")
         val documentType = aDocumentType()
+        val user = aUser()
         every { documentRepository.findByIdentifier("documentIdentifier") } returns document
         every { documentTypeRepository.findByIdentifier("documentTypeIdentifier") } returns documentType
         every { documentRepository.save(document) } returns Unit
 
-        documentUseCases.changeType("documentIdentifier", "documentTypeIdentifier")
+        documentUseCases.changeType("documentIdentifier", "documentTypeIdentifier", user)
 
         assertThat(document.type).isEqualTo(documentType)
     }
@@ -109,11 +113,12 @@ class DocumentUseCasesTest {
     fun `document predicted type can be changed`() {
         val document = aDocument(identifier = "documentIdentifier")
         val documentType = aDocumentType()
+        val user = aUser()
         every { documentRepository.findByIdentifier("documentIdentifier") } returns document
         every { documentTypeRepository.findByIdentifier("documentTypeIdentifier") } returns documentType
         every { documentRepository.save(document) } returns Unit
 
-        documentUseCases.changePredictedType("documentIdentifier", "documentTypeIdentifier")
+        documentUseCases.changePredictedType("documentIdentifier", "documentTypeIdentifier", user)
 
         assertThat(document.predictedType).isEqualTo(documentType)
     }

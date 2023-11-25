@@ -3,6 +3,7 @@ package com.alexandria.papyrus.adapters.exposition.rest
 import com.alexandria.papyrus.adapters.exposition.rest.DocumentTypeView.Companion.toDocumentTypeView
 import com.alexandria.papyrus.application.DocumentTypeUseCases
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -24,8 +25,9 @@ class DocumentTypeController(private val documentTypeUseCases: DocumentTypeUseCa
     @PostMapping
     fun create(
         @RequestBody createDocumentTypeRequest: CreateDocumentTypeRequest,
+        authentication: Authentication,
     ): ResponseEntity<Unit> {
-        val documentTypeId = documentTypeUseCases.create(createDocumentTypeRequest.name)
+        val documentTypeId = documentTypeUseCases.create(createDocumentTypeRequest.name, authentication.name)
         return entityWithLocation(documentTypeId)
     }
 }

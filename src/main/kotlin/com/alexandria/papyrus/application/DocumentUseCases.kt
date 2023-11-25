@@ -29,9 +29,10 @@ class DocumentUseCases(
     fun createDocument(
         parentFolderIdentifier: String,
         file: FileWrapper,
+        user: String,
     ): String {
         val parentFolder = folderRepository.findByIdentifier(parentFolderIdentifier) ?: throw FolderNotFoundException(parentFolderIdentifier)
-        val document = Document(identifier = idGenerator.generate(), name = file.name, parentFolder = parentFolder)
+        val document = Document(identifier = idGenerator.generate(), name = file.name, parentFolder = parentFolder, user = user)
         fileRepository.save(generateFileId(file), file)
         documentRepository.save(document)
         notificationPublisher.sendUploadNotification(document.identifier)
@@ -41,6 +42,7 @@ class DocumentUseCases(
     fun changeType(
         documentIdentifier: String,
         documentTypeIdentifier: String,
+        user: String,
     ) {
         val document = documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
         val type = documentTypeRepository.findByIdentifier(documentTypeIdentifier) ?: throw DocumentTypeNotFoundException(documentTypeIdentifier)
@@ -51,6 +53,7 @@ class DocumentUseCases(
     fun changePredictedType(
         documentIdentifier: String,
         documentTypeIdentifier: String,
+        user: String,
     ) {
         val document = documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
         val type = documentTypeRepository.findByIdentifier(documentTypeIdentifier) ?: throw DocumentTypeNotFoundException(documentTypeIdentifier)

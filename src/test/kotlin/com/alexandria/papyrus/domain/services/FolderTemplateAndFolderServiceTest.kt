@@ -7,6 +7,7 @@ import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 import com.alexandria.papyrus.fakes.aDocumentType
 import com.alexandria.papyrus.fakes.aFolder
 import com.alexandria.papyrus.fakes.aFolderTemplate
+import com.alexandria.papyrus.fakes.aUser
 import io.github.serpro69.kfaker.Faker
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -53,7 +54,7 @@ class FolderTemplateAndFolderServiceTest {
         val folderTemplate = aFolderTemplate(identifier = "folderTemplateIdentifier")
         val folder1 = aFolder(template = folderTemplate)
         val folder2 = aFolder()
-        val user = "userIdentifier"
+        val user = aUser()
         every { folderRepository.findAll() } returns listOf(folder1, folder2)
         every { folderTemplateRepository.save(any()) } returns Unit
         every { folderRepository.saveAll(any()) } returns Unit
@@ -69,7 +70,7 @@ class FolderTemplateAndFolderServiceTest {
     @Test
     fun `changing the associated document type of a FolderTemplate propagates to all the Folders created from that FolderTemplate`() {
         val folderTemplate = aFolderTemplate(identifier = "folderTemplateIdentifier")
-        val user = "userIdentifier"
+        val user = aUser()
         val folder1 = aFolder(template = folderTemplate)
         val folder2 = aFolder()
         val documentType = aDocumentType(identifier = "documentTypeIdentifier")
@@ -87,7 +88,7 @@ class FolderTemplateAndFolderServiceTest {
 
     @Test
     fun `creating a folder from a folderTemple creates the entire folder structure`() {
-        val user = "userIdentifier"
+        val user = aUser()
         val rootTemplateFolder = aFolderTemplate(name = "root")
         val verstappenTemplate = aFolderTemplate(name = "Verstappen")
         val leclercTemplate = aFolderTemplate(name = " Leclerc", associatedDocumentType = aDocumentType("LeclercType"))

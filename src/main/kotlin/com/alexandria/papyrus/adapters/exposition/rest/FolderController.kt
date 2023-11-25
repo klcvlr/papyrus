@@ -42,7 +42,7 @@ class FolderController(private val folderUseCases: FolderUseCases) {
         val folderIdentifier =
             folderUseCases.createFromTemplate(
                 folderTemplateIdentifier = createFolderFromTemplateRequest.templateIdentifier,
-                userIdentifier = authentication.name,
+                user = authentication.name,
             )
         return entityWithLocation(folderIdentifier)
     }

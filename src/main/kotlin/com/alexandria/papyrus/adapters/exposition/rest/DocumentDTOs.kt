@@ -15,6 +15,7 @@ data class DocumentView(
     val parentFolderIdentifier: String,
     val type: DocumentTypeView?,
     val predictedType: DocumentTypeView?,
+    val user: String,
 ) {
     companion object {
         fun toDocumentView(document: Document): DocumentView =
@@ -24,6 +25,7 @@ data class DocumentView(
                 parentFolderIdentifier = document.parentFolder.identifier,
                 type = if (document.type != null) toDocumentTypeView(document.type!!) else null,
                 predictedType = if (document.predictedType != null) toDocumentTypeView(document.predictedType!!) else null,
+                user = document.user,
             )
     }
 }
