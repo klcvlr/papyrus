@@ -1,0 +1,48 @@
+type Query {
+    folders: [Folder]
+
+    folderByIdentifier(identifier: String): Folder
+
+    folderTemplateByIdentifier(identifier: String): FolderTemplate
+
+    documentByIdentifier(identifier: String): Document
+
+    documentTypeByIdentifier(identifier: String): DocumentType
+}
+
+type DocumentType {
+    identifier: String
+    name: String
+    user: String
+}
+
+type Document {
+    identifier: String
+    name: String
+    type: DocumentType
+    rootFolder: Folder
+    parentFolder: Folder
+    predictedType: DocumentType
+    user: String
+}
+
+type Folder {
+    identifier: String
+    name: String
+    parentFolder: Folder
+    rootFolder: Folder
+    subFolders: [Folder]
+    documents: [Document]
+    associatedDocumentType: DocumentType
+    template: FolderTemplate
+    user: String
+}
+
+type FolderTemplate {
+    identifier: String
+    name: String
+    parentFolder: FolderTemplate
+    subFolders: [FolderTemplate]
+    associatedDocumentType: DocumentType
+    user: String
+}

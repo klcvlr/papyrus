@@ -1,5 +1,9 @@
 spring:
 
+  graphql:
+    graphiql:
+      enabled: true
+
   datasource:
     url: jdbc:postgresql://localhost:5432/papyrus
     username: toth
@@ -34,3 +38,4 @@ papyrus:
     topic: papyrus
     queue: documents-uploaded
     bucket: io.alexandria.papyrus.codex
+

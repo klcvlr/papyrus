@@ -19,6 +19,7 @@ class ArchitectureTest {
             .domainServices("com.alexandria.papyrus.domain.services..", "com.alexandria.papyrus.domain.repositories..")
             .applicationServices("com.alexandria.papyrus.application..")
             .adapter("rest", "com.alexandria.papyrus.adapters.exposition.rest..")
+            .adapter("graphql", "com.alexandria.papyrus.adapters.exposition.graphql..")
             .adapter("inbound-messaging", "com.alexandria.papyrus.adapters.exposition.messaging..")
             .adapter("outbound-messaging", "com.alexandria.papyrus.adapters.integration.messaging..")
             .adapter("persistence", "com.alexandria.papyrus.adapters.integration.repositories..")

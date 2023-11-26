@@ -40,6 +40,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("org.springframework.boot:spring-boot-starter-graphql")
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.liquibase:liquibase-core")
@@ -50,6 +52,7 @@ dependencies {
     implementation("io.awspring.cloud:spring-cloud-aws-starter-sqs")
     implementation("software.amazon.awssdk:s3-transfer-manager")
     implementation("software.amazon.awssdk.crt:aws-crt")
+    implementation("org.yaml:snakeyaml:2.2")
 
     runtimeOnly("org.postgresql:postgresql")
 
