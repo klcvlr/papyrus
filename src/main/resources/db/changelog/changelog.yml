@@ -23,6 +23,12 @@ databaseChangeLog:
                   type: text
                   constraints:
                     nullable: false
+        - createIndex:
+            tableName: document_type
+            indexName: idx_document_type__user_identifier
+            columns:
+              - column:
+                  name: user_identifier
 
   - changeSet:
       id: 2-create_FOLDER_TEMPLATE_table
@@ -60,6 +66,24 @@ databaseChangeLog:
                   type: text
                   constraints:
                     nullable: false
+        - createIndex:
+            tableName: folder_template
+            indexName: idx_folder_template__parent_folder_identifier
+            columns:
+              - column:
+                  name: parent_folder_identifier
+        - createIndex:
+            tableName: folder_template
+            indexName: idx_folder_template__associated_document_type_identifier
+            columns:
+              - column:
+                  name: associated_document_type_identifier
+        - createIndex:
+            tableName: folder_template
+            indexName: idx_folder_template__user_identifier
+            columns:
+              - column:
+                  name: user_identifier
 
   - changeSet:
       id: 3-create_FOLDER_table
@@ -109,6 +133,37 @@ databaseChangeLog:
                   type: text
                   constraints:
                     nullable: false
+        - createIndex:
+            tableName: folder
+            indexName: idx_folder__parent_folder_identifier
+            columns:
+              - column:
+                  name: parent_folder_identifier
+        - createIndex:
+            tableName: folder
+            indexName: idx_folder__root_folder_identifier
+            columns:
+              - column:
+                  name: root_folder_identifier
+        - createIndex:
+            tableName: folder
+            indexName: idx_folder__associated_document_type_identifier
+            columns:
+              - column:
+                  name: associated_document_type_identifier
+        - createIndex:
+            tableName: folder
+            indexName: idx_folder__template_identifier
+            columns:
+              - column:
+                  name: template_identifier
+        - createIndex:
+            tableName: folder
+            indexName: idx_folder__user_identifier
+            columns:
+              - column:
+                  name: user_identifier
+
 
   - changeSet:
       id: 4-create_DOCUMENT_table
@@ -158,3 +213,33 @@ databaseChangeLog:
                   type: text
                   constraints:
                     nullable: false
+        - createIndex:
+            tableName: document
+            indexName: idx_document__parent_folder_identifier
+            columns:
+              - column:
+                  name: parent_folder_identifier
+        - createIndex:
+            tableName: document
+            indexName: idx_document__root_folder_identifier
+            columns:
+              - column:
+                  name: root_folder_identifier
+        - createIndex:
+            tableName: document
+            indexName: idx_document__type_identifier
+            columns:
+              - column:
+                  name: type_identifier
+        - createIndex:
+            tableName: document
+            indexName: idx_document__predicted_type_identifier
+            columns:
+              - column:
+                  name: predicted_type_identifier
+        - createIndex:
+            tableName: document
+            indexName: idx_document__user_identifier
+            columns:
+              - column:
+                  name: user_identifier
