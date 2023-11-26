@@ -3,6 +3,8 @@ package com.alexandria.papyrus.adapters.exposition.rest
 import com.alexandria.papyrus.adapters.exposition.rest.DocumentView.Companion.toDocumentView
 import com.alexandria.papyrus.application.DocumentUseCases
 import com.alexandria.papyrus.domain.model.FileWrapper
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
@@ -18,12 +20,15 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/v1/documents")
+@Tag(name = "Documents")
 class DocumentController(private val documentUseCases: DocumentUseCases) {
+    @Operation(summary = "Find document by Id")
     @GetMapping("/{documentIdentifier}")
     fun documentByIdentifier(
         @PathVariable documentIdentifier: String,
     ): DocumentView = toDocumentView(documentUseCases.findByIdentifier(documentIdentifier))
 
+    @Operation(summary = "Create a document")
     @PostMapping(consumes = ["multipart/form-data"])
     @ResponseStatus(HttpStatus.CREATED)
     fun create(
@@ -36,6 +41,7 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
         return entityWithLocation(documentIdentifier)
     }
 
+    @Operation(summary = "Change Document Type")
     @PostMapping("/{documentIdentifier}/change-type")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeType(
@@ -46,6 +52,7 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
         documentUseCases.changeType(documentIdentifier, changeTypeRequest.typeIdentifier, authentication.name)
     }
 
+    @Operation(summary = "Change Document Predicted Type")
     @PostMapping("/{documentIdentifier}/change-predicted-type")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changePredictedType(
