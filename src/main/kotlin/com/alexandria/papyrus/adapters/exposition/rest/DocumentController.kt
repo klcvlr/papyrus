@@ -62,4 +62,15 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     ) {
         documentUseCases.changePredictedType(documentIdentifier, changePredictedTypeRequest.typeIdentifier, authentication.name)
     }
+
+    @Operation(summary = "Change Document Status")
+    @PostMapping("/{documentIdentifier}/change-status")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun changeStatus(
+        @PathVariable documentIdentifier: String,
+        @RequestBody changeStatusRequest: ChangeStatusRequest,
+        authentication: Authentication,
+    ) {
+        documentUseCases.changeStatus(documentIdentifier, changeStatusRequest.status)
+    }
 }

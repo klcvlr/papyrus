@@ -23,8 +23,7 @@ class FolderJpaRepository(
         folderDAO.saveAll(folders)
     }
 
-    override fun findAllByTemplate(templateIdentifier: String): List<Folder> =
-        folderDAO.findAllByTemplate(templateIdentifier)
+    override fun findAllByTemplate(templateIdentifier: String): List<Folder> = folderDAO.findAllByTemplate(templateIdentifier)
 }
 
 interface FolderDAO : CrudRepository<Folder, String> {

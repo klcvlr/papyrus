@@ -35,6 +35,9 @@ class Document internal constructor() {
     @Column(name = "user_identifier")
     private var _user: String = ""
 
+    @Column(name = "status")
+    private var _status: String = ""
+
     internal constructor(
         identifier: String,
         name: String,
@@ -50,6 +53,7 @@ class Document internal constructor() {
         this._type = type
         this._predictedType = predictedType
         this._user = user
+        this._status = "CREATED"
     }
 
     fun rename(newName: String) {
@@ -74,6 +78,10 @@ class Document internal constructor() {
         _rootFolder = folder.rootFolder
     }
 
+    fun changeStatus(status: String) {
+        _status = status
+    }
+
     // ------------------ GETTERS ------------------
     val identifier: String get() = _identifier
     val parentFolder: Folder get() = _parentFolder!!
@@ -82,6 +90,7 @@ class Document internal constructor() {
     val type: DocumentType? get() = _type
     val predictedType: DocumentType? get() = _predictedType
     val user: String get() = _user
+    val status: String get() = _status
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -30,6 +30,7 @@ class DocumentTest {
         assertThat(document.rootFolder).isEqualTo(rootFolder)
         assertThat(document.type).isEqualTo(documentType)
         assertThat(document.predictedType).isEqualTo(predictedDocumentType)
+        assertThat(document.status).isEqualTo("CREATED")
     }
 
     @Test
@@ -73,5 +74,14 @@ class DocumentTest {
 
         assertThat(document.parentFolder).isEqualTo(folder)
         assertThat(document.rootFolder).isEqualTo(rootFolder)
+    }
+
+    @Test
+    fun `a document's status can be changed`() {
+        val document = aDocument()
+
+        document.changeStatus("newStatus")
+
+        assertThat(document.status).isEqualTo("newStatus")
     }
 }

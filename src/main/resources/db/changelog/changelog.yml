@@ -213,6 +213,11 @@ databaseChangeLog:
                   type: text
                   constraints:
                     nullable: false
+              - column:
+                  name: status
+                  type: text
+                  constraints:
+                    nullable: false
         - createIndex:
             tableName: document
             indexName: idx_document__parent_folder_identifier

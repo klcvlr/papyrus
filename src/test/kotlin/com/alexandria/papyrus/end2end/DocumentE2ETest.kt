@@ -55,6 +55,7 @@ class DocumentE2ETest {
             .body("associatedType", nullValue())
             .body("parentFolderIdentifier", equalTo(folderId))
             .body("user", equalTo("user"))
+            .body("status", equalTo("CREATED"))
     }
 
     @Test
@@ -119,6 +120,34 @@ class DocumentE2ETest {
             .body("predictedType.name", equalTo("newDocumentType"))
             .body("parentFolderIdentifier", equalTo(folderId))
             .body("user", equalTo("user"))
+    }
+
+    @Test
+    fun `change a document's status`() {
+        val folderTemplateLocation = createAFolderTemplate("newFolderTemplate")
+        val folderTemplateId = folderTemplateLocation.split("/").last()
+
+        val folderLocation = createFolderFromTemplate(folderTemplateId)
+        val folderId = folderLocation.split("/").last()
+
+        val file = resourceLoader.getResource("classpath:banner.txt").file
+        val documentLocation = createDocument("newDocument", folderId, file)
+        val documentId = documentLocation.split("/").last()
+
+        changeDocumentStatus(documentId, "COMPLETED")
+
+        given()
+            .auth().basic("user", "user")
+            .get(documentLocation)
+            .then().assertThat()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("identifier", notNullValue())
+            .body("name", equalTo("newDocument"))
+            .body("associatedType", nullValue())
+            .body("parentFolderIdentifier", equalTo(folderId))
+            .body("user", equalTo("user"))
+            .body("status", equalTo("COMPLETED"))
     }
 
     @Test

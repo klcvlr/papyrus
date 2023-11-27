@@ -62,4 +62,13 @@ class DocumentUseCases(
     }
 
     private fun generateFileId(file: FileWrapper): String = "${idGenerator.generate()}-${file.name}"
+
+    fun changeStatus(
+        documentIdentifier: String,
+        status: String,
+    ) {
+        val document = documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
+        document.changeStatus(status)
+        documentRepository.save(document)
+    }
 }

@@ -99,6 +99,23 @@ fun createDocument(
         .header("Location")
 }
 
+fun changeDocumentStatus(
+    documentId: String,
+    status: String,
+) {
+    val requestUrl = "v1/documents/$documentId/change-status"
+    val requestBody = """ { "status": "$status" } """
+
+    given()
+        .auth().basic("user", "user")
+        .contentType("application/json")
+        .body(requestBody)
+        .post(requestUrl)
+        .then()
+        .assertThat()
+        .statusCode(204)
+}
+
 fun createDocumentType(name: String): String {
     val requestUrl = "v1/document-types"
     val requestBody = """ { "name": "$name" } """
