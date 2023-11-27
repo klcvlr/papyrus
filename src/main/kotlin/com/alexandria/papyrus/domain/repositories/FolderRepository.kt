@@ -10,4 +10,6 @@ interface FolderRepository {
     fun save(folder: Folder)
 
     fun saveAll(folders: Collection<Folder>)
+
+    fun findAllByTemplate(templateIdentifier: String): List<Folder>
 }

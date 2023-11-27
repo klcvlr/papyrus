@@ -39,7 +39,7 @@ class FolderTemplateAndFolderServiceTest {
         val folderTemplate = aFolderTemplate(identifier = "folderTemplateIdentifier")
         val folder1 = aFolder(template = folderTemplate, name = "oldName")
         val folder2 = aFolder(name = "oldName")
-        every { folderRepository.findAll() } returns listOf(folder1, folder2)
+        every { folderRepository.findAllByTemplate("folderTemplateIdentifier") } returns listOf(folder1)
         every { folderTemplateRepository.save(any()) } returns Unit
         every { folderRepository.saveAll(any()) } returns Unit
 
@@ -55,7 +55,7 @@ class FolderTemplateAndFolderServiceTest {
         val folder1 = aFolder(template = folderTemplate)
         val folder2 = aFolder()
         val user = aUser()
-        every { folderRepository.findAll() } returns listOf(folder1, folder2)
+        every { folderRepository.findAllByTemplate("folderTemplateIdentifier") } returns listOf(folder1)
         every { folderTemplateRepository.save(any()) } returns Unit
         every { folderRepository.saveAll(any()) } returns Unit
         every { idGenerator.generate() } returns Faker().random.nextUUID()
@@ -74,7 +74,7 @@ class FolderTemplateAndFolderServiceTest {
         val folder1 = aFolder(template = folderTemplate)
         val folder2 = aFolder()
         val documentType = aDocumentType(identifier = "documentTypeIdentifier")
-        every { folderRepository.findAll() } returns listOf(folder1, folder2)
+        every { folderRepository.findAllByTemplate("folderTemplateIdentifier") } returns listOf(folder1)
         every { folderTemplateRepository.findByIdentifier("folderTemplateIdentifier") } returns folderTemplate
         every { documentTypeRepository.findByIdentifier("documentTypeIdentifier") } returns documentType
         every { folderTemplateRepository.save(any()) } returns Unit

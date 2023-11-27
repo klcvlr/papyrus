@@ -102,8 +102,6 @@ class FolderTemplateAndFolderService(
         }
     }
 
-    private fun findAllFoldersCreatedFrom(folderTemplate: FolderTemplate): List<Folder> {
-        // TODO: This is not efficient, we should have a way to query by template identifier
-        return folderRepository.findAll().filter { it.template.identifier == folderTemplate.identifier }
-    }
+    private fun findAllFoldersCreatedFrom(folderTemplate: FolderTemplate): List<Folder> =
+        folderRepository.findAllByTemplate(folderTemplate.identifier)
 }
