@@ -42,17 +42,10 @@ data class DetailedFolderTemplateView(
             return DetailedFolderTemplateView(
                 identifier = folderTemplate.identifier,
                 name = folderTemplate.name,
-                associatedDocumentType =
-                    if (folderTemplate.documentType != null) {
-                        toDocumentTypeView(
-                            folderTemplate.documentType!!,
-                        )
-                    } else {
-                        null
-                    },
+                associatedDocumentType = folderTemplate.documentType?.let { toDocumentTypeView(it) },
                 parentFolderIdentifier = folderTemplate.parentFolder?.identifier,
                 subFolderTemplates = folderTemplate.subFolders.map { toDetailedFolderTemplateView(it) },
-                user = folderTemplate.user,
+                user = folderTemplate.user
             )
         }
     }

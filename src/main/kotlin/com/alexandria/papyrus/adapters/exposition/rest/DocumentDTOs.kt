@@ -26,10 +26,10 @@ data class DocumentView(
                 identifier = document.identifier,
                 name = document.name,
                 parentFolderIdentifier = document.parentFolder.identifier,
-                type = if (document.type != null) toDocumentTypeView(document.type!!) else null,
-                predictedType = if (document.predictedType != null) toDocumentTypeView(document.predictedType!!) else null,
+                type = document.type?.let { toDocumentTypeView(it) },
+                predictedType = document.predictedType?.let { toDocumentTypeView(it) },
                 user = document.user,
-                status = document.status,
+                status = document.status
             )
     }
 }
