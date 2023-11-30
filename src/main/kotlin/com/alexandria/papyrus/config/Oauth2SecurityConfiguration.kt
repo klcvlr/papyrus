@@ -28,18 +28,18 @@ class Oauth2SecurityConfiguration {
 
     @Bean
     fun userDetailsService(): UserDetailsService {
-        val user1 =
+        val user =
             User.builder()
                 .username("user")
                 .password("{noop}user")
                 .authorities("ROLE_USER")
                 .build()
-        val user2 =
+        val admin =
             User.builder()
                 .username("admin")
                 .password("{noop}admin")
                 .authorities("ROLE_ADMIN")
                 .build()
-        return InMemoryUserDetailsManager(user1, user2)
+        return InMemoryUserDetailsManager(user, admin)
     }
 }
