@@ -16,6 +16,7 @@ fun aDocument(
     type: DocumentType? = null,
     predictedType: DocumentType? = null,
     user: String = aUser(),
+    fileIdentifier: String = faker.random.nextUUID(),
 ) = Document(
     identifier = identifier,
     name = name,
@@ -23,6 +24,7 @@ fun aDocument(
     type = type,
     predictedType = predictedType,
     user = user,
+    fileIdentifier = fileIdentifier,
 )
 
 fun aFolder(
@@ -68,9 +70,11 @@ fun aFolderTemplate(
 fun aFileWrapper(
     name: String = faker.onePiece.islands(),
     content: ByteArray = faker.futurama.quotes().toByteArray(),
+    contentType: String = faker.file.mimeType.application(),
 ) = FileWrapper(
     name = name,
     content = content,
+    contentType = contentType,
 )
 
 fun aUser(name: String = faker.name.name()) = name

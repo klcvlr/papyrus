@@ -38,6 +38,9 @@ class Document internal constructor() {
     @Column(name = "status")
     private var _status: String = ""
 
+    @Column(name = "file_identifier")
+    private var _fileIdentifier: String = ""
+
     internal constructor(
         identifier: String,
         name: String,
@@ -45,6 +48,7 @@ class Document internal constructor() {
         type: DocumentType? = null,
         predictedType: DocumentType? = null,
         user: String,
+        fileIdentifier: String,
     ) : this() {
         this._identifier = identifier
         this._name = name
@@ -54,6 +58,7 @@ class Document internal constructor() {
         this._predictedType = predictedType
         this._user = user
         this._status = "CREATED"
+        this._fileIdentifier = fileIdentifier
     }
 
     fun rename(newName: String) {
@@ -91,6 +96,7 @@ class Document internal constructor() {
     val predictedType: DocumentType? get() = _predictedType
     val user: String get() = _user
     val status: String get() = _status
+    val fileIdentifier: String get() = _fileIdentifier
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

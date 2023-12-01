@@ -6,6 +6,7 @@ import com.alexandria.papyrus.domain.model.FileWrapper
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,6 +28,19 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     fun documentByIdentifier(
         @PathVariable documentIdentifier: String,
     ): DocumentView = toDocumentView(documentUseCases.findByIdentifier(documentIdentifier))
+
+    @Operation(summary = "Download document by Id")
+    @GetMapping("/{documentIdentifier}/file")
+    fun downloadDocumentByIdentifier(
+        @PathVariable documentIdentifier: String,
+    ): ResponseEntity<ByteArray> {
+        val fileWrapper = documentUseCases.downloadDocumentByIdentifier(documentIdentifier)
+        val contentType = fileWrapper.contentType?.let { MediaType.parseMediaType(it) } ?: MediaType.APPLICATION_OCTET_STREAM
+        return ResponseEntity.ok()
+            .header("Content-Disposition", "attachment; filename=${fileWrapper.name}")
+            .contentType(contentType)
+            .body(fileWrapper.content)
+    }
 
     @Operation(summary = "Create a document")
     @PostMapping(consumes = ["multipart/form-data"])

@@ -14,7 +14,7 @@ class FileS3Repository(
     FileRepository {
     override fun findByIdentifier(identifier: String): FileWrapper {
         val download = s3Template.download(cloudEndpoints.bucket, identifier)
-        return FileWrapper(download.filename, download.inputStream.readAllBytes())
+        return FileWrapper(download.filename, download.inputStream.readAllBytes(), download.contentType())
     }
 
     override fun save(

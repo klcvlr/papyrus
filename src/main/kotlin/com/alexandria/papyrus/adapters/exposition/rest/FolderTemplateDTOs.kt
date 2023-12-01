@@ -45,7 +45,7 @@ data class DetailedFolderTemplateView(
                 associatedDocumentType = folderTemplate.documentType?.let { toDocumentTypeView(it) },
                 parentFolderIdentifier = folderTemplate.parentFolder?.identifier,
                 subFolderTemplates = folderTemplate.subFolders.map { toDetailedFolderTemplateView(it) },
-                user = folderTemplate.user
+                user = folderTemplate.user,
             )
         }
     }

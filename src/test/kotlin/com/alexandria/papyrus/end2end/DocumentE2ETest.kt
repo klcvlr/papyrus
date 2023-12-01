@@ -3,9 +3,7 @@ package com.alexandria.papyrus.end2end
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.notNullValue
-import org.hamcrest.Matchers.nullValue
+import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -56,6 +54,47 @@ class DocumentE2ETest {
             .body("parentFolderIdentifier", equalTo(folderId))
             .body("user", equalTo("user"))
             .body("status", equalTo("CREATED"))
+            .body("fileIdentifier", notNullValue())
+    }
+
+    @Test
+    fun `uploaded files can be downloaded`() {
+        val folderTemplateLocation = createAFolderTemplate("newFolderTemplate")
+        val folderTemplateId = folderTemplateLocation.split("/").last()
+
+        val folderLocation = createFolderFromTemplate(folderTemplateId)
+        val folderId = folderLocation.split("/").last()
+
+        val textFile = resourceLoader.getResource("classpath:a_text_file.txt").file
+        val textDocumentLocation = createDocument("a_text_file.txt", folderId, textFile)
+
+        val pdfFile = resourceLoader.getResource("classpath:a_pdf_file.pdf").file
+        val pdfDocumentLocation = createDocument("a_pdf_file.pdf", folderId, pdfFile)
+
+        val pngFile = resourceLoader.getResource("classpath:a_png_file.png").file
+        val pngDocumentLocation = createDocument("a_png_file.png", folderId, pngFile)
+
+        given()
+            .auth().basic("user", "user")
+            .get("$textDocumentLocation/file")
+            .then().assertThat()
+            .statusCode(200)
+            .contentType(ContentType.TEXT)
+            .body(equalTo("hello, this is the text file content!"))
+
+        given()
+            .auth().basic("user", "user")
+            .get("$pdfDocumentLocation/file")
+            .then().assertThat()
+            .statusCode(200)
+            .contentType("application/pdf")
+
+        given()
+            .auth().basic("user", "user")
+            .get("$pngDocumentLocation/file")
+            .then().assertThat()
+            .statusCode(200)
+            .contentType("image/png")
     }
 
     @Test
@@ -88,6 +127,7 @@ class DocumentE2ETest {
             .body("predictedType", nullValue())
             .body("parentFolderIdentifier", equalTo(folderId))
             .body("user", equalTo("user"))
+            .body("fileIdentifier", notNullValue())
     }
 
     @Test
@@ -120,6 +160,7 @@ class DocumentE2ETest {
             .body("predictedType.name", equalTo("newDocumentType"))
             .body("parentFolderIdentifier", equalTo(folderId))
             .body("user", equalTo("user"))
+            .body("fileIdentifier", notNullValue())
     }
 
     @Test
@@ -148,6 +189,7 @@ class DocumentE2ETest {
             .body("parentFolderIdentifier", equalTo(folderId))
             .body("user", equalTo("user"))
             .body("status", equalTo("COMPLETED"))
+            .body("fileIdentifier", notNullValue())
     }
 
     @Test

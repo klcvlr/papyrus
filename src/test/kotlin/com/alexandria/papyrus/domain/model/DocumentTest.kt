@@ -22,6 +22,7 @@ class DocumentTest {
                 parentFolder = folder,
                 type = documentType,
                 predictedType = predictedDocumentType,
+                fileIdentifier = "fileIdentifier",
             )
 
         assertThat(document.identifier).isEqualTo("documentIdentifier")
@@ -31,6 +32,7 @@ class DocumentTest {
         assertThat(document.type).isEqualTo(documentType)
         assertThat(document.predictedType).isEqualTo(predictedDocumentType)
         assertThat(document.status).isEqualTo("CREATED")
+        assertThat(document.fileIdentifier).isEqualTo("fileIdentifier")
     }
 
     @Test

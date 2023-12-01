@@ -2,6 +2,7 @@ package com.alexandria.papyrus.adapters.exposition.rest
 
 import com.alexandria.papyrus.domain.DocumentNotFoundException
 import com.alexandria.papyrus.domain.DocumentTypeNotFoundException
+import com.alexandria.papyrus.domain.FileNotFoundException
 import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.FolderTemplateNotFoundException
 import org.springframework.http.HttpStatus
@@ -16,6 +17,7 @@ class RestExceptionHandler {
         FolderTemplateNotFoundException::class,
         DocumentNotFoundException::class,
         DocumentTypeNotFoundException::class,
+        FileNotFoundException::class,
     )
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun handleAccessDeniedException(exception: Exception) = exception.message

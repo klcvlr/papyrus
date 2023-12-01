@@ -82,6 +82,18 @@ class DocumentUseCasesTest {
     }
 
     @Test
+    fun `document file can be downloaded`() {
+        val document = aDocument(identifier = "documentIdentifier", name = "documentName", fileIdentifier = "fileIdentifier")
+        val fileWrapper = aFileWrapper("fileName.txt", "fileContent".toByteArray(), "text/plain")
+        every { documentRepository.findByIdentifier("documentIdentifier") } returns document
+        every { fileRepository.findByIdentifier("fileIdentifier") } returns fileWrapper
+
+        val file = documentUseCases.downloadDocumentByIdentifier("documentIdentifier")
+
+        assertThat(file).isEqualTo(fileWrapper)
+    }
+
+    @Test
     fun `an exception is thrown when creating a document in a folder that does not exist`() {
         val fileWrapper = aFileWrapper()
         val user = aUser()

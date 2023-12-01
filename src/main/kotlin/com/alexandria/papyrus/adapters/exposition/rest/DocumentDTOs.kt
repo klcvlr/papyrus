@@ -19,6 +19,7 @@ data class DocumentView(
     val predictedType: DocumentTypeView?,
     val user: String,
     val status: String,
+    val fileIdentifier: String,
 ) {
     companion object {
         fun toDocumentView(document: Document): DocumentView =
@@ -29,7 +30,8 @@ data class DocumentView(
                 type = document.type?.let { toDocumentTypeView(it) },
                 predictedType = document.predictedType?.let { toDocumentTypeView(it) },
                 user = document.user,
-                status = document.status
+                status = document.status,
+                fileIdentifier = document.fileIdentifier,
             )
     }
 }

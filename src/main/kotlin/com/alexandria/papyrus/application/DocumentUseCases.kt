@@ -2,6 +2,7 @@ package com.alexandria.papyrus.application
 
 import com.alexandria.papyrus.domain.DocumentNotFoundException
 import com.alexandria.papyrus.domain.DocumentTypeNotFoundException
+import com.alexandria.papyrus.domain.FileNotFoundException
 import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.model.Document
@@ -26,14 +27,28 @@ class DocumentUseCases(
     fun findByIdentifier(identifier: String): Document =
         documentRepository.findByIdentifier(identifier) ?: throw DocumentNotFoundException(identifier)
 
+    @Transactional(readOnly = true)
+    fun downloadDocumentByIdentifier(identifier: String): FileWrapper {
+        val document = documentRepository.findByIdentifier(identifier) ?: throw DocumentNotFoundException(identifier)
+        return fileRepository.findByIdentifier(document.fileIdentifier) ?: throw FileNotFoundException(identifier)
+    }
+
     fun createDocument(
         parentFolderIdentifier: String,
         file: FileWrapper,
         user: String,
     ): String {
         val parentFolder = folderRepository.findByIdentifier(parentFolderIdentifier) ?: throw FolderNotFoundException(parentFolderIdentifier)
-        val document = Document(identifier = idGenerator.generate(), name = file.name, parentFolder = parentFolder, user = user)
-        fileRepository.save(generateFileId(file), file)
+        val fileIdentifier = generateFileId(file)
+        fileRepository.save(fileIdentifier, file)
+        val document =
+            Document(
+                identifier = idGenerator.generate(),
+                name = file.name,
+                parentFolder = parentFolder,
+                user = user,
+                fileIdentifier = fileIdentifier,
+            )
         documentRepository.save(document)
         notificationPublisher.sendUploadNotification(document.identifier)
         return document.identifier
