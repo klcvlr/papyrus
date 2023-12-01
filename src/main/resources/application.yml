@@ -13,14 +13,6 @@ spring:
     change-log: classpath:db/changelog/changelog.yml
     enabled: true
 
-  cloud:
-    aws:
-      credentials:
-        profile:
-          name: iamadmin-general
-      region:
-        static: eu-west-3
-
   security:
     oauth2:
       client:
