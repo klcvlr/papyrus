@@ -33,7 +33,10 @@ class FolderUseCases(
         folderTemplateIdentifier: String,
         user: String,
     ): String {
-        val folderTemplate = folderTemplateRepository.findByIdentifier(folderTemplateIdentifier) ?: throw FolderTemplateNotFoundException(folderTemplateIdentifier)
+        val folderTemplate =
+            folderTemplateRepository.findByIdentifier(folderTemplateIdentifier) ?: throw FolderTemplateNotFoundException(
+                folderTemplateIdentifier,
+            )
         val folder = folderTemplateAndFolderService.createFolderFromTemplate(folderTemplate, user)
         folderRepository.save(folder)
         return folder.identifier

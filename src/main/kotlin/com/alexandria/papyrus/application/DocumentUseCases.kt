@@ -41,7 +41,8 @@ class DocumentUseCases(
         file: FileWrapper,
         user: String,
     ): String {
-        val parentFolder = folderRepository.findByIdentifier(parentFolderIdentifier) ?: throw FolderNotFoundException(parentFolderIdentifier)
+        val parentFolder =
+            folderRepository.findByIdentifier(parentFolderIdentifier) ?: throw FolderNotFoundException(parentFolderIdentifier)
         val fileIdentifier = generateFileId(file)
         fileRepository.save(fileIdentifier, file)
         val document =
@@ -62,8 +63,10 @@ class DocumentUseCases(
         documentTypeIdentifier: String,
         user: String,
     ) {
-        val document = documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
-        val type = documentTypeRepository.findByIdentifier(documentTypeIdentifier) ?: throw DocumentTypeNotFoundException(documentTypeIdentifier)
+        val document =
+            documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
+        val type =
+            documentTypeRepository.findByIdentifier(documentTypeIdentifier) ?: throw DocumentTypeNotFoundException(documentTypeIdentifier)
         document.changeType(type)
         documentRepository.save(document)
     }
@@ -73,8 +76,10 @@ class DocumentUseCases(
         documentTypeIdentifier: String,
         user: String,
     ) {
-        val document = documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
-        val type = documentTypeRepository.findByIdentifier(documentTypeIdentifier) ?: throw DocumentTypeNotFoundException(documentTypeIdentifier)
+        val document =
+            documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
+        val type =
+            documentTypeRepository.findByIdentifier(documentTypeIdentifier) ?: throw DocumentTypeNotFoundException(documentTypeIdentifier)
         document.changePredictedType(type)
         documentRepository.save(document)
     }

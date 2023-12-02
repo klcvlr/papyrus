@@ -84,7 +84,7 @@ class FolderTemplateAndFolderService(
                 identifier = idGenerator.generate(),
                 template = folderTemplate,
                 name = folderTemplate.name,
-                associatedDocumentType = folderTemplate.documentType,
+                associatedDocumentType = folderTemplate.associatedDocumentType,
                 user = userIdentifier,
             )
         } else {
@@ -94,7 +94,7 @@ class FolderTemplateAndFolderService(
                     identifier = idGenerator.generate(),
                     template = folderTemplate,
                     name = folderTemplate.name,
-                    associatedDocumentType = folderTemplate.documentType,
+                    associatedDocumentType = folderTemplate.associatedDocumentType,
                     user = userIdentifier,
                 )
             subFolders.forEach { folder.addSubFolder(it) }

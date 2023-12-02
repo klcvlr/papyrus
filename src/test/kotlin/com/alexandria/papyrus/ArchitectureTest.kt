@@ -1,6 +1,6 @@
 package com.alexandria.papyrus
 
-import com.tngtech.archunit.core.domain.JavaClass.Predicates.*
+import com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage
 import com.tngtech.archunit.core.domain.JavaClasses
 import com.tngtech.archunit.core.domain.properties.CanBeAnnotated.Predicates.annotatedWith
 import com.tngtech.archunit.core.importer.ImportOption
@@ -15,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional
 class ArchitectureTest {
     @ArchTest
     fun `onion architecture validation`(appClasses: JavaClasses) {
-        onionArchitecture().domainModels("com.alexandria.papyrus.domain.model..")
+        onionArchitecture()
+            .domainModels("com.alexandria.papyrus.domain.model..")
             .domainServices("com.alexandria.papyrus.domain.services..", "com.alexandria.papyrus.domain.repositories..")
             .applicationServices("com.alexandria.papyrus.application..")
             .adapter("rest", "com.alexandria.papyrus.adapters.exposition.rest..")
@@ -40,7 +41,7 @@ class ArchitectureTest {
                     |    - for instance: rest layer should not depend on inbound-messaging layer
                     |    - for instance: persistence layer should not depend on outbound-messaging layer
                     |    - simply put: adapters should not depend on each other!
-                    |    
+                    |
                     |    note: an exception is made for @ConfigurationProperties classes. they are allowed to be used other adapter layers.
                     |
                     |config layer -> is just where we put our spring configuration classes
@@ -55,8 +56,11 @@ class ArchitectureTest {
 
     @ArchTest
     fun `domain layer should not contain repository implementations`(appClasses: JavaClasses) {
-        classes().that().resideInAPackage("com.alexandria.papyrus.domain.repositories..").should().beInterfaces()
-            .because("repositories implementations should be in infrastructure layer").check(appClasses)
+        classes()
+            .that().resideInAPackage("com.alexandria.papyrus.domain.repositories..")
+            .should().beInterfaces()
+            .because("repositories implementations should be in infrastructure layer")
+            .check(appClasses)
     }
 
     @ArchTest

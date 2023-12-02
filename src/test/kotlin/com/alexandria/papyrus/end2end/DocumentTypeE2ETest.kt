@@ -2,7 +2,8 @@ package com.alexandria.papyrus.end2end
 
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.notNullValue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

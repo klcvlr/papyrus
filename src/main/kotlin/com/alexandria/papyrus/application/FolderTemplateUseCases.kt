@@ -20,7 +20,8 @@ class FolderTemplateUseCases(
 
     @Transactional(readOnly = true)
     fun findByIdentifier(folderTemplateIdentifier: String): FolderTemplate {
-        return folderTemplateRepository.findByIdentifier(folderTemplateIdentifier) ?: throw FolderTemplateNotFoundException(folderTemplateIdentifier)
+        return folderTemplateRepository.findByIdentifier(folderTemplateIdentifier)
+            ?: throw FolderTemplateNotFoundException(folderTemplateIdentifier)
     }
 
     fun create(
@@ -44,7 +45,8 @@ class FolderTemplateUseCases(
         newName: String,
         userIdentifier: String,
     ) {
-        val folderTemplate = folderTemplateRepository.findByIdentifier(identifier) ?: throw FolderTemplateNotFoundException(identifier)
+        val folderTemplate =
+            folderTemplateRepository.findByIdentifier(identifier) ?: throw FolderTemplateNotFoundException(identifier)
         folderTemplateAndFolderService.rename(folderTemplate, newName)
         folderTemplateRepository.save(folderTemplate)
     }
@@ -54,7 +56,8 @@ class FolderTemplateUseCases(
         subFolderName: String,
         userIdentifier: String,
     ): String {
-        val folderTemplate = folderTemplateRepository.findByIdentifier(identifier) ?: throw FolderTemplateNotFoundException(identifier)
+        val folderTemplate =
+            folderTemplateRepository.findByIdentifier(identifier) ?: throw FolderTemplateNotFoundException(identifier)
         return folderTemplateAndFolderService.addSubFolderTemplate(folderTemplate, subFolderName, userIdentifier)
     }
 

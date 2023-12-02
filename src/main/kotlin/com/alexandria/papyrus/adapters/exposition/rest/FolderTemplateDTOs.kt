@@ -22,7 +22,7 @@ data class FolderTemplateView(
             return FolderTemplateView(
                 identifier = folderTemplate.identifier,
                 name = folderTemplate.name,
-                associatedDocumentType = folderTemplate.documentType?.identifier,
+                associatedDocumentType = folderTemplate.associatedDocumentType?.identifier,
                 parentFolderIdentifier = folderTemplate.parentFolder?.identifier,
             )
         }
@@ -42,7 +42,7 @@ data class DetailedFolderTemplateView(
             return DetailedFolderTemplateView(
                 identifier = folderTemplate.identifier,
                 name = folderTemplate.name,
-                associatedDocumentType = folderTemplate.documentType?.let { toDocumentTypeView(it) },
+                associatedDocumentType = folderTemplate.associatedDocumentType?.let { toDocumentTypeView(it) },
                 parentFolderIdentifier = folderTemplate.parentFolder?.identifier,
                 subFolderTemplates = folderTemplate.subFolders.map { toDetailedFolderTemplateView(it) },
                 user = folderTemplate.user,

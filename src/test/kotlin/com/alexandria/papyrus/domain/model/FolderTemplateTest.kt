@@ -23,7 +23,7 @@ class FolderTemplateTest {
         val newDocumentType = aDocumentType(identifier = "newDocumentTypeIdentifier")
         folderTemplate.changeAssociatedDocumentType(newDocumentType)
 
-        assertThat(folderTemplate.documentType).isEqualTo(newDocumentType)
+        assertThat(folderTemplate.associatedDocumentType).isEqualTo(newDocumentType)
     }
 
     @Test

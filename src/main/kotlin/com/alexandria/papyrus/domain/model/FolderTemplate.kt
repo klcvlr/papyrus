@@ -63,7 +63,7 @@ class FolderTemplate internal constructor() {
     val identifier: String get() = _identifier
     val parentFolder: FolderTemplate? get() = _parentFolder
     val name: String get() = _name
-    val documentType: DocumentType? get() = _associatedDocumentType
+    val associatedDocumentType: DocumentType? get() = _associatedDocumentType
     val subFolders: List<FolderTemplate> get() = _subFolders
     val user: String get() = _user
 
