@@ -74,8 +74,60 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+/**
+ * Why do this to yourself?
+ * - Enables to selectively run categories of tests. Cuts unit tests feedback loop down to milliseconds locally (instead of about 1 minute)
+ * - Help cutting GitHub actions CI costs by not running long-running tests if the unit tests fail.
+ */
+val unitTest =
+    tasks.register<Test>("unitTest") {
+        useJUnitPlatform {
+            filter {
+                includeTestsMatching("*Test")
+                excludeTestsMatching("*IntegrationTest")
+                excludeTestsMatching("ArchitectureTest")
+                excludeTestsMatching("*E2ETest")
+            }
+        }
+    }
+
+val integrationTest =
+    tasks.register<Test>("integrationTest") {
+        dependsOn("unitTest")
+        useJUnitPlatform {
+            filter {
+                includeTestsMatching("*IntegrationTest")
+            }
+        }
+    }
+
+val architectureTest =
+    tasks.register<Test>("architectureTest") {
+        dependsOn("integrationTest")
+        useJUnitPlatform {
+            filter {
+                includeTestsMatching("ArchitectureTest")
+            }
+        }
+    }
+
+val e2eTest =
+    tasks.register<Test>("E2ETest") {
+        dependsOn("architectureTest")
+        useJUnitPlatform {
+            filter {
+                includeTestsMatching("*E2ETest")
+            }
+        }
+    }
+
+val tests =
+    tasks.named("test") {
+        dependsOn(unitTest, integrationTest, e2eTest, architectureTest)
+    }
+
+tasks.named("check") {
+    dependsOn(tests)
 }
 
 tasks.bootBuildImage {
