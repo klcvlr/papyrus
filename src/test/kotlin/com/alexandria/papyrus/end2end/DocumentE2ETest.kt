@@ -193,6 +193,43 @@ class DocumentE2ETest {
     }
 
     @Test
+    fun `a document can be renamed`() {
+        val folderTemplateLocation = createAFolderTemplate("newFolderTemplate")
+        val folderTemplateId = folderTemplateLocation.split("/").last()
+
+        val folderLocation = createFolderFromTemplate(folderTemplateId)
+        val folderId = folderLocation.split("/").last()
+
+        val file = resourceLoader.getResource("classpath:banner.txt").file
+        val documentLocation = createDocument("banner.txt", folderId, file)
+        val documentId = documentLocation.split("/").last()
+
+        renameDocument(documentId, "newName.txt")
+
+        given()
+            .auth().basic("user", "user")
+            .get(documentLocation)
+            .then().assertThat()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("identifier", notNullValue())
+            .body("name", equalTo("newName.txt"))
+            .body("associatedType", nullValue())
+            .body("parentFolderIdentifier", equalTo(folderId))
+            .body("user", equalTo("user"))
+            .body("status", equalTo("CREATED"))
+            .body("fileIdentifier", notNullValue())
+
+        given()
+            .auth().basic("user", "user")
+            .get("$documentLocation/file")
+            .then().assertThat()
+            .statusCode(200)
+            .contentType(ContentType.TEXT)
+            .header("Content-Disposition", containsString("filename=newName.txt"))
+    }
+
+    @Test
     fun `get a document that does not exist returns a 404`() {
         given()
             .auth().basic("user", "user")
