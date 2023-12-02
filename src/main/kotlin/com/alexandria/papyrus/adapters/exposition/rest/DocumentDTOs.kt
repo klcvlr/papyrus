@@ -5,6 +5,8 @@ import com.alexandria.papyrus.domain.model.Document
 
 data class CreateDocumentRequest(val name: String, val folderIdentifier: String)
 
+data class RenameDocumentRequest(val name: String)
+
 data class ChangeTypeRequest(val typeIdentifier: String)
 
 data class ChangePredictedTypeRequest(val typeIdentifier: String)

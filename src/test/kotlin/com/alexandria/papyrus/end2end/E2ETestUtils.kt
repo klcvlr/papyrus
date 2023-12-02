@@ -99,6 +99,23 @@ fun createDocument(
         .header("Location")
 }
 
+fun renameDocument(
+    documentId: String,
+    name: String,
+) {
+    val requestUrl = "v1/documents/$documentId/rename"
+    val requestBody = """ { "name": "$name" } """
+
+    given()
+        .auth().basic("user", "user")
+        .contentType("application/json")
+        .body(requestBody)
+        .post(requestUrl)
+        .then()
+        .assertThat()
+        .statusCode(204)
+}
+
 fun changeDocumentStatus(
     documentId: String,
     status: String,

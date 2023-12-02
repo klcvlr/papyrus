@@ -83,14 +83,16 @@ class DocumentUseCasesTest {
 
     @Test
     fun `document file can be downloaded`() {
-        val document = aDocument(identifier = "documentIdentifier", name = "documentName", fileIdentifier = "fileIdentifier")
-        val fileWrapper = aFileWrapper("fileName.txt", "fileContent".toByteArray(), "text/plain")
+        val document = aDocument(identifier = "documentIdentifier", name = "documentName.txt", fileIdentifier = "fileIdentifier")
+        val fileWrapper = aFileWrapper("documentName.txt", "fileContent".toByteArray(), "text/plain")
         every { documentRepository.findByIdentifier("documentIdentifier") } returns document
         every { fileRepository.findByIdentifier("fileIdentifier") } returns fileWrapper
 
         val file = documentUseCases.downloadDocumentByIdentifier("documentIdentifier")
 
-        assertThat(file).isEqualTo(fileWrapper)
+        assertThat(file.name).isEqualTo(fileWrapper.name)
+        assertThat(file.contentType).isEqualTo(fileWrapper.contentType)
+        assertThat(file.content).isEqualTo(fileWrapper.content)
     }
 
     @Test
@@ -133,5 +135,17 @@ class DocumentUseCasesTest {
         documentUseCases.changePredictedType("documentIdentifier", "documentTypeIdentifier", user)
 
         assertThat(document.predictedType).isEqualTo(documentType)
+    }
+
+    @Test
+    fun `a document can be renamed`() {
+        val document = aDocument(identifier = "documentIdentifier", name = "documentName")
+        val user = aUser()
+        every { documentRepository.findByIdentifier("documentIdentifier") } returns document
+        every { documentRepository.save(document) } returns Unit
+
+        documentUseCases.rename("documentIdentifier", "newName", user)
+
+        assertThat(document.name).isEqualTo("newName")
     }
 }

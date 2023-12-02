@@ -30,9 +30,12 @@ class DocumentUseCases(
     @Transactional(readOnly = true)
     fun downloadDocumentByIdentifier(identifier: String): FileWrapper {
         val document = documentRepository.findByIdentifier(identifier) ?: throw DocumentNotFoundException(identifier)
-        return fileRepository.findByIdentifier(document.fileIdentifier) ?: throw FileNotFoundException(identifier)
+        val file = fileRepository.findByIdentifier(document.fileIdentifier) ?: throw FileNotFoundException(identifier)
+        return FileWrapper(document.name, file.content, file.contentType)
     }
 
+    // TODO decide how to handle content-type. Current method based on file name is lightweight but not reliable and forces the user to provide a file name
+    // we could infer the content-type with a library like Apache's Tika at some compute cost. But that probably won't the bottleneck when uploading a large number of documents
     fun createDocument(
         parentFolderIdentifier: String,
         file: FileWrapper,
@@ -84,6 +87,16 @@ class DocumentUseCases(
     ) {
         val document = documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
         document.changeStatus(status)
+        documentRepository.save(document)
+    }
+
+    fun rename(
+        documentIdentifier: String,
+        newName: String,
+        user: String,
+    ) {
+        val document = documentRepository.findByIdentifier(documentIdentifier) ?: throw DocumentNotFoundException(documentIdentifier)
+        document.rename(newName)
         documentRepository.save(document)
     }
 }

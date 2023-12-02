@@ -55,6 +55,17 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
         return entityWithLocation(documentIdentifier)
     }
 
+    @Operation(summary = "Rename Document")
+    @PostMapping("/{documentIdentifier}/rename")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun rename(
+        @PathVariable documentIdentifier: String,
+        @RequestBody renameDocumentRequest: RenameDocumentRequest,
+        authentication: Authentication,
+    ) {
+        documentUseCases.rename(documentIdentifier, renameDocumentRequest.name, authentication.name)
+    }
+
     @Operation(summary = "Change Document Type")
     @PostMapping("/{documentIdentifier}/change-type")
     @ResponseStatus(HttpStatus.NO_CONTENT)
