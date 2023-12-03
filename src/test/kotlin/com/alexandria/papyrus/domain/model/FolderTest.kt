@@ -1,7 +1,7 @@
 package com.alexandria.papyrus.domain.model
 
 import com.alexandria.papyrus.fakes.aDocument
-import com.alexandria.papyrus.fakes.aDocumentType
+import com.alexandria.papyrus.fakes.aDocumentCategory
 import com.alexandria.papyrus.fakes.aFolder
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -17,14 +17,14 @@ class FolderTest {
     }
 
     @Test
-    fun `a folder's associated document type can be changed`() {
-        val oldDocumentType = aDocumentType(identifier = "oldDocumentTypeIdentifier")
-        val folder = aFolder(associatedDocumentType = oldDocumentType)
+    fun `a folder's associated document category can be changed`() {
+        val oldDocumentCategory = aDocumentCategory(identifier = "oldDocumentCategoryIdentifier")
+        val folder = aFolder(associatedDocumentCategory = oldDocumentCategory)
 
-        val newDocumentType = aDocumentType(identifier = "newDocumentTypeIdentifier")
-        folder.changeAssociatedDocumentType(newDocumentType)
+        val newDocumentCategory = aDocumentCategory(identifier = "newDocumentCategoryIdentifier")
+        folder.changeAssociatedDocumentCategory(newDocumentCategory)
 
-        assertThat(folder.associatedDocumentType).isEqualTo(newDocumentType)
+        assertThat(folder.associatedDocumentCategory).isEqualTo(newDocumentCategory)
     }
 
     @Test

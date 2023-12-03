@@ -1,7 +1,7 @@
 package com.alexandria.papyrus.domain.model
 
 import com.alexandria.papyrus.fakes.aDocument
-import com.alexandria.papyrus.fakes.aDocumentType
+import com.alexandria.papyrus.fakes.aDocumentCategory
 import com.alexandria.papyrus.fakes.aFolder
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -12,16 +12,16 @@ class DocumentTest {
         // I usually don't test that a constructor constructs... but this one has some logic about the root folder
         val rootFolder = aFolder(identifier = "rootFolderIdentifier")
         val folder = aFolder(identifier = "folderIdentifier", parentFolder = rootFolder)
-        val documentType = aDocumentType(identifier = "documentTypeIdentifier")
-        val predictedDocumentType = aDocumentType(identifier = "predictedDocumentTypeIdentifier")
+        val documentCategory = aDocumentCategory(identifier = "documentCategoryIdentifier")
+        val predictedDocumentCategory = aDocumentCategory(identifier = "predictedDocumentCategoryIdentifier")
 
         val document =
             aDocument(
                 identifier = "documentIdentifier",
                 name = "documentName",
                 parentFolder = folder,
-                type = documentType,
-                predictedType = predictedDocumentType,
+                category = documentCategory,
+                predictedCategory = predictedDocumentCategory,
                 fileIdentifier = "fileIdentifier",
             )
 
@@ -29,8 +29,8 @@ class DocumentTest {
         assertThat(document.name).isEqualTo("documentName")
         assertThat(document.parentFolder).isEqualTo(folder)
         assertThat(document.rootFolder).isEqualTo(rootFolder)
-        assertThat(document.type).isEqualTo(documentType)
-        assertThat(document.predictedType).isEqualTo(predictedDocumentType)
+        assertThat(document.category).isEqualTo(documentCategory)
+        assertThat(document.predictedCategory).isEqualTo(predictedDocumentCategory)
         assertThat(document.status).isEqualTo("CREATED")
         assertThat(document.fileIdentifier).isEqualTo("fileIdentifier")
     }
@@ -45,25 +45,25 @@ class DocumentTest {
     }
 
     @Test
-    fun `a document's type can be changed`() {
-        val oldDocumentType = aDocumentType(identifier = "oldDocumentTypeIdentifier")
-        val newDocumentType = aDocumentType(identifier = "newDocumentTypeIdentifier")
-        val document = aDocument(type = oldDocumentType)
+    fun `a document's category can be changed`() {
+        val oldDocumentCategory = aDocumentCategory(identifier = "oldDocumentCategoryIdentifier")
+        val newDocumentCategory = aDocumentCategory(identifier = "newDocumentCategoryIdentifier")
+        val document = aDocument(category = oldDocumentCategory)
 
-        document.changeType(newDocumentType)
+        document.changeCategory(newDocumentCategory)
 
-        assertThat(document.type).isEqualTo(newDocumentType)
+        assertThat(document.category).isEqualTo(newDocumentCategory)
     }
 
     @Test
-    fun `a document's predicted type can be changed`() {
-        val oldDocumentType = aDocumentType(identifier = "oldDocumentType")
-        val newDocumentType = aDocumentType(identifier = "newDocumentType")
-        val document = aDocument(predictedType = oldDocumentType)
+    fun `a document's predicted category can be changed`() {
+        val oldDocumentCategory = aDocumentCategory(identifier = "oldDocumentCategory")
+        val newDocumentCategory = aDocumentCategory(identifier = "newDocumentCategory")
+        val document = aDocument(predictedCategory = oldDocumentCategory)
 
-        document.changePredictedType(newDocumentType)
+        document.changePredictedCategory(newDocumentCategory)
 
-        assertThat(document.predictedType).isEqualTo(newDocumentType)
+        assertThat(document.predictedCategory).isEqualTo(newDocumentCategory)
     }
 
     @Test

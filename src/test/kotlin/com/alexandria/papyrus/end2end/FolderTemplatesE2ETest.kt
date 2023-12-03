@@ -80,7 +80,7 @@ class FolderTemplatesE2ETest {
     }
 
     @Test
-    fun `a folder template's associated type can be changed`() {
+    fun `a folder template's associated category can be changed`() {
         val folderTemplateLocationUrl = createAFolderTemplate("folderTemplate")
         val folderTemplateId = folderTemplateLocationUrl.split("/").last()
 
@@ -101,14 +101,14 @@ class FolderTemplatesE2ETest {
     }
 
     @Test
-    fun `a folder template's associated document type can be changed`() {
+    fun `a folder template's associated document category can be changed`() {
         val folderTemplateLocationUrl = createAFolderTemplate("folderTemplateName")
         val folderTemplateId = folderTemplateLocationUrl.split("/").last()
 
-        val createDocumentTypeLocation = createDocumentType("documentTypeName")
-        val documentTypeId = createDocumentTypeLocation.split("/").last()
+        val createDocumentCategoryLocation = createDocumentCategory("documentCategoryName")
+        val documentCategoryId = createDocumentCategoryLocation.split("/").last()
 
-        changeFolderTemplateAssociatedDocumentType(folderTemplateId, documentTypeId)
+        changeFolderTemplateAssociatedDocumentCategory(folderTemplateId, documentCategoryId)
 
         given()
             .auth().basic("user", "user")
@@ -119,8 +119,8 @@ class FolderTemplatesE2ETest {
             .contentType(ContentType.JSON)
             .body("identifier", equalTo(folderTemplateId))
             .body("name", equalTo("folderTemplateName"))
-            .body("associatedDocumentType.identifier", equalTo(documentTypeId))
-            .body("associatedDocumentType.name", equalTo("documentTypeName"))
+            .body("associatedDocumentCategory.identifier", equalTo(documentCategoryId))
+            .body("associatedDocumentCategory.name", equalTo("documentCategoryName"))
             .body("parentFolderIdentifier", nullValue())
             .body("subFolderTemplate", nullValue())
     }

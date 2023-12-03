@@ -67,25 +67,25 @@ class DocumentController(private val documentUseCases: DocumentUseCases) {
     }
 
     @Operation(summary = "Change Document Type")
-    @PostMapping("/{documentIdentifier}/change-type")
+    @PostMapping("/{documentIdentifier}/change-category")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeType(
         @PathVariable documentIdentifier: String,
-        @RequestBody changeTypeRequest: ChangeTypeRequest,
+        @RequestBody changeCategoryRequest: ChangeCategoryRequest,
         authentication: Authentication,
     ) {
-        documentUseCases.changeType(documentIdentifier, changeTypeRequest.typeIdentifier, authentication.name)
+        documentUseCases.changeType(documentIdentifier, changeCategoryRequest.categoryIdentifier, authentication.name)
     }
 
     @Operation(summary = "Change Document Predicted Type")
-    @PostMapping("/{documentIdentifier}/change-predicted-type")
+    @PostMapping("/{documentIdentifier}/change-predicted-category")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changePredictedType(
+    fun changePredictedCategory(
         @PathVariable documentIdentifier: String,
-        @RequestBody changePredictedTypeRequest: ChangePredictedTypeRequest,
+        @RequestBody changePredictedCategoryRequest: ChangePredictedCategoryRequest,
         authentication: Authentication,
     ) {
-        documentUseCases.changePredictedType(documentIdentifier, changePredictedTypeRequest.typeIdentifier, authentication.name)
+        documentUseCases.changePredictedCategory(documentIdentifier, changePredictedCategoryRequest.categoryIdentifier, authentication.name)
     }
 
     @Operation(summary = "Change Document Status")

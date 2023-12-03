@@ -1,8 +1,8 @@
 package com.alexandria.papyrus.adapters.integration.repositories
 
-import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
+import com.alexandria.papyrus.domain.repositories.DocumentCategoryRepository
 import com.alexandria.papyrus.domain.repositories.FileRepository
-import com.alexandria.papyrus.fakes.aDocumentType
+import com.alexandria.papyrus.fakes.aDocumentCategory
 import com.ninjasquad.springmockk.MockkBean
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -20,22 +20,22 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ComponentScan(basePackages = ["com.alexandria.papyrus.adapters.integration.repositories"])
-class DocumentTypeJpaRepositoryIntegrationTest {
+class DocumentCategoryJpaRepositoryIntegrationTest {
     @Autowired
-    private lateinit var documentTypeRepository: DocumentTypeRepository
+    private lateinit var documentCategoryRepository: DocumentCategoryRepository
 
     @MockkBean
     private lateinit var fileRepository: FileRepository
 
     @Test
-    fun `a new documentType can be saved`() {
-        val documentType = aDocumentType(identifier = "documentTypeId", name = "picture")
+    fun `a new documentCategory can be saved`() {
+        val documentCategory = aDocumentCategory(identifier = "documentCategoryId", name = "picture")
 
-        documentTypeRepository.save(documentType)
+        documentCategoryRepository.save(documentCategory)
 
-        val savedDocumentType = documentTypeRepository.findByIdentifier("documentTypeId")
-        assertThat(savedDocumentType?.identifier).isEqualTo("documentTypeId")
-        assertThat(savedDocumentType?.name).isEqualTo("picture")
+        val savedDocumentCategory = documentCategoryRepository.findByIdentifier("documentCategoryId")
+        assertThat(savedDocumentCategory?.identifier).isEqualTo("documentCategoryId")
+        assertThat(savedDocumentCategory?.name).isEqualTo("picture")
     }
 
     companion object {

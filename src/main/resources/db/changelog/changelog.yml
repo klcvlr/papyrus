@@ -5,7 +5,7 @@ databaseChangeLog:
       changes:
         - createTable:
             schemaName: public
-            tableName: document_type
+            tableName: document_category
             columns:
               - column:
                   name: identifier
@@ -24,8 +24,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createIndex:
-            tableName: document_type
-            indexName: idx_document_type__user_identifier
+            tableName: document_category
+            indexName: idx_document_category__user_identifier
             columns:
               - column:
                   name: user_identifier
@@ -56,11 +56,11 @@ databaseChangeLog:
                     foreignKeyName: fk_folder_template__parent_folder_identifier
                     references: folder_template(identifier)
               - column:
-                  name: associated_document_type_identifier
+                  name: associated_document_category_identifier
                   type: text
                   constraints:
-                    foreignKeyName: fk_folder_template__associated_document_type_identifier
-                    references: document_type(identifier)
+                    foreignKeyName: fk_folder_template__associated_document_category_identifier
+                    references: document_category(identifier)
               - column:
                   name: user_identifier
                   type: text
@@ -74,10 +74,10 @@ databaseChangeLog:
                   name: parent_folder_identifier
         - createIndex:
             tableName: folder_template
-            indexName: idx_folder_template__associated_document_type_identifier
+            indexName: idx_folder_template__associated_document_category_identifier
             columns:
               - column:
-                  name: associated_document_type_identifier
+                  name: associated_document_category_identifier
         - createIndex:
             tableName: folder_template
             indexName: idx_folder_template__user_identifier
@@ -117,11 +117,11 @@ databaseChangeLog:
                     foreignKeyName: fk_folder__root_folder_identifier
                     references: folder(identifier)
               - column:
-                  name: associated_document_type_identifier
+                  name: associated_document_category_identifier
                   type: text
                   constraints:
-                    foreignKeyName: fk_folder__associated_document_type_identifier
-                    references: document_type(identifier)
+                    foreignKeyName: fk_folder__associated_document_category_identifier
+                    references: document_category(identifier)
               - column:
                   name: template_identifier
                   type: text
@@ -147,10 +147,10 @@ databaseChangeLog:
                   name: root_folder_identifier
         - createIndex:
             tableName: folder
-            indexName: idx_folder__associated_document_type_identifier
+            indexName: idx_folder__associated_document_category_identifier
             columns:
               - column:
-                  name: associated_document_type_identifier
+                  name: associated_document_category_identifier
         - createIndex:
             tableName: folder
             indexName: idx_folder__template_identifier
@@ -197,17 +197,17 @@ databaseChangeLog:
                     foreignKeyName: fk_document__root_folder_identifier
                     references: folder(identifier)
               - column:
-                  name: type_identifier
+                  name: category_identifier
                   type: text
                   constraints:
-                    foreignKeyName: fk_document__type_identifier
-                    references: document_type(identifier)
+                    foreignKeyName: fk_document__category_identifier
+                    references: document_category(identifier)
               - column:
-                  name: predicted_type_identifier
+                  name: predicted_category_identifier
                   type: text
                   constraints:
-                    foreignKeyName: fk_document__predicted_type_identifier
-                    references: document_type(identifier)
+                    foreignKeyName: fk_document__predicted_category_identifier
+                    references: document_category(identifier)
               - column:
                   name: user_identifier
                   type: text
@@ -237,16 +237,16 @@ databaseChangeLog:
                   name: root_folder_identifier
         - createIndex:
             tableName: document
-            indexName: idx_document__type_identifier
+            indexName: idx_document__category_identifier
             columns:
               - column:
-                  name: type_identifier
+                  name: category_identifier
         - createIndex:
             tableName: document
-            indexName: idx_document__predicted_type_identifier
+            indexName: idx_document__predicted_category_identifier
             columns:
               - column:
-                  name: predicted_type_identifier
+                  name: predicted_category_identifier
         - createIndex:
             tableName: document
             indexName: idx_document__user_identifier

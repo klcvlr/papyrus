@@ -51,7 +51,7 @@ class FoldersE2ETest {
             .body("subFolders.size()", equalTo(1))
             .body("subFolders[0].name", equalTo("subFolder"))
             .body("subFolders[0].parentFolderIdentifier", equalTo(folderId))
-            .body("subFolders[0].associatedDocumentType", nullValue())
+            .body("subFolders[0].associatedDocumentCategory", nullValue())
             .body("subFolders[0].documents.size()", equalTo(0))
             .body("subFolders[0].subFolders.size()", equalTo(0))
     }

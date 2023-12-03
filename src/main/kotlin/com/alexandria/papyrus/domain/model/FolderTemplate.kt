@@ -26,8 +26,8 @@ class FolderTemplate internal constructor() {
     private var _subFolders: MutableList<FolderTemplate> = mutableListOf()
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "associated_document_type_identifier", referencedColumnName = "identifier")
-    private var _associatedDocumentType: DocumentType? = null
+    @JoinColumn(name = "associated_document_category_identifier", referencedColumnName = "identifier")
+    private var _associatedDocumentCategory: DocumentCategory? = null
 
     @Column(name = "user_identifier")
     private var _user: String = ""
@@ -36,13 +36,13 @@ class FolderTemplate internal constructor() {
         identifier: String,
         name: String,
         parentFolder: FolderTemplate? = null,
-        associatedDocumentType: DocumentType? = null,
+        associatedDocumentCategory: DocumentCategory? = null,
         user: String,
     ) : this() {
         this._identifier = identifier
         this._name = name
         this._parentFolder = parentFolder
-        this._associatedDocumentType = associatedDocumentType
+        this._associatedDocumentCategory = associatedDocumentCategory
         this._user = user
     }
 
@@ -50,8 +50,8 @@ class FolderTemplate internal constructor() {
         _name = newName
     }
 
-    fun changeAssociatedDocumentType(documentType: DocumentType) {
-        _associatedDocumentType = documentType
+    fun changeAssociatedDocumentCategory(documentCategory: DocumentCategory) {
+        _associatedDocumentCategory = documentCategory
     }
 
     fun addSubFolder(subFolder: FolderTemplate) {
@@ -63,7 +63,7 @@ class FolderTemplate internal constructor() {
     val identifier: String get() = _identifier
     val parentFolder: FolderTemplate? get() = _parentFolder
     val name: String get() = _name
-    val associatedDocumentType: DocumentType? get() = _associatedDocumentType
+    val associatedDocumentCategory: DocumentCategory? get() = _associatedDocumentCategory
     val subFolders: List<FolderTemplate> get() = _subFolders
     val user: String get() = _user
 

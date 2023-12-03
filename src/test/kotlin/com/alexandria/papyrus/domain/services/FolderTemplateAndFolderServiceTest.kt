@@ -1,10 +1,10 @@
 package com.alexandria.papyrus.domain.services
 
 import com.alexandria.papyrus.domain.IdGenerator
-import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
+import com.alexandria.papyrus.domain.repositories.DocumentCategoryRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
-import com.alexandria.papyrus.fakes.aDocumentType
+import com.alexandria.papyrus.fakes.aDocumentCategory
 import com.alexandria.papyrus.fakes.aFolder
 import com.alexandria.papyrus.fakes.aFolderTemplate
 import com.alexandria.papyrus.fakes.aUser
@@ -26,7 +26,7 @@ class FolderTemplateAndFolderServiceTest {
     private lateinit var folderRepository: FolderRepository
 
     @MockK
-    private lateinit var documentTypeRepository: DocumentTypeRepository
+    private lateinit var documentCategoryRepository: DocumentCategoryRepository
 
     @MockK
     private lateinit var idGenerator: IdGenerator
@@ -68,22 +68,22 @@ class FolderTemplateAndFolderServiceTest {
     }
 
     @Test
-    fun `changing the associated document type of a FolderTemplate propagates to all the Folders created from that FolderTemplate`() {
+    fun `changing the associated document category of a FolderTemplate propagates to all the Folders created from that FolderTemplate`() {
         val folderTemplate = aFolderTemplate(identifier = "folderTemplateIdentifier")
         val user = aUser()
         val folder1 = aFolder(template = folderTemplate)
         val folder2 = aFolder()
-        val documentType = aDocumentType(identifier = "documentTypeIdentifier")
+        val documentCategory = aDocumentCategory(identifier = "documentCategoryIdentifier")
         every { folderRepository.findAllByTemplate("folderTemplateIdentifier") } returns listOf(folder1)
         every { folderTemplateRepository.findByIdentifier("folderTemplateIdentifier") } returns folderTemplate
-        every { documentTypeRepository.findByIdentifier("documentTypeIdentifier") } returns documentType
+        every { documentCategoryRepository.findByIdentifier("documentCategoryIdentifier") } returns documentCategory
         every { folderTemplateRepository.save(any()) } returns Unit
         every { folderRepository.saveAll(any()) } returns Unit
 
-        folderTemplateAndFolderService.changeAssociatedDocumentType(folderTemplate.identifier, documentType.identifier, user)
+        folderTemplateAndFolderService.changeAssociatedDocumentCategory(folderTemplate.identifier, documentCategory.identifier, user)
 
-        Assertions.assertThat(folder1.associatedDocumentType).isEqualTo(documentType)
-        Assertions.assertThat(folder2.associatedDocumentType).isNull()
+        Assertions.assertThat(folder1.associatedDocumentCategory).isEqualTo(documentCategory)
+        Assertions.assertThat(folder2.associatedDocumentCategory).isNull()
     }
 
     @Test
@@ -91,8 +91,8 @@ class FolderTemplateAndFolderServiceTest {
         val user = aUser()
         val rootTemplateFolder = aFolderTemplate(name = "root")
         val verstappenTemplate = aFolderTemplate(name = "Verstappen")
-        val leclercTemplate = aFolderTemplate(name = " Leclerc", associatedDocumentType = aDocumentType("LeclercType"))
-        val perezTemplate = aFolderTemplate(name = "Pérez", associatedDocumentType = aDocumentType("PérezType"))
+        val leclercTemplate = aFolderTemplate(name = " Leclerc", associatedDocumentCategory = aDocumentCategory("LeclercType"))
+        val perezTemplate = aFolderTemplate(name = "Pérez", associatedDocumentCategory = aDocumentCategory("PérezType"))
         rootTemplateFolder.addSubFolder(verstappenTemplate)
         rootTemplateFolder.addSubFolder(leclercTemplate)
         leclercTemplate.addSubFolder(perezTemplate)
@@ -113,12 +113,12 @@ class FolderTemplateAndFolderServiceTest {
         Assertions.assertThat(leclercFolder.parentFolder).isEqualTo(rootFolder)
         Assertions.assertThat(leclercFolder.subFolders).hasSize(1)
         Assertions.assertThat(leclercFolder.name).isEqualTo(" Leclerc")
-        Assertions.assertThat(leclercFolder.associatedDocumentType?.identifier).isEqualTo("LeclercType")
+        Assertions.assertThat(leclercFolder.associatedDocumentCategory?.identifier).isEqualTo("LeclercType")
         val perezFolder = leclercFolder.subFolders[0]
         Assertions.assertThat(perezFolder.identifier).isNotEqualTo(perezTemplate.identifier)
         Assertions.assertThat(perezFolder.parentFolder).isEqualTo(leclercFolder)
         Assertions.assertThat(perezFolder.subFolders).hasSize(0)
         Assertions.assertThat(perezFolder.name).isEqualTo("Pérez")
-        Assertions.assertThat(perezFolder.associatedDocumentType?.identifier).isEqualTo("PérezType")
+        Assertions.assertThat(perezFolder.associatedDocumentCategory?.identifier).isEqualTo("PérezType")
     }
 }

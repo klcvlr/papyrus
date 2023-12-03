@@ -27,7 +27,7 @@ class FolderController(private val folderUseCases: FolderUseCases) {
             FolderView(
                 identifier = folder.identifier,
                 name = folder.name,
-                associatedDocumentType = folder.associatedDocumentType?.identifier,
+                associatedDocumentCategory = folder.associatedDocumentCategory?.identifier,
             )
         }
 

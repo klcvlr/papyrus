@@ -1,13 +1,13 @@
 package com.alexandria.papyrus.config
 
-import com.alexandria.papyrus.application.DocumentTypeUseCases
+import com.alexandria.papyrus.application.DocumentCategoryUseCases
 import com.alexandria.papyrus.application.DocumentUseCases
 import com.alexandria.papyrus.application.FolderTemplateUseCases
 import com.alexandria.papyrus.application.FolderUseCases
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.notification.NotificationPublisher
+import com.alexandria.papyrus.domain.repositories.DocumentCategoryRepository
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
-import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
 import com.alexandria.papyrus.domain.repositories.FileRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
@@ -25,25 +25,25 @@ class ApplicationConfiguration {
         idGenerator: IdGenerator,
         documentRepository: DocumentRepository,
         folderRepository: FolderRepository,
-        documentTypeRepository: DocumentTypeRepository,
+        documentCategoryRepository: DocumentCategoryRepository,
         fileRepository: FileRepository,
         notificationPublisher: NotificationPublisher,
     ) = DocumentUseCases(
         idGenerator = idGenerator,
         documentRepository = documentRepository,
         folderRepository = folderRepository,
-        documentTypeRepository = documentTypeRepository,
+        documentCategoryRepository = documentCategoryRepository,
         fileRepository = fileRepository,
         notificationPublisher = notificationPublisher,
     )
 
     @Bean
-    fun documentTypeUseCase(
+    fun documentCategoryUseCase(
         idGenerator: IdGenerator,
-        documentTypeRepository: DocumentTypeRepository,
-    ) = DocumentTypeUseCases(
+        documentCategoryRepository: DocumentCategoryRepository,
+    ) = DocumentCategoryUseCases(
         idGenerator = idGenerator,
-        documentTypeRepository = documentTypeRepository,
+        documentCategoryRepository = documentCategoryRepository,
     )
 
     @Bean
@@ -73,11 +73,11 @@ class ApplicationConfiguration {
         idGenerator: IdGenerator,
         folderTemplateRepository: FolderTemplateRepository,
         folderRepository: FolderRepository,
-        documentTypeRepository: DocumentTypeRepository,
+        documentCategoryRepository: DocumentCategoryRepository,
     ) = FolderTemplateAndFolderService(
         idGenerator = idGenerator,
         folderRepository = folderRepository,
         folderTemplateRepository = folderTemplateRepository,
-        documentTypeRepository = documentTypeRepository,
+        documentCategoryRepository = documentCategoryRepository,
     )
 }

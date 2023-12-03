@@ -133,8 +133,8 @@ fun changeDocumentStatus(
         .statusCode(204)
 }
 
-fun createDocumentType(name: String): String {
-    val requestUrl = "v1/document-types"
+fun createDocumentCategory(name: String): String {
+    val requestUrl = "v1/document-categories"
     val requestBody = """ { "name": "$name" } """
 
     return given()
@@ -150,12 +150,12 @@ fun createDocumentType(name: String): String {
         .header("Location")
 }
 
-fun changeDocumentType(
+fun changeDocumentCategory(
     documentId: String,
-    documentTypeId: String,
+    documentCategoryId: String,
 ) {
-    val requestUrl = "v1/documents/$documentId/change-type"
-    val requestBody = """ { "typeIdentifier": "$documentTypeId" } """
+    val requestUrl = "v1/documents/$documentId/change-category"
+    val requestBody = """ { "categoryIdentifier": "$documentCategoryId" } """
 
     given()
         .auth().basic("user", "user")
@@ -167,12 +167,12 @@ fun changeDocumentType(
         .statusCode(204)
 }
 
-fun changePredictedDocumentType(
+fun changePredictedDocumentCategory(
     documentId: String,
-    documentTypeId: String,
+    documentCategoryId: String,
 ) {
-    val requestUrl = "v1/documents/$documentId/change-predicted-type"
-    val requestBody = """ { "typeIdentifier": "$documentTypeId" } """
+    val requestUrl = "v1/documents/$documentId/change-predicted-category"
+    val requestBody = """ { "categoryIdentifier": "$documentCategoryId" } """
 
     given()
         .auth().basic("user", "user")
@@ -184,12 +184,12 @@ fun changePredictedDocumentType(
         .statusCode(204)
 }
 
-fun changeFolderTemplateAssociatedDocumentType(
+fun changeFolderTemplateAssociatedDocumentCategory(
     folderTemplateIdentifier: String,
-    documentTypeId: String,
+    documentCategoryId: String,
 ) {
-    val requestUrl = "v1/folder-templates/$folderTemplateIdentifier/change-associated-type"
-    val requestBody = """ { "typeIdentifier": "$documentTypeId" } """
+    val requestUrl = "v1/folder-templates/$folderTemplateIdentifier/change-associated-category"
+    val requestBody = """ { "categoryIdentifier": "$documentCategoryId" } """
 
     given()
         .auth().basic("user", "user")

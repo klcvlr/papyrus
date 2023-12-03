@@ -51,8 +51,8 @@ class DocumentJpaRepositoryIntegrationTest {
         assertThat(savedDocument?.identifier).isEqualTo("documentId")
         assertThat(savedDocument?.name).isEqualTo(document.name)
         assertThat(savedDocument?.parentFolder).isEqualTo(document.parentFolder)
-        assertThat(savedDocument?.type).isEqualTo(document.type)
-        assertThat(savedDocument?.predictedType).isEqualTo(document.predictedType)
+        assertThat(savedDocument?.category).isEqualTo(document.category)
+        assertThat(savedDocument?.predictedCategory).isEqualTo(document.predictedCategory)
     }
 
     companion object {

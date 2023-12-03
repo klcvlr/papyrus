@@ -1,7 +1,7 @@
 package com.alexandria.papyrus.adapters.exposition.rest
 
+import com.alexandria.papyrus.domain.DocumentCategoryNotFoundException
 import com.alexandria.papyrus.domain.DocumentNotFoundException
-import com.alexandria.papyrus.domain.DocumentTypeNotFoundException
 import com.alexandria.papyrus.domain.FileNotFoundException
 import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.FolderTemplateNotFoundException
@@ -16,7 +16,7 @@ class RestExceptionHandler {
         FolderNotFoundException::class,
         FolderTemplateNotFoundException::class,
         DocumentNotFoundException::class,
-        DocumentTypeNotFoundException::class,
+        DocumentCategoryNotFoundException::class,
         FileNotFoundException::class,
     )
     @ResponseStatus(HttpStatus.NOT_FOUND)

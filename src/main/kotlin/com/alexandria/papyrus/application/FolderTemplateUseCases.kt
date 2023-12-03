@@ -33,7 +33,7 @@ class FolderTemplateUseCases(
                 identifier = idGenerator.generate(),
                 name = name,
                 parentFolder = null,
-                associatedDocumentType = null,
+                associatedDocumentCategory = null,
                 user = userId,
             )
         folderTemplateRepository.save(folderTemplate)
@@ -61,14 +61,14 @@ class FolderTemplateUseCases(
         return folderTemplateAndFolderService.addSubFolderTemplate(folderTemplate, subFolderName, userIdentifier)
     }
 
-    fun changeAssociatedDocumentType(
+    fun changeAssociatedDocumentCategory(
         folderTemplateIdentifier: String,
-        newDocumentTypeIdentifier: String,
+        newDocumentCategoryIdentifier: String,
         userIdentifier: String,
     ) {
-        folderTemplateAndFolderService.changeAssociatedDocumentType(
+        folderTemplateAndFolderService.changeAssociatedDocumentCategory(
             folderTemplateIdentifier,
-            newDocumentTypeIdentifier,
+            newDocumentCategoryIdentifier,
             userIdentifier,
         )
     }

@@ -15,9 +15,9 @@ class DocumentNotFoundException(private val identifier: String) : Exception() {
         get() = "Document with identifier '$identifier' not found"
 }
 
-class DocumentTypeNotFoundException(private val identifier: String) : Exception() {
+class DocumentCategoryNotFoundException(private val identifier: String) : Exception() {
     override val message: String
-        get() = "DocumentType with identifier '$identifier' not found"
+        get() = "DocumentCategory with identifier '$identifier' not found"
 }
 
 class FileNotFoundException(private val identifier: String) : Exception() {

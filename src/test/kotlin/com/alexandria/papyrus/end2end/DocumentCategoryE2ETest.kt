@@ -17,7 +17,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Testcontainers
-class DocumentTypeE2ETest {
+class DocumentCategoryE2ETest {
     @LocalServerPort
     private var port: Int = 0
 
@@ -27,24 +27,24 @@ class DocumentTypeE2ETest {
     }
 
     @Test
-    fun `create a document type`() {
-        val documentTypeLocation = createDocumentType("newDocumentType")
+    fun `create a document category`() {
+        val documentCategoryLocation = createDocumentCategory("newDocumentCategory")
 
         given()
             .auth().basic("user", "user")
-            .get(documentTypeLocation)
+            .get(documentCategoryLocation)
             .then().assertThat()
             .statusCode(200)
             .body("identifier", notNullValue())
-            .body("name", equalTo("newDocumentType"))
+            .body("name", equalTo("newDocumentCategory"))
             .body("user", equalTo("user"))
     }
 
     @Test
-    fun `get a document type that does not exist returns a 404`() {
+    fun `get a document category that does not exist returns a 404`() {
         given()
             .auth().basic("user", "user")
-            .get("v1/document-types/123")
+            .get("v1/document-categories/123")
             .then()
             .assertThat()
             .statusCode(404)

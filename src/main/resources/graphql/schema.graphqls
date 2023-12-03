@@ -7,10 +7,10 @@ type Query {
 
     documentByIdentifier(identifier: String): Document
 
-    documentTypeByIdentifier(identifier: String): DocumentType
+    documentCategoryByIdentifier(identifier: String): DocumentCategory
 }
 
-type DocumentType {
+type DocumentCategory {
     identifier: String
     name: String
     user: String
@@ -19,10 +19,10 @@ type DocumentType {
 type Document {
     identifier: String
     name: String
-    type: DocumentType
+    category: DocumentCategory
     rootFolder: Folder
     parentFolder: Folder
-    predictedType: DocumentType
+    predictedCategory: DocumentCategory
     user: String
 }
 
@@ -33,7 +33,7 @@ type Folder {
     rootFolder: Folder
     subFolders: [Folder]
     documents: [Document]
-    associatedDocumentType: DocumentType
+    associatedDocumentCategory: DocumentCategory
     template: FolderTemplate
     user: String
 }
@@ -43,6 +43,6 @@ type FolderTemplate {
     name: String
     parentFolder: FolderTemplate
     subFolders: [FolderTemplate]
-    associatedDocumentType: DocumentType
+    associatedDocumentCategory: DocumentCategory
     user: String
 }

@@ -4,12 +4,12 @@ import com.alexandria.papyrus.domain.DocumentNotFoundException
 import com.alexandria.papyrus.domain.FolderNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.notification.NotificationPublisher
+import com.alexandria.papyrus.domain.repositories.DocumentCategoryRepository
 import com.alexandria.papyrus.domain.repositories.DocumentRepository
-import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
 import com.alexandria.papyrus.domain.repositories.FileRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.fakes.aDocument
-import com.alexandria.papyrus.fakes.aDocumentType
+import com.alexandria.papyrus.fakes.aDocumentCategory
 import com.alexandria.papyrus.fakes.aFileWrapper
 import com.alexandria.papyrus.fakes.aUser
 import io.mockk.every
@@ -30,7 +30,7 @@ class DocumentUseCasesTest {
     private lateinit var documentRepository: DocumentRepository
 
     @MockK
-    private lateinit var documentTypeRepository: DocumentTypeRepository
+    private lateinit var documentCategoryRepository: DocumentCategoryRepository
 
     @MockK
     private lateinit var folderRepository: FolderRepository
@@ -110,31 +110,31 @@ class DocumentUseCasesTest {
     }
 
     @Test
-    fun `document type can be changed`() {
+    fun `document category can be changed`() {
         val document = aDocument(identifier = "documentIdentifier")
-        val documentType = aDocumentType()
+        val documentCategory = aDocumentCategory()
         val user = aUser()
         every { documentRepository.findByIdentifier("documentIdentifier") } returns document
-        every { documentTypeRepository.findByIdentifier("documentTypeIdentifier") } returns documentType
+        every { documentCategoryRepository.findByIdentifier("documentCategoryIdentifier") } returns documentCategory
         every { documentRepository.save(document) } returns Unit
 
-        documentUseCases.changeType("documentIdentifier", "documentTypeIdentifier", user)
+        documentUseCases.changeType("documentIdentifier", "documentCategoryIdentifier", user)
 
-        assertThat(document.type).isEqualTo(documentType)
+        assertThat(document.category).isEqualTo(documentCategory)
     }
 
     @Test
-    fun `document predicted type can be changed`() {
+    fun `document predicted category can be changed`() {
         val document = aDocument(identifier = "documentIdentifier")
-        val documentType = aDocumentType()
+        val documentCategory = aDocumentCategory()
         val user = aUser()
         every { documentRepository.findByIdentifier("documentIdentifier") } returns document
-        every { documentTypeRepository.findByIdentifier("documentTypeIdentifier") } returns documentType
+        every { documentCategoryRepository.findByIdentifier("documentCategoryIdentifier") } returns documentCategory
         every { documentRepository.save(document) } returns Unit
 
-        documentUseCases.changePredictedType("documentIdentifier", "documentTypeIdentifier", user)
+        documentUseCases.changePredictedCategory("documentIdentifier", "documentCategoryIdentifier", user)
 
-        assertThat(document.predictedType).isEqualTo(documentType)
+        assertThat(document.predictedCategory).isEqualTo(documentCategory)
     }
 
     @Test

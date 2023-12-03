@@ -4,7 +4,7 @@ import com.alexandria.papyrus.domain.FolderTemplateNotFoundException
 import com.alexandria.papyrus.domain.IdGenerator
 import com.alexandria.papyrus.domain.model.Folder
 import com.alexandria.papyrus.domain.model.FolderTemplate
-import com.alexandria.papyrus.domain.repositories.DocumentTypeRepository
+import com.alexandria.papyrus.domain.repositories.DocumentCategoryRepository
 import com.alexandria.papyrus.domain.repositories.FolderRepository
 import com.alexandria.papyrus.domain.repositories.FolderTemplateRepository
 
@@ -12,7 +12,7 @@ class FolderTemplateAndFolderService(
     private val idGenerator: IdGenerator,
     private val folderRepository: FolderRepository,
     private val folderTemplateRepository: FolderTemplateRepository,
-    private val documentTypeRepository: DocumentTypeRepository,
+    private val documentCategoryRepository: DocumentCategoryRepository,
 ) {
     fun rename(
         folderTemplate: FolderTemplate,
@@ -34,7 +34,7 @@ class FolderTemplateAndFolderService(
                 identifier = idGenerator.generate(),
                 parentFolder = folderTemplate,
                 name = subFolderTemplateName,
-                associatedDocumentType = null,
+                associatedDocumentCategory = null,
                 user = userIdentifier,
             )
         folderTemplate.addSubFolder(subFolderTemplate)
@@ -54,9 +54,9 @@ class FolderTemplateAndFolderService(
         return subFolderTemplate.identifier
     }
 
-    fun changeAssociatedDocumentType(
+    fun changeAssociatedDocumentCategory(
         folderTemplateIdentifier: String,
-        newDocumentTypeIdentifier: String,
+        newDocumentCategoryIdentifier: String,
         userIdentifier: String,
     ) {
         val folderTemplate =
@@ -64,13 +64,13 @@ class FolderTemplateAndFolderService(
                 ?: throw FolderTemplateNotFoundException(
                     folderTemplateIdentifier,
                 )
-        val newDocumentType =
-            documentTypeRepository.findByIdentifier(newDocumentTypeIdentifier) ?: throw FolderTemplateNotFoundException(
-                newDocumentTypeIdentifier,
+        val newDocumentCategory =
+            documentCategoryRepository.findByIdentifier(newDocumentCategoryIdentifier) ?: throw FolderTemplateNotFoundException(
+                newDocumentCategoryIdentifier,
             )
-        folderTemplate.changeAssociatedDocumentType(newDocumentType)
+        folderTemplate.changeAssociatedDocumentCategory(newDocumentCategory)
         val allFoldersCreatedFromThatFolderTemplate = findAllFoldersCreatedFrom(folderTemplate)
-        allFoldersCreatedFromThatFolderTemplate.forEach { it.changeAssociatedDocumentType(newDocumentType) }
+        allFoldersCreatedFromThatFolderTemplate.forEach { it.changeAssociatedDocumentCategory(newDocumentCategory) }
         folderTemplateRepository.save(folderTemplate)
         folderRepository.saveAll(allFoldersCreatedFromThatFolderTemplate)
     }
@@ -84,7 +84,7 @@ class FolderTemplateAndFolderService(
                 identifier = idGenerator.generate(),
                 template = folderTemplate,
                 name = folderTemplate.name,
-                associatedDocumentType = folderTemplate.associatedDocumentType,
+                associatedDocumentCategory = folderTemplate.associatedDocumentCategory,
                 user = userIdentifier,
             )
         } else {
@@ -94,7 +94,7 @@ class FolderTemplateAndFolderService(
                     identifier = idGenerator.generate(),
                     template = folderTemplate,
                     name = folderTemplate.name,
-                    associatedDocumentType = folderTemplate.associatedDocumentType,
+                    associatedDocumentCategory = folderTemplate.associatedDocumentCategory,
                     user = userIdentifier,
                 )
             subFolders.forEach { folder.addSubFolder(it) }

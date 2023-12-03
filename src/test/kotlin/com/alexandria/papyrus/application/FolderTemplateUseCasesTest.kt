@@ -92,23 +92,23 @@ class FolderTemplateUseCasesTest {
     }
 
     @Test
-    fun `a folder template's associated document type can be changed`() {
+    fun `a folder template's associated document category can be changed`() {
         every {
-            folderTemplateAndFolderService.changeAssociatedDocumentType(
+            folderTemplateAndFolderService.changeAssociatedDocumentCategory(
                 "folderTemplateIdentifier",
-                "documentTypeIdentifier",
+                "documentCategoryIdentifier",
                 "userIdentifier",
             )
         } returns Unit
 
-        folderTemplateUseCases.changeAssociatedDocumentType("folderTemplateIdentifier", "documentTypeIdentifier", "userIdentifier")
+        folderTemplateUseCases.changeAssociatedDocumentCategory("folderTemplateIdentifier", "documentCategoryIdentifier", "userIdentifier")
 
         verify(
             exactly = 1,
         ) {
-            folderTemplateAndFolderService.changeAssociatedDocumentType(
+            folderTemplateAndFolderService.changeAssociatedDocumentCategory(
                 "folderTemplateIdentifier",
-                "documentTypeIdentifier",
+                "documentCategoryIdentifier",
                 "userIdentifier",
             )
         }

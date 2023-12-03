@@ -25,12 +25,12 @@ class Document internal constructor() {
     private var _rootFolder: Folder? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_identifier", referencedColumnName = "identifier")
-    private var _type: DocumentType? = null
+    @JoinColumn(name = "category_identifier", referencedColumnName = "identifier")
+    private var _category: DocumentCategory? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "predicted_type_identifier", referencedColumnName = "identifier")
-    private var _predictedType: DocumentType? = null
+    @JoinColumn(name = "predicted_category_identifier", referencedColumnName = "identifier")
+    private var _predictedCategory: DocumentCategory? = null
 
     @Column(name = "user_identifier")
     private var _user: String = ""
@@ -45,8 +45,8 @@ class Document internal constructor() {
         identifier: String,
         name: String,
         parentFolder: Folder,
-        type: DocumentType? = null,
-        predictedType: DocumentType? = null,
+        category: DocumentCategory? = null,
+        predictedCategory: DocumentCategory? = null,
         user: String,
         fileIdentifier: String,
     ) : this() {
@@ -54,8 +54,8 @@ class Document internal constructor() {
         this._name = name
         this._parentFolder = parentFolder
         this._rootFolder = parentFolder.rootFolder
-        this._type = type
-        this._predictedType = predictedType
+        this._category = category
+        this._predictedCategory = predictedCategory
         this._user = user
         this._status = "CREATED"
         this._fileIdentifier = fileIdentifier
@@ -65,12 +65,12 @@ class Document internal constructor() {
         _name = newName
     }
 
-    fun changeType(newType: DocumentType) {
-        _type = newType
+    fun changeCategory(newCategory: DocumentCategory) {
+        _category = newCategory
     }
 
-    fun changePredictedType(newPredictedType: DocumentType) {
-        _predictedType = newPredictedType
+    fun changePredictedCategory(newPredictedCategory: DocumentCategory) {
+        _predictedCategory = newPredictedCategory
     }
 
     fun addToFolder(folder: Folder) {
@@ -92,8 +92,8 @@ class Document internal constructor() {
     val parentFolder: Folder get() = _parentFolder!!
     val rootFolder: Folder get() = _rootFolder!!
     val name: String get() = _name
-    val type: DocumentType? get() = _type
-    val predictedType: DocumentType? get() = _predictedType
+    val category: DocumentCategory? get() = _category
+    val predictedCategory: DocumentCategory? get() = _predictedCategory
     val user: String get() = _user
     val status: String get() = _status
     val fileIdentifier: String get() = _fileIdentifier

@@ -73,17 +73,17 @@ class FolderTemplateController(private val folderTemplateUseCases: FolderTemplat
         folderTemplateUseCases.rename(folderTemplateIdentifier, renameFolderTemplateRequest.name, authentication.name)
     }
 
-    @Operation(summary = "Change a Folder Template's associated Document Type")
-    @PostMapping("/{folderTemplateIdentifier}/change-associated-type")
+    @Operation(summary = "Change a Folder Template's associated Document Category")
+    @PostMapping("/{folderTemplateIdentifier}/change-associated-category")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeAssociatedType(
         @PathVariable folderTemplateIdentifier: String,
-        @RequestBody changeAssociatedDocumentTypeRequest: ChangeAssociatedDocumentTypeRequest,
+        @RequestBody changeAssociatedDocumentCategoryRequest: ChangeAssociatedDocumentCategoryRequest,
         authentication: Authentication,
     ) {
-        folderTemplateUseCases.changeAssociatedDocumentType(
+        folderTemplateUseCases.changeAssociatedDocumentCategory(
             folderTemplateIdentifier,
-            changeAssociatedDocumentTypeRequest.typeIdentifier,
+            changeAssociatedDocumentCategoryRequest.categoryIdentifier,
             authentication.name,
         )
     }

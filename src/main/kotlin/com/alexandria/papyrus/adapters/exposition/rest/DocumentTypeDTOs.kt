@@ -1,12 +1,12 @@
 package com.alexandria.papyrus.adapters.exposition.rest
 
-import com.alexandria.papyrus.domain.model.DocumentType
+import com.alexandria.papyrus.domain.model.DocumentCategory
 
-data class CreateDocumentTypeRequest(val name: String)
+data class CreateDocumentCategoryRequest(val name: String)
 
-data class DocumentTypeView(val identifier: String, val name: String, val user: String) {
+data class DocumentCategoryView(val identifier: String, val name: String, val user: String) {
     companion object {
-        fun toDocumentTypeView(documentType: DocumentType): DocumentTypeView =
-            DocumentTypeView(identifier = documentType.identifier, name = documentType.name, user = documentType.user)
+        fun toDocumentCategoryView(documentCategory: DocumentCategory): DocumentCategoryView =
+            DocumentCategoryView(identifier = documentCategory.identifier, name = documentCategory.name, user = documentCategory.user)
     }
 }

@@ -27,8 +27,8 @@ class Folder internal constructor() {
     private var _rootFolder: Folder? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "associated_document_type_identifier", referencedColumnName = "identifier")
-    private var _associatedDocumentType: DocumentType? = null
+    @JoinColumn(name = "associated_document_category_identifier", referencedColumnName = "identifier")
+    private var _associatedDocumentCategory: DocumentCategory? = null
 
     @OneToMany(mappedBy = "_parentFolder", cascade = [CascadeType.ALL])
     private var _subFolders: MutableList<Folder> = mutableListOf()
@@ -48,14 +48,14 @@ class Folder internal constructor() {
         template: FolderTemplate,
         name: String,
         parentFolder: Folder? = null,
-        associatedDocumentType: DocumentType? = null,
+        associatedDocumentCategory: DocumentCategory? = null,
         user: String,
     ) : this() {
         this._identifier = identifier
         this._template = template
         this._name = name
         this._parentFolder = parentFolder
-        this._associatedDocumentType = associatedDocumentType
+        this._associatedDocumentCategory = associatedDocumentCategory
         this._rootFolder = parentFolder?._rootFolder ?: this
         this._user = user
     }
@@ -64,8 +64,8 @@ class Folder internal constructor() {
         _name = newName
     }
 
-    fun changeAssociatedDocumentType(documentType: DocumentType) {
-        _associatedDocumentType = documentType
+    fun changeAssociatedDocumentCategory(documentCategory: DocumentCategory) {
+        _associatedDocumentCategory = documentCategory
     }
 
     fun addDocument(document: Document) {
@@ -84,7 +84,7 @@ class Folder internal constructor() {
     val parentFolder: Folder? get() = _parentFolder
     val rootFolder: Folder? get() = _rootFolder
     val name: String get() = _name
-    val associatedDocumentType: DocumentType? get() = _associatedDocumentType
+    val associatedDocumentCategory: DocumentCategory? get() = _associatedDocumentCategory
     val subFolders: List<Folder> get() = _subFolders
     val documents: List<Document> get() = _documents
     val user: String get() = _user

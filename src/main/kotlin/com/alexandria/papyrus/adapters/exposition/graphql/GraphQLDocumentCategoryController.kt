@@ -7,9 +7,9 @@ import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
 
 @Controller
-class GraphQLDocumentTypeController(private val documentUseCases: DocumentUseCases) {
+class GraphQLDocumentCategoryController(private val documentUseCases: DocumentUseCases) {
     @QueryMapping
-    fun documentTypeByIdentifier(
+    fun documentCategoryByIdentifier(
         @Argument identifier: String,
     ): Document {
         return documentUseCases.findByIdentifier(identifier)

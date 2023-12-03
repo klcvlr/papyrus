@@ -101,21 +101,21 @@ class DocumentE2ETest {
     }
 
     @Test
-    fun `change a document's type`() {
+    fun `change a document's category`() {
         val folderTemplateLocation = createAFolderTemplate("newFolderTemplate")
         val folderTemplateId = folderTemplateLocation.split("/").last()
 
         val folderLocation = createFolderFromTemplate(folderTemplateId)
         val folderId = folderLocation.split("/").last()
 
-        val documentTypeLocation = createDocumentType("newDocumentType")
-        val documentTypeId = documentTypeLocation.split("/").last()
+        val documentCategoryLocation = createDocumentCategory("newDocumentCategory")
+        val documentCategoryId = documentCategoryLocation.split("/").last()
 
         val file = resourceLoader.getResource("classpath:banner.txt").file
         val documentLocation = createDocument("newDocument", folderId, file)
         val documentId = documentLocation.split("/").last()
 
-        changeDocumentType(documentId, documentTypeId)
+        changeDocumentCategory(documentId, documentCategoryId)
 
         given()
             .auth().basic("user", "user")
@@ -125,30 +125,30 @@ class DocumentE2ETest {
             .contentType(ContentType.JSON)
             .body("identifier", equalTo(documentId))
             .body("name", equalTo("newDocument"))
-            .body("type.identifier", equalTo(documentTypeId))
-            .body("type.name", equalTo("newDocumentType"))
-            .body("predictedType", nullValue())
+            .body("category.identifier", equalTo(documentCategoryId))
+            .body("category.name", equalTo("newDocumentCategory"))
+            .body("predictedCategory", nullValue())
             .body("parentFolderIdentifier", equalTo(folderId))
             .body("user", equalTo("user"))
             .body("fileIdentifier", notNullValue())
     }
 
     @Test
-    fun `change a document's predicted type`() {
+    fun `change a document's predicted category`() {
         val folderTemplateLocation = createAFolderTemplate("newFolderTemplate")
         val folderTemplateId = folderTemplateLocation.split("/").last()
 
         val folderLocation = createFolderFromTemplate(folderTemplateId)
         val folderId = folderLocation.split("/").last()
 
-        val documentTypeLocation = createDocumentType("newDocumentType")
-        val documentTypeId = documentTypeLocation.split("/").last()
+        val documentCategoryLocation = createDocumentCategory("newDocumentCategory")
+        val documentCategoryId = documentCategoryLocation.split("/").last()
 
         val file = resourceLoader.getResource("classpath:banner.txt").file
         val documentLocation = createDocument("newDocument", folderId, file)
         val documentId = documentLocation.split("/").last()
 
-        changePredictedDocumentType(documentId, documentTypeId)
+        changePredictedDocumentCategory(documentId, documentCategoryId)
 
         given()
             .auth().basic("user", "user")
@@ -158,9 +158,9 @@ class DocumentE2ETest {
             .contentType(ContentType.JSON)
             .body("identifier", equalTo(documentId))
             .body("name", equalTo("newDocument"))
-            .body("type", nullValue())
-            .body("predictedType.identifier", equalTo(documentTypeId))
-            .body("predictedType.name", equalTo("newDocumentType"))
+            .body("category", nullValue())
+            .body("predictedCategory.identifier", equalTo(documentCategoryId))
+            .body("predictedCategory.name", equalTo("newDocumentCategory"))
             .body("parentFolderIdentifier", equalTo(folderId))
             .body("user", equalTo("user"))
             .body("fileIdentifier", notNullValue())

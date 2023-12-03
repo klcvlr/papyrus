@@ -1,6 +1,6 @@
 package com.alexandria.papyrus.adapters.exposition.rest
 
-import com.alexandria.papyrus.adapters.exposition.rest.DocumentTypeView.Companion.toDocumentTypeView
+import com.alexandria.papyrus.adapters.exposition.rest.DocumentCategoryView.Companion.toDocumentCategoryView
 import com.alexandria.papyrus.domain.model.FolderTemplate
 
 data class CreateFolderTemplateRequest(val name: String)
@@ -9,12 +9,12 @@ data class CreateSubFolderTemplateRequest(val name: String)
 
 data class RenameFolderTemplateRequest(val name: String)
 
-data class ChangeAssociatedDocumentTypeRequest(val typeIdentifier: String)
+data class ChangeAssociatedDocumentCategoryRequest(val categoryIdentifier: String)
 
 data class FolderTemplateView(
     val identifier: String,
     val name: String,
-    val associatedDocumentType: String?,
+    val associatedDocumentCategory: String?,
     val parentFolderIdentifier: String?,
 ) {
     companion object {
@@ -22,7 +22,7 @@ data class FolderTemplateView(
             return FolderTemplateView(
                 identifier = folderTemplate.identifier,
                 name = folderTemplate.name,
-                associatedDocumentType = folderTemplate.associatedDocumentType?.identifier,
+                associatedDocumentCategory = folderTemplate.associatedDocumentCategory?.identifier,
                 parentFolderIdentifier = folderTemplate.parentFolder?.identifier,
             )
         }
@@ -32,7 +32,7 @@ data class FolderTemplateView(
 data class DetailedFolderTemplateView(
     val identifier: String,
     val name: String,
-    val associatedDocumentType: DocumentTypeView?,
+    val associatedDocumentCategory: DocumentCategoryView?,
     val subFolderTemplates: List<DetailedFolderTemplateView> = emptyList(),
     val parentFolderIdentifier: String?,
     val user: String,
@@ -42,7 +42,7 @@ data class DetailedFolderTemplateView(
             return DetailedFolderTemplateView(
                 identifier = folderTemplate.identifier,
                 name = folderTemplate.name,
-                associatedDocumentType = folderTemplate.associatedDocumentType?.let { toDocumentTypeView(it) },
+                associatedDocumentCategory = folderTemplate.associatedDocumentCategory?.let { toDocumentCategoryView(it) },
                 parentFolderIdentifier = folderTemplate.parentFolder?.identifier,
                 subFolderTemplates = folderTemplate.subFolders.map { toDetailedFolderTemplateView(it) },
                 user = folderTemplate.user,

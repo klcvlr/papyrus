@@ -5,7 +5,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 
 @Entity
-class DocumentType internal constructor() {
+class DocumentCategory internal constructor() {
     @Id
     @Column(name = "identifier")
     private var _identifier: String = identifier
@@ -30,7 +30,7 @@ class DocumentType internal constructor() {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as DocumentType
+        other as DocumentCategory
 
         return _identifier == other._identifier
     }
