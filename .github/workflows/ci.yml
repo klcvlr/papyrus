@@ -5,7 +5,7 @@ name: Kotlin CI with Gradle
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -21,27 +21,16 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25
-        with:
-          arguments: build --info
-        env:
-          AWS_REGION: ${{ vars.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: Define Build Environment Variables
+      # Define application version: YYYYMMDD-HHMMSS-SHORT_COMMIT_HASH  # It's the 'build time' for now but, might change this to 'commit time' instead.
+      #  WARNING - I like the build date but, it breaks the ability to keep the same version across multiple builds of the same commit.
+      - name: Compute Version
         run: |
           SHORT_COMMIT_HASH=$(git rev-parse --short HEAD)
-          TAG_DATE=$(date +'%Y%m%d')
-          IMAGE_TAG="${TAG_DATE}-${SHORT_COMMIT_HASH}"
-          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          BUILD_DATE=$(date -u +'%Y%m%d-%H%M%S')
+          VERSION="${BUILD_DATE}-${SHORT_COMMIT_HASH}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Build Docker Image
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25
-        with:
-          arguments: bootBuildImage --imageName=papyrus:${{ env.IMAGE_TAG }}
-
+      # Configure AWS Credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -49,11 +38,24 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Login to Amazon ECR
+      # Login to AWS ECR (logs in and sets the registry URL as an output)
+      - name: Login to AWS ECR
         id: ecr-login
         uses: aws-actions/amazon-ecr-login@v2
 
+      # Build with Gradle (lints, tests, builds, and creates a Docker image tagged with the version)
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25
+        with:
+          arguments: bootBuildImage --info
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CONTAINER_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          VERSION: ${{ env.VERSION }}
+
+      # Push Docker Image to AWS ECR
+      # WARNING - ECR charges per GB used, but provides no way to check the total space used by the layers in a registry.
       - name: Push Docker Image to Amazon ECR
-        run: |
-          docker tag papyrus:$IMAGE_TAG ${{ steps.ecr-login.outputs.registry }}/papyrus:$IMAGE_TAG
-          docker push ${{ steps.ecr-login.outputs.registry }}/papyrus:$IMAGE_TAG
+        run: docker push ${{ steps.ecr-login.outputs.registry }}/papyrus:${{ env.VERSION }}

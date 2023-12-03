@@ -2,6 +2,7 @@ package com.alexandria.papyrus.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.Customizer.withDefaults
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.core.userdetails.User
@@ -15,6 +16,8 @@ class SecurityConfiguration {
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         return http
             .authorizeHttpRequests { authorizeConfig ->
+                authorizeConfig.requestMatchers(HttpMethod.GET, "/actuator/health/**").permitAll()
+                authorizeConfig.requestMatchers(HttpMethod.GET, "/actuator/info/**").hasAnyRole("ADMIN")
                 authorizeConfig.anyRequest().authenticated()
             }
             .httpBasic(withDefaults())

@@ -1,5 +1,4 @@
 spring:
-
   graphql:
     graphiql:
       enabled: true
@@ -23,3 +22,8 @@ papyrus:
     queue: documents-uploaded
     bucket: io.alexandria.papyrus.codex
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
